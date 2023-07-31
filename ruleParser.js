@@ -1,6 +1,6 @@
 var xmlParser =  require('xml-js');
 
-function parseUnionCondition(conditionXmlNode) {
+function parseUnionCondition(conditionXmlNode, ruleEngineContext) {
     var parsedCondition = {
         conditions: [],
         className: conditionXmlNode.name
@@ -9,7 +9,7 @@ function parseUnionCondition(conditionXmlNode) {
     var childNodes = conditionXmlNode.elements;
 
     childNodes.forEach(ruleXmlNode => {
-        var parsedRule = parseCondition(ruleXmlNode);
+        var parsedRule = parseCondition(ruleXmlNode, ruleEngineContext);
         if(parsedRule)
         {
             parsedCondition.conditions.push(parsedRule);
@@ -22,7 +22,7 @@ function parseUnionCondition(conditionXmlNode) {
     return parsedCondition;
 }
 
-function parseRegularCondition(conditionXmlNode) {
+function parseRegularCondition(conditionXmlNode, ruleEngineContext) {
     var parsedCondition = {        
         className: "condition"
     }
@@ -32,19 +32,25 @@ function parseRegularCondition(conditionXmlNode) {
     attributeKeys.forEach(attr => {
         parsedCondition[attr] = conditionXmlNode.attributes[attr];
     });
+
+    if(parsedCondition.id)
+    {
+        ruleEngineContext.prefetchKeys.push(parsedCondition.id);
+    }
+
     return parsedCondition;
 }
 
-function parseCondition(conditionXmlNode) {
+function parseCondition(conditionXmlNode, ruleEngineContext) {
     if(conditionXmlNode.name == "or" || conditionXmlNode.name == "and")
     {
-        return parseUnionCondition(conditionXmlNode);
+        return parseUnionCondition(conditionXmlNode, ruleEngineContext);
     }
 
-    return parseRegularCondition(conditionXmlNode);
+    return parseRegularCondition(conditionXmlNode, ruleEngineContext);
 }
 
-module.exports = function(ruleXml){
+module.exports = function(ruleXml, ruleEngineContext){
    
     ruleXml = ruleXml.replace('\t','').replace('\n','').replace('\r','');
 
@@ -92,7 +98,7 @@ module.exports = function(ruleXml){
         var conditionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "conditions");
 
         conditionsRootNode.elements.filter(x => x.type == "element").forEach(conditionXmlNode => {
-            var parsedCondition = parseCondition(conditionXmlNode, rule);
+            var parsedCondition = parseCondition(conditionXmlNode, ruleEngineContext);
             if(parsedCondition)
             {
                 rule.conditions.push(parsedCondition);
