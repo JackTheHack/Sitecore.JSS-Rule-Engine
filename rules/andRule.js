@@ -1,7 +1,7 @@
-module.exports = function (rule, ruleContext) {
+module.exports = function (rule, ruleEngineContext) {
     var ruleResult = true;
 
-    console.log('Running AND rule', rule.id);
+    console.log('Running AND rule', rule);
 
     if (rule.conditions && rule.conditions.length > 0) {
         rule.conditions.forEach(condition => {
@@ -10,11 +10,11 @@ module.exports = function (rule, ruleContext) {
 
             var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
 
-            if (!condition) {
-                throw new Error('Rule definitions missing for id', condition.id);
+            if (!conditionFunction) {
+                throw new Error('Rule definitions missing for id ' + conditionId);
             }
 
-            var conditionResult = conditionFunction(condition, ruleContext);
+            var conditionResult = conditionFunction(condition, ruleEngineContext);
             ruleResult = ruleResult && conditionResult;
         });
     }

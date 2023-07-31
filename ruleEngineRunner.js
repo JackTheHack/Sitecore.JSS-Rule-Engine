@@ -1,14 +1,14 @@
 module.exports = function (parsedRule, ruleEngineContext) {
     console.log('Running rule for an item');
 
-    console.log(ruleContext);
+    //console.log(ruleEngineContext);
     console.log(parsedRule);
 
     var ruleResult = true;
 
     parsedRule.rules.forEach(rule => {
 
-        console.log('Running rule with id', rule.id);
+        console.log('Running rule ', rule);
 
         if (rule.conditions && rule.conditions.length > 0) {
             var result = true;
@@ -18,11 +18,11 @@ module.exports = function (parsedRule, ruleEngineContext) {
 
                 var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
 
-                if (!condition) {
-                    throw new Error('Rule definitions missing for id', condition.id);
+                if (typeof(conditionFunction) === "undefined" || !condition) {
+                    throw new Error('Rule definitions missing for id ' + conditionId);
                 }
 
-                var conditionResult = conditionFunction(condition, ruleContext);
+                var conditionResult = conditionFunction(condition, ruleEngineContext);
                 result = result && conditionResult;
             });
         }

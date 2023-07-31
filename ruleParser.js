@@ -1,14 +1,22 @@
+var xmlParser =  require('xml-js');
+
 function parseUnionCondition(conditionXmlNode) {
     var parsedCondition = {
         conditions: [],
-        className: conditionXmlNode.nodeName
+        className: conditionXmlNode.name
     }
 
-    var childNodes = conditionXmlNode.childNodes;
+    var childNodes = conditionXmlNode.elements;
 
     childNodes.forEach(ruleXmlNode => {
         var parsedRule = parseCondition(ruleXmlNode);
-        parsedCondition.rules.push(parsedRule);        
+        if(parsedRule)
+        {
+            parsedCondition.conditions.push(parsedRule);
+        }else
+        {
+            throw new Error('Condition wasnt parsed', ruleXmlNode);
+        }        
     });
 
     return parsedCondition;
@@ -19,13 +27,16 @@ function parseRegularCondition(conditionXmlNode) {
         className: "condition"
     }
 
-    conditionXmlNode.attributes.forEach(attr => {
-        parsedCondition[attr.name] = attr.value;
+    var attributeKeys = Object.keys(conditionXmlNode.attributes);
+
+    attributeKeys.forEach(attr => {
+        parsedCondition[attr] = conditionXmlNode.attributes[attr];
     });
+    return parsedCondition;
 }
 
 function parseCondition(conditionXmlNode) {
-    if(conditionXmlNode.nodeName == "or" || conditionXmlNode.nodeName == "and")
+    if(conditionXmlNode.name == "or" || conditionXmlNode.name == "and")
     {
         return parseUnionCondition(conditionXmlNode);
     }
@@ -37,21 +48,34 @@ module.exports = function(ruleXml){
    
     ruleXml = ruleXml.replace('\t','').replace('\n','').replace('\r','');
 
-    parser = new DOMParser();
-    xmlDoc = parser.parseFromString(ruleXml,"text/xml");
+    console.log('Parsing rule XML');
 
-    var rulesetNode = xmlDoc.getElementsByTagName('ruleset')[0];    
+    xmlDoc = xmlParser.xml2js(ruleXml,  {compact: false, spaces: 4});
 
-    if(!rulesetNode)
+    console.log(xmlDoc);
+
+    var rulesetNode = xmlDoc.elements.find(x => x.type == "element" && x.name == "ruleset");    
+
+    if(!rulesetNode || 
+        rulesetNode.type != "element" || 
+        rulesetNode.name != "ruleset")
     {
-        return null;
+        throw new Error("Ruleset node is missing.");
     }
+
+    console.log(rulesetNode);
 
     var parsedRule = {
         rules: []
     };
 
-    var rulesNodes = rulesetNode.getElementsByTagName('rule');
+    var rulesNodes = rulesetNode.elements.filter(x => x.type == "element" && x.name == "rule");
+
+    if(!rulesNodes)
+    {
+        console.log('Rule nodes are missing.');
+        return false;
+    }
 
     rulesNodes.forEach(ruleXmlNode => {
 
@@ -59,11 +83,22 @@ module.exports = function(ruleXml){
             conditions: []
         };
 
-        var conditionsNodes = ruleXmlNode.getElementsByTagName('conditions');
+        var attributeKeys = Object.keys(ruleXmlNode.attributes);
 
-        conditionsNodes.forEach(conditionXmlNode => {
+        attributeKeys.forEach(attr => {
+            rule[attr] = ruleXmlNode.attributes[attr];
+        });
+
+        var conditionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "conditions");
+
+        conditionsRootNode.elements.filter(x => x.type == "element").forEach(conditionXmlNode => {
             var parsedCondition = parseCondition(conditionXmlNode, rule);
-            rule.conditions.push(parsedCondition);
+            if(parsedCondition)
+            {
+                rule.conditions.push(parsedCondition);
+            }else {
+                throw new Error('Condition wasnt parsed', conditionXmlNode);
+            }
         });
 
         parsedRule.rules.push(rule);        

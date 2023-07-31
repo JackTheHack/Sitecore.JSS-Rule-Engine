@@ -1,20 +1,20 @@
-module.exports = function (rule, ruleContext) {
+module.exports = function (rule, ruleEngineContext) {
     var ruleResult = false;
 
-    console.log('Running OR rule', rule.id);
+    console.log('Running OR rule', rule);
 
     if (rule.conditions && rule.conditions.length > 0) {
         rule.conditions.forEach(condition => {
 
-            var conditionId = condition.id ? condition.id : condition.className;
+            var conditionId = typeof(condition.id) !== "undefined" && condition.id ? condition.id : condition.className;
 
             var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
 
-            if (!condition) {
-                throw new Error('Rule definitions missing for id', condition.id);
+            if (!conditionFunction) {
+                throw new Error('Rule definitions missing for id ' + conditionId);
             }
 
-            var conditionResult = conditionFunction(condition, ruleContext);
+            var conditionResult = conditionFunction(condition, ruleEngineContext);
             ruleResult = ruleResult || conditionResult;
         });
     }

@@ -13,5 +13,8 @@
     "engine"
   ],
   "author": "Jack Spektor",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  }
 }
