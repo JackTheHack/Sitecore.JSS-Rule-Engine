@@ -5,6 +5,8 @@ var operatorFactory = require('./operators/initializeOperators')
 var ruleParser = require('./ruleParser')
 var ruleEngineRunner = require('./ruleEngineRunner')
 
+const ItemProvider = require("./itemProvider").ItemProvider;
+
 function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
         return !pos || item != ary[pos - 1];
@@ -51,8 +53,14 @@ class JssRuleEngine {
             contextItem: itemParameter,
             env: process.env,
             ruleEngine: this,
+            //Items retrieved by prefetch query 
             cachedItems: [],
-            prefetchKeys: []        
+            //Item keys to retrieve for prefetch
+            prefetchKeys: [],
+            //GraphQL query to prefetch data 
+            prefetchGraphQuery: null,
+            //GraphQL response
+            prefetchResponse: null        
         };
     }
 
@@ -72,10 +80,7 @@ class JssRuleEngine {
     }
 }
 
-exports.createRuleEngine = function() {
-    var result = new JssRuleEngine();
-    return result;
-}
+exports.JssRuleEngine = JssRuleEngine;
 
 exports.runRule = function(contextItem, ruleXml) {
     var ruleEngine = exports.createRuleEngine();

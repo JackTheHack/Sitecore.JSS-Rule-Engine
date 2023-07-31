@@ -33,11 +33,6 @@ function parseRegularCondition(conditionXmlNode, ruleEngineContext) {
         parsedCondition[attr] = conditionXmlNode.attributes[attr];
     });
 
-    if(parsedCondition.id)
-    {
-        ruleEngineContext.prefetchKeys.push(parsedCondition.id);
-    }
-
     return parsedCondition;
 }
 
