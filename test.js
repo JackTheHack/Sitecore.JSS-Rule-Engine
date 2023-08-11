@@ -2,13 +2,10 @@
 var test = require('ava')
 
 var ruleEngine = require('./ruleEngine')
-var xmlStub = require('./ruleXmlStub')    
-var ItemProvider = require("./itemProvider").ItemProvider;
+var ruleMocks = require('./mocks/ruleMocks')
+var ItemProvider = require("./graphQLItemProvider").ItemProvider;
 
-test('Parse and run rule', t => {
-
-    console.log('Starting test.');
-    
+function parseAndRun(xml) {
     var itemProviderOptions = {
     
     };
@@ -16,10 +13,32 @@ test('Parse and run rule', t => {
     
     var contextItem = {};
     
-    var ruleResult = ruleEngine.runRule(contextItem, xmlStub, itemProvider);
+    var ruleResult = ruleEngine.runRule(contextItem, xml, itemProvider);
     
-    console.log('Rule result - ', ruleResult);
+    return ruleResult;
+}
 
-    t.pass();
+test('trueRule', t => {
+    var xml = ruleMocks.trueRuleXml;
+    var result = parseAndRun(xml);
+    t.pass(result == true);
 });
+
+test('exceptTrueRule', t => {
+    var xml = ruleMocks.exceptTrueRuleXml;
+    var result = parseAndRun(xml);
+    t.pass(result == false);
+})
+
+test('andRule', t => {
+    var xml = ruleMocks.andRuleXml;
+    var result = parseAndRun(xml);
+    t.pass(result == false);
+})
+
+test('orRule', t => {
+    var xml = ruleMocks.orRuleXml;
+    var result = parseAndRun(xml);
+    t.pass(result == true);
+})
 

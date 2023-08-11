@@ -1,8 +1,6 @@
 module.exports = function (rule, ruleEngineContext) {
     var ruleResult = false;
 
-    console.log('Running OR rule', rule);
-
     if (rule.conditions && rule.conditions.length > 0) {
         rule.conditions.forEach(condition => {
 

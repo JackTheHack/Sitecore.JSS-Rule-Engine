@@ -73,9 +73,6 @@ class JssRuleEngine {
 
         ruleEngineContext.prefetchKeys = uniq(ruleEngineContext.prefetchKeys);
 
-        console.log('Items for retrieve for prefetch cache:');
-        console.log(ruleEngineContext.prefetchKeys);
-
         //TODO: Retrieve items for the rule here
     }
 

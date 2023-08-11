@@ -6,7 +6,5 @@ module.exports = function(rule, ruleContext) {
         throw new Error("Operator definition is missing for id ", rule.operatorId);
     }
 
-    throw new "Not implemented";
-
     
 }

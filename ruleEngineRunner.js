@@ -1,14 +1,7 @@
 module.exports = function (parsedRule, ruleEngineContext) {
-    console.log('Running rule for an item');
-
-    //console.log(ruleEngineContext);
-    console.log(parsedRule);
-
     var ruleResult = true;
 
     parsedRule.rules.forEach(rule => {
-
-        console.log('Running rule ', rule);
 
         if (rule.conditions && rule.conditions.length > 0) {
             var result = true;

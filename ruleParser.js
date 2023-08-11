@@ -49,11 +49,7 @@ module.exports = function(ruleXml, ruleEngineContext){
    
     ruleXml = ruleXml.replace('\t','').replace('\n','').replace('\r','');
 
-    console.log('Parsing rule XML');
-
     xmlDoc = xmlParser.xml2js(ruleXml,  {compact: false, spaces: 4});
-
-    console.log(xmlDoc);
 
     var rulesetNode = xmlDoc.elements.find(x => x.type == "element" && x.name == "ruleset");    
 
@@ -63,8 +59,6 @@ module.exports = function(ruleXml, ruleEngineContext){
     {
         throw new Error("Ruleset node is missing.");
     }
-
-    console.log(rulesetNode);
 
     var parsedRule = {
         rules: []

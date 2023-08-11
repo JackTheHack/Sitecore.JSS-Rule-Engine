@@ -1,6 +1,10 @@
-class ItemProvider 
+class IItemProvider
 {
+  async runQuery(query) { throw "not implemented."}
+}
 
+class GraphQLItemProvider
+{    
     constructor(options){
         this.endpointUrl = options.graphEndpoint;
         this.apiKey = options.apiKey;
@@ -26,4 +30,6 @@ class ItemProvider
     }
 }
 
-module.exports.ItemProvider = ItemProvider;
+GraphQLItemProvider.prototype = IItemProvider;
+
+module.exports.ItemProvider = GraphQLItemProvider;
