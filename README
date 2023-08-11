@@ -1,5 +1,0 @@
-JS library for the Sitecore JSS.
-
-Allows to parse and execute Sitecore rules client-side in Javascript.
-
-Note: Not all rules and commands are supported.
