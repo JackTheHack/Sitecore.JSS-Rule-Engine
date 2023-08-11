@@ -5,8 +5,6 @@ var operatorFactory = require('./operators/initializeOperators')
 var ruleParser = require('./ruleParser')
 var ruleEngineRunner = require('./ruleEngineRunner')
 
-const ItemProvider = require("./itemProvider").ItemProvider;
-
 function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
         return !pos || item != ary[pos - 1];
@@ -14,15 +12,15 @@ function uniq(a) {
 }
 
 class JssRuleEngine {
-    constructor() {
+    constructor(options) {
         this.commandDefinitions = [];
         this.ruleDefinitions = [];
         this.operatorDefinitions = [];
 
-        this.initialize();
+        this.initialize(options);
     }
 
-    initialize() {
+    initialize(options) {
         rulesFactory(this);
         commandFactory(this);
         operatorFactory(this);
@@ -45,7 +43,7 @@ class JssRuleEngine {
         return parsedRule;
     }
 
-    getRuleEngineContext(itemParameter){
+    getRuleEngineContext(itemParameter, itemProvider){
         return {
             sitecoreInstance: {},
             location: typeof(window) !== "undefined" && window ? window.location : null,
@@ -60,7 +58,9 @@ class JssRuleEngine {
             //GraphQL query to prefetch data 
             prefetchGraphQuery: null,
             //GraphQL response
-            prefetchResponse: null        
+            prefetchResponse: null,     
+            //GraphQL item providre
+            itemProvider: itemProvider    
         };
     }
 
@@ -78,16 +78,24 @@ class JssRuleEngine {
 
         //TODO: Retrieve items for the rule here
     }
+
+    parseAndRunRule(ruleXml, ruleEngineContext){
+        var parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
+        this.prefetchItems(ruleEngineContext);
+        var ruleResult = this.runRule(parsedRule, ruleEngineContext);
+        return ruleResult;
+    }
 }
 
 exports.JssRuleEngine = JssRuleEngine;
 
-exports.runRule = function(contextItem, ruleXml) {
-    var ruleEngine = exports.createRuleEngine();
-    var ruleEngineContext = ruleEngine.getRuleEngineContext(contextItem);    
-    var parsedRule = ruleEngine.parseRuleXml(ruleXml, ruleEngineContext);
-    ruleEngine.prefetchItems(ruleEngineContext);
-    var ruleResult = ruleEngine.runRule(parsedRule, ruleEngineContext);
+exports.runRule = function(contextItem, ruleXml, itemProvider) {
+    var ruleEngineOptions = {
+
+    };
+    var ruleEngine = new JssRuleEngine(ruleEngineOptions);
+    var ruleEngineContext = ruleEngine.getRuleEngineContext(contextItem, itemProvider);    
+    var ruleResult = ruleEngine.parseAndRunRule(ruleXml, ruleEngineContext);
     return ruleResult;
 }
 

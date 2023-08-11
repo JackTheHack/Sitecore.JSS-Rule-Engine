@@ -16,6 +16,8 @@ module.exports = function (parsedRule, ruleEngineContext) {
 
                 var conditionId = condition.id ? condition.id : condition.className;
 
+                var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
+
                 var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
 
                 if (typeof(conditionFunction) === "undefined" || !condition) {
@@ -23,6 +25,12 @@ module.exports = function (parsedRule, ruleEngineContext) {
                 }
 
                 var conditionResult = conditionFunction(condition, ruleEngineContext);
+
+                if(isExcept)
+                {
+                    conditionResult = !conditionResult;
+                }
+
                 result = result && conditionResult;
             });
         }
