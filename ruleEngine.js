@@ -71,8 +71,7 @@ class JssRuleEngine {
     getRuleEngineContext(){
 
         var dateObj = this.mockDate ? this.mockDate : {
-            now: Date.now(),
-            utcNow: Date.UTC()
+            now: new Date()            
         };
 
         return {            

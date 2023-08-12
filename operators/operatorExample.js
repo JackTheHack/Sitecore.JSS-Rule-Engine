@@ -1,3 +1,3 @@
-module.exports = function(ruleContext) {
+module.exports = function(operatorContext, ruleContext) {
     
 }
