@@ -1,10 +1,11 @@
+var helpers = require('../helpers')
+
 module.exports = function(rule, ruleContext) {
-    var operator = ruleContext.ruleEngine.operatorDefinitions[rule.operatorId];
+    var dateValue = rule.Now;
 
-    if(!operator)
-    {
-        throw new Error("Operator definition is missing for id ", rule.operatorId);
-    }
+    var parsedDateValue = helpers.parseSitecoreDate(dateValue);
 
-    
+    var dateNowValue = ruleContext.dateTime.now;
+
+    return parsedDateValue > dateNowValue;
 }

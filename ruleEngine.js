@@ -17,9 +17,10 @@ class JssRuleEngine {
         this.ruleDefinitions = [];
         this.operatorDefinitions = [];
 
-        this.sitecoreContext = null;
-        this.requestContext = null;
-        this.itemProvider = null;
+        this.sitecoreContext = options.sitecoreContext;
+        this.requestContext = options.requestContext;
+        this.itemProvider = options.itemProvider;
+        this.mockDate = options.mockDate;
 
         this.initialize(options);
     }
@@ -62,12 +63,24 @@ class JssRuleEngine {
         this.itemProvider = itemProvider;
     }
 
+    setMockDate(dateObj)
+    {
+        this.mockDate = dateObj;
+    }
+
     getRuleEngineContext(){
+
+        var dateObj = this.mockDate ? this.mockDate : {
+            now: Date.now(),
+            utcNow: Date.UTC()
+        };
+
         return {            
             location: typeof(window) !== "undefined" && window ? window.location : null,
             cookies: typeof(document) !== "undefined" && document ? document.cookies : null,
             sitecoreContext: this.sitecoreContext,
             requestContext: this.requestContext,
+            dateTime: dateObj,
             env: process.env,
             ruleEngine: this,
             //Items retrieved by prefetch query 
