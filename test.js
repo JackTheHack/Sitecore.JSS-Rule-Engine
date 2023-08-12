@@ -1,19 +1,19 @@
 
 var test = require('ava')
 
-var ruleEngine = require('./ruleEngine')
+var JssRuleEngine = require('./ruleEngine').JssRuleEngine;
 var ruleMocks = require('./mocks/ruleMocks')
 var ItemProvider = require("./graphQLItemProvider").ItemProvider;
 
 function parseAndRun(xml) {
-    var itemProviderOptions = {
-    
+    var ruleEngineOptions = {
+
     };
-    var itemProvider = new ItemProvider(itemProviderOptions);
-    
-    var contextItem = {};
-    
-    var ruleResult = ruleEngine.runRule(contextItem, xml, itemProvider);
+    var ruleEngine = new JssRuleEngine(ruleEngineOptions);    
+    //ruleEngine.setSitecoreContext();
+    //ruleEngine.setItemProvider();
+    //ruleEngine.setRequestContext();
+    var ruleResult = ruleEngine.parseAndRunRule(xml);    
     
     return ruleResult;
 }
