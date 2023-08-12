@@ -15,9 +15,6 @@ var isStringRegexMatch = require('./isStringRegexMatch')
 var isStringEndsWith = require('./isStringEndsWith')
 var isStringStartsWith = require('./isStringStartsWith')
 
-
-
-
 module.exports = function(ruleEngine) {
     //numbers
     ruleEngine.registerOperator('{066602E2-ED1D-44C2-A698-7ED27FD3A2CC}', isEqualTo)

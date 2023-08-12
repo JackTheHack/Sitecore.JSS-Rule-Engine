@@ -17,10 +17,13 @@ class JssRuleEngine {
         this.ruleDefinitions = [];
         this.operatorDefinitions = [];
 
-        this.sitecoreContext = options.sitecoreContext;
-        this.requestContext = options.requestContext;
-        this.itemProvider = options.itemProvider;
-        this.mockDate = options.mockDate;
+        if(options)
+        {
+            this.sitecoreContext = options.sitecoreContext;
+            this.requestContext = options.requestContext;
+            this.itemProvider = options.itemProvider;
+            this.mockDate = options.mockDate;
+        }
 
         this.initialize(options);
     }

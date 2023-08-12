@@ -1,3 +1,3 @@
 module.exports = function(operatorContext, ruleContext) {
-    return ruleContext.parameter1 < ruleContext.parameter2;
+    return operatorContext.parameter1 < operatorContext.parameter2;
 }
