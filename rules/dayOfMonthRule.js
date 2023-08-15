@@ -14,7 +14,7 @@ module.exports = function(rule, ruleContext) {
     
     var operatorContext = {
         parameter1: ruleContext.dateTime.now,
-        parameter1: dayNumber
+        parameter2: dayNumber
     }
 
     return operator(operatorContext, ruleContext);
