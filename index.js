@@ -1,3 +1,3 @@
 var ruleEngine = require('./ruleEngine').JssRuleEngine;
 
-exports.JssRuleEngine = ruleEngine;
+module.exports.JssRuleEngine = ruleEngine;

@@ -110,8 +110,8 @@ class JssRuleEngine {
         //TODO: Retrieve items for the rule here
     }
 
-    parseAndRunRule(ruleXml){
-        var ruleEngineContext = this.getRuleEngineContext();
+    parseAndRunRule(ruleXml, ruleEngineContext){
+        var ruleEngineContext = ruleEngineContext ? ruleEngineContext : this.getRuleEngineContext();
         var parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
         this.prefetchItems(ruleEngineContext);
         var ruleResult = this.runRule(parsedRule, ruleEngineContext);

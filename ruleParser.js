@@ -36,6 +36,20 @@ function parseRegularCondition(conditionXmlNode, ruleEngineContext) {
     return parsedCondition;
 }
 
+function parseAction(actionXmlNode, ruleEngineContext) {
+    var parsedAction = {        
+        className: "action"
+    }
+
+    var attributeKeys = Object.keys(actionXmlNode.attributes);
+
+    attributeKeys.forEach(attr => {
+        parsedAction[attr] = actionXmlNode.attributes[attr];
+    });
+
+    return parsedAction;
+}
+
 function parseCondition(conditionXmlNode, ruleEngineContext) {
     if(conditionXmlNode.name == "or" || conditionXmlNode.name == "and")
     {
@@ -75,7 +89,8 @@ module.exports = function(ruleXml, ruleEngineContext){
     rulesNodes.forEach(ruleXmlNode => {
 
         var rule = {
-            conditions: []
+            conditions: [],
+            actions: []
         };
 
         var attributeKeys = Object.keys(ruleXmlNode.attributes);
@@ -93,6 +108,18 @@ module.exports = function(ruleXml, ruleEngineContext){
                 rule.conditions.push(parsedCondition);
             }else {
                 throw new Error('Condition wasnt parsed', conditionXmlNode);
+            }
+        });
+
+        var actionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "actions");
+        
+        actionsRootNode.elements.filter(x => x.type == "element").forEach(actionXmlNode => {
+            var parsedAction = parseAction(actionXmlNode, ruleEngineContext);
+            if(parsedAction)
+            {
+                rule.actions.push(parsedAction);
+            }else {
+                throw new Error('Condition wasnt parsed', actionXmlNode);
             }
         });
 
