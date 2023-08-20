@@ -119,11 +119,11 @@ class JssRuleEngine {
         return ruleResult;
     }
 
-    debugMessage(message)
+    debugMessage()
     {
         if(this.debug)
-        {
-            console.log(message);
+        {            
+            console.log(arguments);
         }
     }
 }
