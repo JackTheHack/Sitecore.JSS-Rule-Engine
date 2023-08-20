@@ -10,9 +10,7 @@ module.exports = function (parsedRule, ruleEngineContext) {
                 ruleEngineContext.ruleEngine.debugMessage('Running condition:')
                 ruleEngineContext.ruleEngine.debugMessage(condition)
 
-                var conditionId = condition.id ? condition.id : condition.className;
-
-                var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
+                var conditionId = condition.id ? condition.id : condition.className;                
 
                 var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
 
@@ -25,6 +23,8 @@ module.exports = function (parsedRule, ruleEngineContext) {
                 ruleEngineContext.ruleEngine.debugMessage('Condition result:')
                 ruleEngineContext.ruleEngine.debugMessage(conditionResult)
 
+                var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
+
                 if(isExcept)
                 {
                     conditionResult = !conditionResult;
@@ -36,6 +36,7 @@ module.exports = function (parsedRule, ruleEngineContext) {
 
         ruleResult = ruleResult && result;
 
+        ruleEngineContext.ruleEngine.debugMessage('Rule result:', ruleResult);
 
         if(ruleResult && !ruleEngineContext.skipActions && rule.actions && rule.actions.length > 0){            
             ruleEngineContext.ruleEngine.debugMessage('Running actions:')
@@ -55,6 +56,8 @@ module.exports = function (parsedRule, ruleEngineContext) {
         }
 
     });
+
+    ruleEngineContext.ruleEngine.debugMessage('Rule execution result: ', ruleResult)
 
     return ruleResult;
 }

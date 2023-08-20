@@ -10,25 +10,25 @@ var { getOperator, parseAndRun, parseAndRunWithDateMock} = require('../testHelpe
 test('trueRule', t => {
     var xml = ruleMocks.trueRuleXml;
     var result = parseAndRun(xml);
-    t.pass(result == true);
+    t.true(result);
 });
 
 test('exceptTrueRule', t => {
     var xml = ruleMocks.exceptTrueRuleXml;
     var result = parseAndRun(xml);
-    t.pass(result == false);
+    t.false(result);
 })
 
 test('andRule', t => {
     var xml = ruleMocks.andRuleXml;
     var result = parseAndRun(xml);
-    t.pass(result == false);
+    t.false(result);
 })
 
 test('orRule', t => {
     var xml = ruleMocks.orRuleXml;    
     var result = parseAndRun(xml);
-    t.pass(result == true);
+    t.true(result);
 })
 
 // test('ruleWithActions', t => {

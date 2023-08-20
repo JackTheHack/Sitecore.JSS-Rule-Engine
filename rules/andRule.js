@@ -1,8 +1,10 @@
 module.exports = function (rule, ruleEngineContext) {
     var ruleResult = true;
 
+    ruleEngineContext.ruleEngine.debugMessage('running AND rule')
+
     if (rule.conditions && rule.conditions.length > 0) {
-        rule.conditions.forEach(condition => {
+        rule.conditions.forEach(condition => {            
 
             var conditionId = condition.id ? condition.id : condition.className;
 
@@ -13,7 +15,15 @@ module.exports = function (rule, ruleEngineContext) {
             }
 
             var conditionResult = conditionFunction(condition, ruleEngineContext);
-            ruleResult = ruleResult && conditionResult;
+
+            var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
+
+            if(isExcept)
+            {
+                conditionResult = !conditionResult;
+            }
+
+            ruleResult = ruleResult && conditionResult;                
         });
     }
 

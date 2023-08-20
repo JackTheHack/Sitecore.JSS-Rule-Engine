@@ -121,9 +121,9 @@ class JssRuleEngine {
 
     debugMessage()
     {
-        if(this.debug)
+        if(this.debug && typeof(console) !== 'undefined')
         {            
-            console.log(arguments);
+            console.log.apply(console, arguments);
         }
     }
 }

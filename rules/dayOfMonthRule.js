@@ -1,5 +1,7 @@
 module.exports = function(rule, ruleContext) {
 
+    ruleContext.ruleEngine.debugMessage('Running day of month rule', rule)
+
     var dayNumberValue = rule.DayNumber;
     var operatorId = rule.operatorid;    
 
@@ -13,7 +15,7 @@ module.exports = function(rule, ruleContext) {
     }
     
     var operatorContext = {
-        parameter1: ruleContext.dateTime.now,
+        parameter1: ruleContext.dateTime.now.getDate(),
         parameter2: dayNumber
     }
 

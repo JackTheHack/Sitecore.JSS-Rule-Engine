@@ -15,5 +15,5 @@ module.exports = function(rule, ruleContext) {
 
     ruleContext.ruleEngine.debugMessage('Date NOW value: ', dateNowValue, typeof(dateNowValue))    
 
-    return parsedDateValue > dateNowValue;
+    return dateNowValue >= parsedDateValue;
 }

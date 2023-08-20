@@ -10,8 +10,7 @@ function getOperator(operatorId){
 
 function parseAndRun(xml, ruleEngineOptions) {    
 
-    var ruleEngineOptions = ruleEngineOptions ? ruleEngineOptions : {};
-
+    var ruleEngineOptions = ruleEngineOptions ? ruleEngineOptions : {};    
     var ruleEngine = new JssRuleEngine(ruleEngineOptions);        
     var ruleResult = ruleEngine.parseAndRunRule(xml);    
     
@@ -24,8 +23,8 @@ function parseAndRunWithDateMock(xml, dateMock) {
     };
 
     ruleEngineOptions = {
-        mockDate: dateObjMock
-    };
+        mockDate: dateObjMock        
+    };    
 
     return parseAndRun(xml, ruleEngineOptions);
 }

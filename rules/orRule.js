@@ -13,6 +13,14 @@ module.exports = function (rule, ruleEngineContext) {
             }
 
             var conditionResult = conditionFunction(condition, ruleEngineContext);
+
+            var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
+
+            if(isExcept)
+            {
+                conditionResult = !conditionResult;
+            }
+
             ruleResult = ruleResult || conditionResult;
         });
     }
