@@ -101,27 +101,41 @@ module.exports = function(ruleXml, ruleEngineContext){
 
         var conditionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "conditions");
 
-        conditionsRootNode.elements.filter(x => x.type == "element").forEach(conditionXmlNode => {
-            var parsedCondition = parseCondition(conditionXmlNode, ruleEngineContext);
-            if(parsedCondition)
-            {
-                rule.conditions.push(parsedCondition);
-            }else {
-                throw new Error('Condition wasnt parsed', conditionXmlNode);
-            }
-        });
+        if(conditionsRootNode)
+        {
+            ruleEngineContext.ruleEngine.debugMessage(conditionsRootNode);            
+
+            conditionsRootNode.elements.filter(x => x.type == "element").forEach(conditionXmlNode => {
+                var parsedCondition = parseCondition(conditionXmlNode, ruleEngineContext);
+                if(parsedCondition)
+                {
+                    ruleEngineContext.ruleEngine.debugMessage('Parsed condition element:');
+                    ruleEngineContext.ruleEngine.debugMessage(parsedCondition);
+                    rule.conditions.push(parsedCondition);
+                }else {
+                    throw new Error('Condition wasnt parsed', conditionXmlNode);
+                }
+            });
+        }
 
         var actionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "actions");
         
-        actionsRootNode.elements.filter(x => x.type == "element").forEach(actionXmlNode => {
-            var parsedAction = parseAction(actionXmlNode, ruleEngineContext);
-            if(parsedAction)
-            {
-                rule.actions.push(parsedAction);
-            }else {
-                throw new Error('Condition wasnt parsed', actionXmlNode);
-            }
-        });
+        if(actionsRootNode)
+        {
+            ruleEngineContext.ruleEngine.debugMessage(conditionsRootNode);            
+
+            actionsRootNode.elements.filter(x => x.type == "element").forEach(actionXmlNode => {
+                var parsedAction = parseAction(actionXmlNode, ruleEngineContext);
+                if(parsedAction)
+                {
+                    ruleEngineContext.ruleEngine.debugMessage('Parsed action element:');
+                    ruleEngineContext.ruleEngine.debugMessage(parsedAction);
+                    rule.actions.push(parsedAction);
+                }else {
+                    throw new Error('Condition wasnt parsed', actionXmlNode);
+                }
+            });
+        }
 
         parsedRule.rules.push(rule);        
     });

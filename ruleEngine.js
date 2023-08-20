@@ -19,6 +19,7 @@ class JssRuleEngine {
 
         if(options)
         {
+            this.debug = options.debug ? options.debug : false;
             this.sitecoreContext = options.sitecoreContext;
             this.requestContext = options.requestContext;
             this.itemProvider = options.itemProvider;
@@ -116,6 +117,14 @@ class JssRuleEngine {
         this.prefetchItems(ruleEngineContext);
         var ruleResult = this.runRule(parsedRule, ruleEngineContext);
         return ruleResult;
+    }
+
+    debugMessage(message)
+    {
+        if(this.debug)
+        {
+            console.log(message);
+        }
     }
 }
 

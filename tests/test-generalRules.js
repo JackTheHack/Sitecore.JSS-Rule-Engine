@@ -30,4 +30,12 @@ test('orRule', t => {
     var result = parseAndRun(xml);
     t.pass(result == true);
 })
+
+// test('ruleWithActions', t => {
+//     var dateMock =  new Date(1989,2,1,0,0,0);
+    
+//     var xml = ruleMocks.ruleWithActionsXml;
+//     var result = parseAndRunWithDateMock(xml, dateMock);
+//     t.pass(result == true);
+// })
 // #endregion
