@@ -122,7 +122,7 @@ module.exports = function(ruleXml, ruleEngineContext){
         
         if(actionsRootNode)
         {
-            ruleEngineContext.ruleEngine.debugMessage(conditionsRootNode);            
+            ruleEngineContext.ruleEngine.debugMessage(actionsRootNode);            
 
             actionsRootNode.elements.filter(x => x.type == "element").forEach(actionXmlNode => {
                 var parsedAction = parseAction(actionXmlNode, ruleEngineContext);
