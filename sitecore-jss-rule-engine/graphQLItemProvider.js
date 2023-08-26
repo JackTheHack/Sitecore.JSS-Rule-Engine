@@ -10,6 +10,18 @@ class GraphQLItemProvider
         this.apiKey = options.apiKey;
     }
 
+    async getItemById(itemId){
+      var query = `{
+        item(path: "${itemId}", language: "en") {
+            fields(ownFields: true) {
+              name
+              value
+            }
+        }
+      }`;
+      return this.runQuery(query);
+    }
+
     async runQuery(query){
         const response = await fetch(
             this.endpointUrl,
