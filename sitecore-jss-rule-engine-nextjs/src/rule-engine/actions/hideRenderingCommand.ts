@@ -1,4 +1,4 @@
-module.exports = function(command, ruleContext) {
+export default function(command:any, ruleContext:any) {
     //parameters: renderingName, datasourcePath, placeholderName    
 
     var placeholderName = command.placeholderName;
@@ -17,7 +17,7 @@ module.exports = function(command, ruleContext) {
 
     ruleContext.personalization.placeholders[placeholderName] = placeholder;
 
-    var rendering = placeholder.renderings.find(i => i.name == renderingName);
+    var rendering = placeholder.renderings.find((i:any) => i.name == renderingName);
 
     if(rendering)
     {

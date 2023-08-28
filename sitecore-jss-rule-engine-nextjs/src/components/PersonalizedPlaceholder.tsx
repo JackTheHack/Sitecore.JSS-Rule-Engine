@@ -1,13 +1,18 @@
 import React from 'react';
 import { withSitecoreContext, Placeholder } from '@sitecore-jss/sitecore-jss-nextjs';
-import { personalizationHelper } from "../lib/index";
+import { PersonalizationHelper } from "../lib/index";
+//@ts-ignore
 import {JssRuleEngine} from "sitecore-jss-rule-engine"
-import registerNextJS from "../rule-engine/ruleEngineProvider"
+import { registerNextJS } from "../rule-engine/ruleEngineProvider"
 
+class ClientSidePlaceholder extends React.Component<any,any> {
 
-class ClientSidePlaceholder extends React.Component {
-    constructor(props) {
+    config:any = null;
+
+    constructor(props:any) {
         super(props);
+
+        this.config = props.config;
 
         this.state = {
             elements: null            
@@ -59,7 +64,7 @@ class ClientSidePlaceholder extends React.Component {
             rendering
         }
 
-        return <Placeholder {...placeholderProps} />
+        return <Placeholder name={this.props.name} {...placeholderProps} />
     }
 
     isClientside() {
@@ -107,6 +112,7 @@ class ClientSidePlaceholder extends React.Component {
 
         console.log("Rule parsed")
 
+        var personalizationHelper = new PersonalizationHelper(this.config);
         var elementPlaceholderRenderings = 
         await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings, true);
 

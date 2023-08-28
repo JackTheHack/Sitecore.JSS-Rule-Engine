@@ -1,10 +1,16 @@
 {
   "name": "sitecore-jss-rule-engine-nextjs",
-  "version": "0.0.1",
+  "version": "0.0.20",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:esm",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:babel": "babel src/lib --out-dir dist --copy-files"
   },
   "keywords": [
     "Sitecore",
@@ -19,6 +25,21 @@
     "@sitecore-jss/sitecore-jss-nextjs": "^21.2.4",
     "next": "^13.4.19",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "sitecore-jss-rule-engine": "^0.0.7"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@sitecore-jss/sitecore-jss-cli": "~21.2.0",
+    "@sitecore-jss/sitecore-jss-dev-tools": "~21.2.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
   }
 }

@@ -1,4 +1,4 @@
-module.exports.GetItemByIdQuery = `query GetItemById($id:String){
+var GetItemByIdQuery:string = `query GetItemById($id:String){
  item(language:"en", path:$id)
   {
     name,
@@ -9,3 +9,5 @@ module.exports.GetItemByIdQuery = `query GetItemById($id:String){
     }  
   }
 }`
+
+export { GetItemByIdQuery }

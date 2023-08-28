@@ -1,7 +1,48 @@
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
-import { personalizationHelper } from '../../lib/index';
+import { PersonalizationHelper } from '../../lib/index';
+import {
+  DictionaryPhrases,
+  ComponentPropsCollection,
+  LayoutServiceData,
+  SiteInfo,
+  HTMLLink,
+} from '@sitecore-jss/sitecore-jss-nextjs';
 
-class RulesPersonalizationPlugin {
+
+export type SitecorePageProps = {
+  site: SiteInfo;
+  locale: string;
+  dictionary: DictionaryPhrases;
+  componentProps: ComponentPropsCollection;
+  notFound: boolean;
+  layoutData: LayoutServiceData;
+  headLinks: HTMLLink[];
+};
+
+interface Plugin {
+  /**
+   * Detect order when the plugin should be called, e.g. 0 - will be called first (can be a plugin which data is required for other plugins)
+   */
+  order: number;
+  /**
+   * A function which will be called during page props generation
+   */
+  exec(
+    props: SitecorePageProps,
+    context: GetServerSidePropsContext | GetStaticPropsContext
+  ): Promise<SitecorePageProps>;
+}
+
+
+export class RulesPersonalizationPlugin implements Plugin {
+
+  config = null;
+
+  constructor(config:any)
+  {
+    this.config = config;
+  }
+
   order = 3;
 
   isDisconnectedMode(props:any) {
@@ -34,6 +75,7 @@ class RulesPersonalizationPlugin {
 
       if(personalizeOnEdge && personalizeOnEdge.value)
       {
+        var personalizationHelper = new PersonalizationHelper(this.config);
         await personalizationHelper.personalize(props, personalizationRule);      
       }
     }
@@ -41,5 +83,3 @@ class RulesPersonalizationPlugin {
     return props;
   }
 }
-
-export const rulesPersonalizationPlugin = new RulesPersonalizationPlugin();

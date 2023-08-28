@@ -1,12 +1,13 @@
-import createRuleEngine from '../rule-engine/ruleEngineProvider'
-import { GetItemByIdQuery } from '../queries/getItemById.js'
+import { GetItemByIdQuery } from '../queries/getItemById'
 import { constants, GraphQLRequestClient } from '@sitecore-jss/sitecore-jss-nextjs';
+//@ts-ignore
+import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 
-class PersonalizationHelper {
+export class PersonalizationHelper {
 
-    config = null;
+    config:any = null;
 
-    constructor(config){
+    constructor(config:any){
         this.config = config;
     }
 
@@ -37,7 +38,7 @@ class PersonalizationHelper {
             return;
         }
 
-        var itemResult = await this.getItemById(rendering?.dataSource, externalEdgeEndpoint);
+        var itemResult:any = await this.getItemById(rendering?.dataSource, externalEdgeEndpoint);
 
         if (!itemResult) {
             return;
@@ -119,7 +120,7 @@ class PersonalizationHelper {
         }
     }
 
-    async personalize(props: SitecorePageProps, personalizationRule: any) {
+    async personalize(props: any, personalizationRule: any) {
 
         let placeholdersLayout = props.layoutData.sitecore.route?.placeholders;
 
@@ -127,7 +128,7 @@ class PersonalizationHelper {
 
             console.log('Applying personalization')
 
-            var ruleEngine = createRuleEngine();
+            var ruleEngine = new JssRuleEngine();
             var ruleEngineContext = ruleEngine.getRuleEngineContext();
 
             ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
@@ -151,4 +152,4 @@ class PersonalizationHelper {
     }
 }
 
-export const personalizationHelper = PersonalizationHelper;
+exports.PersonalizationHelper = PersonalizationHelper;
