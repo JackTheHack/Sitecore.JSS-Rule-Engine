@@ -1,6 +1,6 @@
 {
   "name": "sitecore-jss-rule-engine",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Rule engine for Sitecore JSS",
   "main": "index.js",
   "scripts": {

@@ -46,41 +46,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonalizationHelper = void 0;
 var getItemById_1 = require("../queries/getItemById");
 var sitecore_jss_nextjs_1 = require("@sitecore-jss/sitecore-jss-nextjs");
-//@ts-ignore
-var sitecore_jss_rule_engine_1 = require("sitecore-jss-rule-engine");
 var PersonalizationHelper = /** @class */ (function () {
-    function PersonalizationHelper(config) {
-        this.config = null;
-        this.config = config;
+    function PersonalizationHelper(graphQlEndpoint) {
+        this.endpointUrl = graphQlEndpoint;
     }
     PersonalizationHelper.prototype.guid = function () {
         var w = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
         return "".concat(w()).concat(w(), "-").concat(w(), "-").concat(w(), "-").concat(w(), "-").concat(w()).concat(w()).concat(w());
     };
-    PersonalizationHelper.prototype.getItemById = function (itemId, externalEdgeEndpoint) {
-        var _a, _b, _c;
+    PersonalizationHelper.prototype.getItemById = function (itemId) {
         return __awaiter(this, void 0, void 0, function () {
             var graphQLClient, graphQlResponse;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         if (process.env.JSS_MODE === sitecore_jss_nextjs_1.constants.JSS_MODE.DISCONNECTED) {
                             return [2 /*return*/, null];
                         }
-                        graphQLClient = new sitecore_jss_nextjs_1.GraphQLRequestClient(!externalEdgeEndpoint ? (_a = this.config) === null || _a === void 0 ? void 0 : _a.graphQLEndpoint : (_b = this.config) === null || _b === void 0 ? void 0 : _b.edgeQLEndpoint, {
-                            apiKey: (_c = this.config) === null || _c === void 0 ? void 0 : _c.sitecoreApiKey,
-                        });
+                        graphQLClient = new sitecore_jss_nextjs_1.GraphQLRequestClient(this.endpointUrl);
                         return [4 /*yield*/, graphQLClient.request(getItemById_1.GetItemByIdQuery, {
                                 "id": itemId
                             })];
                     case 1:
-                        graphQlResponse = _d.sent();
+                        graphQlResponse = _a.sent();
                         return [2 /*return*/, graphQlResponse];
                 }
             });
         });
     };
-    PersonalizationHelper.prototype.populateFields = function (rendering, externalEdgeEndpoint) {
+    PersonalizationHelper.prototype.populateFields = function (rendering) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var itemResult;
@@ -91,7 +85,7 @@ var PersonalizationHelper = /** @class */ (function () {
                         if (!((_a = rendering === null || rendering === void 0 ? void 0 : rendering.dataSource) === null || _a === void 0 ? void 0 : _a.length)) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.getItemById(rendering === null || rendering === void 0 ? void 0 : rendering.dataSource, externalEdgeEndpoint)];
+                        return [4 /*yield*/, this.getItemById(rendering === null || rendering === void 0 ? void 0 : rendering.dataSource)];
                     case 1:
                         itemResult = _b.sent();
                         if (!itemResult) {
@@ -116,7 +110,7 @@ var PersonalizationHelper = /** @class */ (function () {
             });
         });
     };
-    PersonalizationHelper.prototype.doPersonalizePlaceholder = function (placeholderPersonalization, elementPlaceholderRenderings, externalEdgeEndpoint) {
+    PersonalizationHelper.prototype.doPersonalizePlaceholder = function (placeholderPersonalization, elementPlaceholderRenderings) {
         var _a, e_1, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
             var _loop_1, this_1, renderingPersonalization, y, personalizationsToAdd, _d, personalizationsToAdd_1, personalizationsToAdd_1_1, renderingPersonalization_1, newRendering, e_1_1;
@@ -150,7 +144,7 @@ var PersonalizationHelper = /** @class */ (function () {
                                         }
                                         if (!(renderingToUpdate.dataSource != renderingPersonalization.datasource)) return [3 /*break*/, 2];
                                         renderingToUpdate.dataSource = renderingPersonalization.datasource;
-                                        return [4 /*yield*/, this_1.populateFields(renderingToUpdate, externalEdgeEndpoint)];
+                                        return [4 /*yield*/, this_1.populateFields(renderingToUpdate)];
                                     case 1:
                                         _f.sent();
                                         _f.label = 2;
@@ -191,7 +185,7 @@ var PersonalizationHelper = /** @class */ (function () {
                             experiences: {},
                             uid: this.guid()
                         };
-                        return [4 /*yield*/, this.populateFields(newRendering, externalEdgeEndpoint)];
+                        return [4 /*yield*/, this.populateFields(newRendering)];
                     case 8:
                         _e.sent();
                         elementPlaceholderRenderings.push(newRendering);
@@ -222,18 +216,17 @@ var PersonalizationHelper = /** @class */ (function () {
             });
         });
     };
-    PersonalizationHelper.prototype.personalize = function (props, personalizationRule) {
+    PersonalizationHelper.prototype.personalize = function (ruleEngine, props, personalizationRule) {
         var _a, e_2, _b, _c;
         var _d, _e, _f, _g;
         return __awaiter(this, void 0, void 0, function () {
-            var placeholdersLayout, ruleEngine, ruleEngineContext, placeholderPersonalizationsKeys, _h, placeholderPersonalizationsKeys_1, placeholderPersonalizationsKeys_1_1, phName, placeholderPersonalization, placeholderRenderings, personalizedRenderings, e_2_1;
+            var placeholdersLayout, ruleEngineContext, placeholderPersonalizationsKeys, _h, placeholderPersonalizationsKeys_1, placeholderPersonalizationsKeys_1_1, phName, placeholderPersonalization, placeholderRenderings, personalizedRenderings, e_2_1;
             return __generator(this, function (_j) {
                 switch (_j.label) {
                     case 0:
                         placeholdersLayout = (_d = props.layoutData.sitecore.route) === null || _d === void 0 ? void 0 : _d.placeholders;
                         if (!(placeholdersLayout && ((_e = personalizationRule === null || personalizationRule === void 0 ? void 0 : personalizationRule.value) === null || _e === void 0 ? void 0 : _e.length) > 0)) return [3 /*break*/, 13];
                         console.log('Applying personalization');
-                        ruleEngine = new sitecore_jss_rule_engine_1.JssRuleEngine();
                         ruleEngineContext = ruleEngine.getRuleEngineContext();
                         ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
                         console.log("Rule parsed");
@@ -252,7 +245,7 @@ var PersonalizationHelper = /** @class */ (function () {
                         console.log('Personalizing placeholder - ', phName);
                         placeholderPersonalization = (_g = ruleEngineContext.personalization) === null || _g === void 0 ? void 0 : _g.placeholders[phName];
                         placeholderRenderings = placeholdersLayout[phName];
-                        return [4 /*yield*/, this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings, false)];
+                        return [4 /*yield*/, this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings)];
                     case 4:
                         personalizedRenderings = _j.sent();
                         placeholdersLayout[phName] = personalizedRenderings;

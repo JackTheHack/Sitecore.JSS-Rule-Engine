@@ -1,9 +1,10 @@
+import { JssRuleEngine } from 'sitecore-jss-rule-engine';
 export declare class PersonalizationHelper {
-    config: any;
-    constructor(config: any);
+    endpointUrl: string;
+    constructor(graphQlEndpoint: string);
     guid(): string;
-    getItemById(itemId: String, externalEdgeEndpoint: Boolean): Promise<unknown>;
-    populateFields(rendering: any, externalEdgeEndpoint: Boolean): Promise<any>;
-    doPersonalizePlaceholder(placeholderPersonalization: any, elementPlaceholderRenderings: any, externalEdgeEndpoint: Boolean): Promise<any>;
-    personalize(props: any, personalizationRule: any): Promise<any>;
+    getItemById(itemId: String): Promise<unknown>;
+    populateFields(rendering: any): Promise<any>;
+    doPersonalizePlaceholder(placeholderPersonalization: any, elementPlaceholderRenderings: any): Promise<any>;
+    personalize(ruleEngine: JssRuleEngine, props: any, personalizationRule: any): Promise<any>;
 }

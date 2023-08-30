@@ -68,16 +68,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var sitecore_jss_nextjs_1 = require("@sitecore-jss/sitecore-jss-nextjs");
 var index_1 = require("../lib/index");
-//@ts-ignore
-var sitecore_jss_rule_engine_1 = require("sitecore-jss-rule-engine");
-var ruleEngineProvider_1 = require("../rule-engine/ruleEngineProvider");
 var ClientSidePlaceholder = /** @class */ (function (_super) {
     __extends(ClientSidePlaceholder, _super);
     function ClientSidePlaceholder(props) {
         var _this = _super.call(this, props) || this;
-        _this.config = null;
         _this.updatingState = false;
-        _this.config = props.config;
+        _this.graphQLEndpoint = props.endpointUrl;
+        _this.ruleEngine = props.ruleEngine;
         _this.state = {
             elements: null
         };
@@ -136,7 +133,7 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
     ClientSidePlaceholder.prototype.personalizePlaceholder = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var doRun, elementPlaceholderRenderings, personalizationRule, ruleEngineOptions, ruleEngine, ruleEngineContext, placeholderPersonalizationRule, personalizationHelper, elementPlaceholderRenderings;
+            var doRun, elementPlaceholderRenderings, personalizationRule, ruleEngineContext, placeholderPersonalizationRule, personalizationHelper, elementPlaceholderRenderings;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -149,15 +146,12 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
                         elementPlaceholderRenderings = this.props.rendering.placeholders[this.props.name];
                         personalizationRule = this.props.rendering.fields["PersonalizationRules"];
                         console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
-                        ruleEngineOptions = {};
-                        ruleEngine = new sitecore_jss_rule_engine_1.JssRuleEngine(ruleEngineOptions);
-                        (0, ruleEngineProvider_1.registerNextJS)(ruleEngine);
-                        ruleEngineContext = ruleEngine.getRuleEngineContext();
-                        ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
+                        ruleEngineContext = this.ruleEngine.getRuleEngineContext();
+                        this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
                         placeholderPersonalizationRule = (_a = ruleEngineContext.personalization) === null || _a === void 0 ? void 0 : _a.placeholders[this.props.name];
                         console.log("Rule parsed");
-                        personalizationHelper = new index_1.PersonalizationHelper(this.config);
-                        return [4 /*yield*/, personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings, true)];
+                        personalizationHelper = new index_1.PersonalizationHelper(this.graphQLEndpoint);
+                        return [4 /*yield*/, personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings)];
                     case 1:
                         elementPlaceholderRenderings = _b.sent();
                         console.log("Personalized renderings", elementPlaceholderRenderings);

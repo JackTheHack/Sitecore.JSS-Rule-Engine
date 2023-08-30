@@ -17,6 +17,12 @@ class JssRuleEngine {
         this.ruleDefinitions = [];
         this.operatorDefinitions = [];
 
+        this.setOptions(options);
+
+        this.initialize(options);
+    }
+
+    setOptions(options) {
         if(options)
         {
             this.debug = options.debug ? options.debug : false;
@@ -25,8 +31,6 @@ class JssRuleEngine {
             this.itemProvider = options.itemProvider;
             this.mockDate = options.mockDate;
         }
-
-        this.initialize(options);
     }
 
     initialize(options) {
@@ -126,6 +130,13 @@ class JssRuleEngine {
             console.log.apply(console, arguments);
         }
     }
+}
+
+if(!com || !com.JssEngine)
+{
+    globalThis.com = {
+        JssEngine: new JssRuleEngine({})
+    };
 }
 
 exports.JssRuleEngine = JssRuleEngine;

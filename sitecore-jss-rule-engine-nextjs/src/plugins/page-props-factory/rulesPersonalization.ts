@@ -1,5 +1,7 @@
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { PersonalizationHelper } from '../../lib/index';
+//@ts-ignore
+import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 import {
   DictionaryPhrases,
   ComponentPropsCollection,
@@ -36,11 +38,13 @@ interface Plugin {
 
 export class RulesPersonalizationPlugin implements Plugin {
 
-  config = null;
+  graphQLEndpoint:string;
+  ruleEngine:JssRuleEngine;
 
-  constructor(config:any)
+  constructor(endpointUrl:string, ruleEngine:JssRuleEngine)
   {
-    this.config = config;
+    this.graphQLEndpoint = endpointUrl;
+    this.ruleEngine = ruleEngine;
   }
 
   order = 3;
@@ -75,8 +79,8 @@ export class RulesPersonalizationPlugin implements Plugin {
 
       if(personalizeOnEdge && personalizeOnEdge.value)
       {
-        var personalizationHelper = new PersonalizationHelper(this.config);
-        await personalizationHelper.personalize(props, personalizationRule);      
+        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint);
+        await personalizationHelper.personalize(this.ruleEngine, props, personalizationRule);      
       }
     }
 

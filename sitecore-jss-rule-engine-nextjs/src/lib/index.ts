@@ -5,10 +5,10 @@ import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 
 export class PersonalizationHelper {
 
-    config:any = null;
+    endpointUrl:string;
 
-    constructor(config:any){
-        this.config = config;
+    constructor(graphQlEndpoint:string){
+        this.endpointUrl = graphQlEndpoint;
     }
 
     guid() {
@@ -16,15 +16,12 @@ export class PersonalizationHelper {
         return `${w()}${w()}-${w()}-${w()}-${w()}-${w()}${w()}${w()}`;
     }
 
-    async getItemById(itemId: String, externalEdgeEndpoint: Boolean) {
+    async getItemById(itemId: String) {
         if (process.env.JSS_MODE === constants.JSS_MODE.DISCONNECTED) {
             return null;
         }
 
-        const graphQLClient = new GraphQLRequestClient(
-            !externalEdgeEndpoint ? this.config?.graphQLEndpoint : this.config?.edgeQLEndpoint, {
-            apiKey: this.config?.sitecoreApiKey,
-        });
+        const graphQLClient = new GraphQLRequestClient(this.endpointUrl);
 
         var graphQlResponse = await graphQLClient.request(GetItemByIdQuery, {
             "id": itemId
@@ -32,13 +29,13 @@ export class PersonalizationHelper {
         return graphQlResponse;
     }
 
-    async populateFields(rendering: any, externalEdgeEndpoint: Boolean) {
+    async populateFields(rendering: any) {
 
         if (!rendering?.dataSource?.length) {
             return;
         }
 
-        var itemResult:any = await this.getItemById(rendering?.dataSource, externalEdgeEndpoint);
+        var itemResult:any = await this.getItemById(rendering?.dataSource);
 
         if (!itemResult) {
             return;
@@ -56,7 +53,7 @@ export class PersonalizationHelper {
         return rendering;
     }
 
-    async doPersonalizePlaceholder(placeholderPersonalization: any, elementPlaceholderRenderings: any, externalEdgeEndpoint: Boolean) {
+    async doPersonalizePlaceholder(placeholderPersonalization: any, elementPlaceholderRenderings: any) {
         if (placeholderPersonalization && placeholderPersonalization.renderings) {
 
             for (let y = 0; y < elementPlaceholderRenderings.length; y++) {
@@ -90,7 +87,7 @@ export class PersonalizationHelper {
 
                         renderingToUpdate.dataSource = renderingPersonalization.datasource;
 
-                        await this.populateFields(renderingToUpdate, externalEdgeEndpoint);
+                        await this.populateFields(renderingToUpdate);
 
                     }
                 }
@@ -108,7 +105,7 @@ export class PersonalizationHelper {
                     uid: this.guid()
                 };
 
-                await this.populateFields(newRendering, externalEdgeEndpoint);
+                await this.populateFields(newRendering);
 
                 elementPlaceholderRenderings.push(newRendering);
             }
@@ -120,15 +117,14 @@ export class PersonalizationHelper {
         }
     }
 
-    async personalize(props: any, personalizationRule: any) {
+    async personalize(ruleEngine:JssRuleEngine, props: any, personalizationRule: any) {
 
         let placeholdersLayout = props.layoutData.sitecore.route?.placeholders;
 
         if (placeholdersLayout && personalizationRule?.value?.length > 0) {
 
             console.log('Applying personalization')
-
-            var ruleEngine = new JssRuleEngine();
+            
             var ruleEngineContext = ruleEngine.getRuleEngineContext();
 
             ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
@@ -143,7 +139,7 @@ export class PersonalizationHelper {
                 var placeholderPersonalization = ruleEngineContext.personalization?.placeholders[phName];
                 var placeholderRenderings = placeholdersLayout[phName];
                 var personalizedRenderings =
-                    await this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings, false);
+                    await this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings);
                 placeholdersLayout[phName] = personalizedRenderings;
             }
         }

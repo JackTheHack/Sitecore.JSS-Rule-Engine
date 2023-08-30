@@ -3,16 +3,17 @@ import { withSitecoreContext, Placeholder } from '@sitecore-jss/sitecore-jss-nex
 import { PersonalizationHelper } from "../lib/index";
 //@ts-ignore
 import {JssRuleEngine} from "sitecore-jss-rule-engine"
-import { registerNextJS } from "../rule-engine/ruleEngineProvider"
 
 class ClientSidePlaceholder extends React.Component<any,any> {
 
-    config:any = null;
+    graphQLEndpoint:string;
+    ruleEngine:JssRuleEngine;
 
     constructor(props:any) {
         super(props);
 
-        this.config = props.config;
+        this.graphQLEndpoint = props.endpointUrl;
+        this.ruleEngine = props.ruleEngine;
 
         this.state = {
             elements: null            
@@ -100,21 +101,18 @@ class ClientSidePlaceholder extends React.Component<any,any> {
         var personalizationRule = this.props.rendering.fields["PersonalizationRules"]                
 
         console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
-        
-        var ruleEngineOptions = {};
-        var ruleEngine = new JssRuleEngine(ruleEngineOptions);
-        registerNextJS(ruleEngine);
-        var ruleEngineContext = ruleEngine.getRuleEngineContext();
+                
+        var ruleEngineContext = this.ruleEngine.getRuleEngineContext();
 
-        ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
+        this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
 
         var placeholderPersonalizationRule = ruleEngineContext.personalization?.placeholders[this.props.name]
 
         console.log("Rule parsed")
 
-        var personalizationHelper = new PersonalizationHelper(this.config);
+        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint);
         var elementPlaceholderRenderings = 
-        await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings, true);
+        await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings);
 
         console.log("Personalized renderings", elementPlaceholderRenderings);
 

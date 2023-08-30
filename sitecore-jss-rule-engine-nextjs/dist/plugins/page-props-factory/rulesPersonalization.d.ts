@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
+import { JssRuleEngine } from 'sitecore-jss-rule-engine';
 import { DictionaryPhrases, ComponentPropsCollection, LayoutServiceData, SiteInfo, HTMLLink } from '@sitecore-jss/sitecore-jss-nextjs';
 export type SitecorePageProps = {
     site: SiteInfo;
@@ -20,8 +21,9 @@ interface Plugin {
     exec(props: SitecorePageProps, context: GetServerSidePropsContext | GetStaticPropsContext): Promise<SitecorePageProps>;
 }
 export declare class RulesPersonalizationPlugin implements Plugin {
-    config: null;
-    constructor(config: any);
+    graphQLEndpoint: string;
+    ruleEngine: JssRuleEngine;
+    constructor(endpointUrl: string, ruleEngine: JssRuleEngine);
     order: number;
     isDisconnectedMode(props: any): boolean;
     isPageEditing(props: any): any;

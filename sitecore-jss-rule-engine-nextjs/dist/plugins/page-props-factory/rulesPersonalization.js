@@ -39,10 +39,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RulesPersonalizationPlugin = void 0;
 var index_1 = require("../../lib/index");
 var RulesPersonalizationPlugin = /** @class */ (function () {
-    function RulesPersonalizationPlugin(config) {
-        this.config = null;
+    function RulesPersonalizationPlugin(endpointUrl, ruleEngine) {
         this.order = 3;
-        this.config = config;
+        this.graphQLEndpoint = endpointUrl;
+        this.ruleEngine = ruleEngine;
     }
     RulesPersonalizationPlugin.prototype.isDisconnectedMode = function (props) {
         var _a;
@@ -71,8 +71,8 @@ var RulesPersonalizationPlugin = /** @class */ (function () {
                         personalizationRule = routeFields["PersonalizationRules"];
                         personalizeOnEdge = routeFields["PersonalizeOnEdge"];
                         if (!(personalizeOnEdge && personalizeOnEdge.value)) return [3 /*break*/, 2];
-                        personalizationHelper = new index_1.PersonalizationHelper(this.config);
-                        return [4 /*yield*/, personalizationHelper.personalize(props, personalizationRule)];
+                        personalizationHelper = new index_1.PersonalizationHelper(this.graphQLEndpoint);
+                        return [4 /*yield*/, personalizationHelper.personalize(this.ruleEngine, props, personalizationRule)];
                     case 1:
                         _a.sent();
                         _a.label = 2;
