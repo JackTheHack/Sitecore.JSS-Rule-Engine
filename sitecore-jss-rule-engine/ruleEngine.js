@@ -132,12 +132,5 @@ class JssRuleEngine {
     }
 }
 
-if(!com || !com.JssEngine)
-{
-    globalThis.com = {
-        JssEngine: new JssRuleEngine({})
-    };
-}
-
 exports.JssRuleEngine = JssRuleEngine;
 
