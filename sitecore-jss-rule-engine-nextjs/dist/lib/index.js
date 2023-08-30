@@ -47,8 +47,9 @@ exports.PersonalizationHelper = void 0;
 var getItemById_1 = require("../queries/getItemById");
 var sitecore_jss_nextjs_1 = require("@sitecore-jss/sitecore-jss-nextjs");
 var PersonalizationHelper = /** @class */ (function () {
-    function PersonalizationHelper(graphQlEndpoint) {
+    function PersonalizationHelper(graphQlEndpoint, sitecoreApiKey) {
         this.endpointUrl = graphQlEndpoint;
+        this.sitecoreApiKey = sitecoreApiKey;
     }
     PersonalizationHelper.prototype.guid = function () {
         var w = function () { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); };
@@ -63,7 +64,9 @@ var PersonalizationHelper = /** @class */ (function () {
                         if (process.env.JSS_MODE === sitecore_jss_nextjs_1.constants.JSS_MODE.DISCONNECTED) {
                             return [2 /*return*/, null];
                         }
-                        graphQLClient = new sitecore_jss_nextjs_1.GraphQLRequestClient(this.endpointUrl);
+                        graphQLClient = new sitecore_jss_nextjs_1.GraphQLRequestClient(this.endpointUrl, {
+                            apiKey: this.sitecoreApiKey,
+                        });
                         return [4 /*yield*/, graphQLClient.request(getItemById_1.GetItemByIdQuery, {
                                 "id": itemId
                             })];

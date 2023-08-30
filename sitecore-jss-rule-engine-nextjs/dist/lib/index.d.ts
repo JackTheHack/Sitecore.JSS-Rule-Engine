@@ -1,7 +1,8 @@
 import { JssRuleEngine } from 'sitecore-jss-rule-engine';
 export declare class PersonalizationHelper {
     endpointUrl: string;
-    constructor(graphQlEndpoint: string);
+    sitecoreApiKey: string;
+    constructor(graphQlEndpoint: string, sitecoreApiKey: string);
     guid(): string;
     getItemById(itemId: String): Promise<unknown>;
     populateFields(rendering: any): Promise<any>;

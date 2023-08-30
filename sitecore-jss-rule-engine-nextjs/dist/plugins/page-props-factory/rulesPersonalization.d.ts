@@ -22,8 +22,9 @@ interface Plugin {
 }
 export declare class RulesPersonalizationPlugin implements Plugin {
     graphQLEndpoint: string;
+    sitecoreApiKey: string;
     ruleEngine: JssRuleEngine;
-    constructor(endpointUrl: string, ruleEngine: JssRuleEngine);
+    constructor(endpointUrl: string, sitecoreApiKey: string, ruleEngine: JssRuleEngine);
     order: number;
     isDisconnectedMode(props: any): boolean;
     isPageEditing(props: any): any;

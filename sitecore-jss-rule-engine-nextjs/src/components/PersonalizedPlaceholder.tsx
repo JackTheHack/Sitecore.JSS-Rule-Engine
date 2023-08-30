@@ -7,6 +7,7 @@ import {JssRuleEngine} from "sitecore-jss-rule-engine"
 class ClientSidePlaceholder extends React.Component<any,any> {
 
     graphQLEndpoint:string;
+    sitecoreApiKey:string;
     ruleEngine:JssRuleEngine;
 
     constructor(props:any) {
@@ -14,6 +15,7 @@ class ClientSidePlaceholder extends React.Component<any,any> {
 
         this.graphQLEndpoint = props.endpointUrl;
         this.ruleEngine = props.ruleEngine;
+        this.sitecoreApiKey = props.sitecoreApiKey;
 
         this.state = {
             elements: null            
@@ -110,7 +112,7 @@ class ClientSidePlaceholder extends React.Component<any,any> {
 
         console.log("Rule parsed")
 
-        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint);
+        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
         var elementPlaceholderRenderings = 
         await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings);
 

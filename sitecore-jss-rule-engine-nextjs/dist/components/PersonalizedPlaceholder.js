@@ -75,6 +75,7 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
         _this.updatingState = false;
         _this.graphQLEndpoint = props.endpointUrl;
         _this.ruleEngine = props.ruleEngine;
+        _this.sitecoreApiKey = props.sitecoreApiKey;
         _this.state = {
             elements: null
         };
@@ -150,7 +151,7 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
                         this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
                         placeholderPersonalizationRule = (_a = ruleEngineContext.personalization) === null || _a === void 0 ? void 0 : _a.placeholders[this.props.name];
                         console.log("Rule parsed");
-                        personalizationHelper = new index_1.PersonalizationHelper(this.graphQLEndpoint);
+                        personalizationHelper = new index_1.PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
                         return [4 /*yield*/, personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings)];
                     case 1:
                         elementPlaceholderRenderings = _b.sent();

@@ -6,9 +6,11 @@ import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 export class PersonalizationHelper {
 
     endpointUrl:string;
+    sitecoreApiKey: string;
 
-    constructor(graphQlEndpoint:string){
+    constructor(graphQlEndpoint:string, sitecoreApiKey:string){
         this.endpointUrl = graphQlEndpoint;
+        this.sitecoreApiKey = sitecoreApiKey;
     }
 
     guid() {
@@ -21,7 +23,9 @@ export class PersonalizationHelper {
             return null;
         }
 
-        const graphQLClient = new GraphQLRequestClient(this.endpointUrl);
+        const graphQLClient = new GraphQLRequestClient(this.endpointUrl, {
+            apiKey: this.sitecoreApiKey,
+          });
 
         var graphQlResponse = await graphQLClient.request(GetItemByIdQuery, {
             "id": itemId

@@ -1,8 +1,12 @@
 var { JssRuleEngine } = require('./ruleEngine');
 
-if(!globalThis.JssEngine)
+if(!global.JssEngine)
 {
-    globalThis.JssEngine = new JssRuleEngine({})
+    global.JssEngine = new JssRuleEngine({})
 }
 
-module.exports.JssRuleEngine = ruleEngine;
+module.exports.getRuleEngineInstance = function(){
+    return global.JssEngine;
+}
+
+module.exports.JssRuleEngine = JssRuleEngine;

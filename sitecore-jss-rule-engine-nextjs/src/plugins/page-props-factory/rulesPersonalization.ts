@@ -39,11 +39,13 @@ interface Plugin {
 export class RulesPersonalizationPlugin implements Plugin {
 
   graphQLEndpoint:string;
+  sitecoreApiKey:string;
   ruleEngine:JssRuleEngine;
 
-  constructor(endpointUrl:string, ruleEngine:JssRuleEngine)
+  constructor(endpointUrl:string, sitecoreApiKey: string, ruleEngine:JssRuleEngine)
   {
     this.graphQLEndpoint = endpointUrl;
+    this.sitecoreApiKey = sitecoreApiKey;
     this.ruleEngine = ruleEngine;
   }
 
@@ -79,7 +81,7 @@ export class RulesPersonalizationPlugin implements Plugin {
 
       if(personalizeOnEdge && personalizeOnEdge.value)
       {
-        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint);
+        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
         await personalizationHelper.personalize(this.ruleEngine, props, personalizationRule);      
       }
     }
