@@ -1,5 +1,7 @@
-import ClientSidePlaceholder from "./components/PersonalizedPlaceholder";
-export { ClientSidePlaceholder };
+import PersonalizedPlaceholder from "./components/PersonalizedPlaceholder";
+export { PersonalizedPlaceholder };
 export { PersonalizationHelper } from "./lib";
 export { registerNextJS } from './rule-engine/ruleEngineProvider';
-export { RulesPersonalizationPlugin } from "./plugins/page-props-factory/rulesPersonalization";
+export { RulesSSRPersonalizationPlugin } from "./plugins/page-props-factory/rulesSSRPersonalizationPlugin";
+export { RulesSSGPersonalizationPlugin } from "./plugins/page-props-factory/rulesSSGPersonalizationPlugin";
+export { ResolvePersonalizationPathPlugin } from "./plugins/page-props-factory/resolvePersonalizationPathPlugin";

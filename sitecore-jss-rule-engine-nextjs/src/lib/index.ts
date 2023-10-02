@@ -121,6 +121,39 @@ export class PersonalizationHelper {
         }
     }
 
+    async runRuleActions(ruleEngine: JssRuleEngine, props:any, personalizationRule: any, ruleActions: any){        
+
+        let placeholdersLayout = props.layoutData.sitecore.route?.placeholders;
+
+        if (placeholdersLayout && personalizationRule?.value?.length > 0) {
+            
+            var ruleEngineContext = ruleEngine.getRuleEngineContext();
+
+            let parsedRule = ruleEngine.parseRuleXml(personalizationRule.value, ruleEngineContext);                        
+
+            ruleEngine.runRuleActions(parsedRule, ruleActions, ruleEngineContext);
+            
+            if(ruleEngineContext.personalization?.placeholders)
+            {                
+
+                var placeholderPersonalizationsKeys = Object.keys(ruleEngineContext.personalization?.placeholders);
+
+                for await (const phName of placeholderPersonalizationsKeys) {                    
+
+                    var placeholderPersonalization = ruleEngineContext.personalization?.placeholders[phName];
+                    var placeholderRenderings = placeholdersLayout[phName];
+                    var personalizedRenderings =
+                        await this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings);
+                        
+                    placeholdersLayout[phName] = personalizedRenderings;
+                }
+            }
+        }
+
+        return props;
+
+    }
+
     async personalize(ruleEngine:JssRuleEngine, props: any, personalizationRule: any) {
 
         let placeholdersLayout = props.layoutData.sitecore.route?.placeholders;
@@ -135,16 +168,19 @@ export class PersonalizationHelper {
 
             console.log("Rule parsed")
 
-            var placeholderPersonalizationsKeys = Object.keys(ruleEngineContext.personalization?.placeholders);
+            if(ruleEngineContext.personalization?.placeholders)
+            {
+                var placeholderPersonalizationsKeys = Object.keys(ruleEngineContext.personalization?.placeholders);
 
-            for await (const phName of placeholderPersonalizationsKeys) {
-                console.log('Personalizing placeholder - ', phName)
+                for await (const phName of placeholderPersonalizationsKeys) {
+                    console.log('Personalizing placeholder - ', phName)
 
-                var placeholderPersonalization = ruleEngineContext.personalization?.placeholders[phName];
-                var placeholderRenderings = placeholdersLayout[phName];
-                var personalizedRenderings =
-                    await this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings);
-                placeholdersLayout[phName] = personalizedRenderings;
+                    var placeholderPersonalization = ruleEngineContext.personalization?.placeholders[phName];
+                    var placeholderRenderings = placeholdersLayout[phName];
+                    var personalizedRenderings =
+                        await this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings);
+                    placeholdersLayout[phName] = personalizedRenderings;
+                }
             }
         }
 

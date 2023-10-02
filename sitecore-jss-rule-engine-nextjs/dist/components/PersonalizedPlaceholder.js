@@ -68,9 +68,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var sitecore_jss_nextjs_1 = require("@sitecore-jss/sitecore-jss-nextjs");
 var index_1 = require("../lib/index");
-var ClientSidePlaceholder = /** @class */ (function (_super) {
-    __extends(ClientSidePlaceholder, _super);
-    function ClientSidePlaceholder(props) {
+var PersonalizedPlaceholder = /** @class */ (function (_super) {
+    __extends(PersonalizedPlaceholder, _super);
+    function PersonalizedPlaceholder(props) {
         var _this = _super.call(this, props) || this;
         _this.updatingState = false;
         _this.graphQLEndpoint = props.endpointUrl;
@@ -81,7 +81,7 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
         };
         return _this;
     }
-    ClientSidePlaceholder.prototype.componentDidMount = function () {
+    PersonalizedPlaceholder.prototype.componentDidMount = function () {
         return __awaiter(this, void 0, void 0, function () {
             var personalizeOnEdge, personalizedRenderings;
             return __generator(this, function (_a) {
@@ -106,35 +106,35 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
             });
         });
     };
-    ClientSidePlaceholder.prototype.shouldComponentUpdate = function () {
+    PersonalizedPlaceholder.prototype.shouldComponentUpdate = function () {
         if (this.updatingState) {
             this.updatingState = false;
             return false;
         }
         return true;
     };
-    ClientSidePlaceholder.prototype.render = function () {
+    PersonalizedPlaceholder.prototype.render = function () {
         var rendering = __assign({}, this.props.rendering);
         rendering.placeholders[this.props.name] = this.state.elements ? this.state.elements :
             this.props.hideInitialContents ? [] : rendering.placeholders[this.props.name];
         var placeholderProps = __assign(__assign({}, this.props), { rendering: rendering });
         return react_1.default.createElement(sitecore_jss_nextjs_1.Placeholder, __assign({ name: this.props.name }, placeholderProps));
     };
-    ClientSidePlaceholder.prototype.isClientside = function () {
+    PersonalizedPlaceholder.prototype.isClientside = function () {
         return typeof window !== 'undefined';
     };
-    ClientSidePlaceholder.prototype.isDisconnectedMode = function () {
+    PersonalizedPlaceholder.prototype.isDisconnectedMode = function () {
         var disconnectedMode = this.props.sitecoreContext.site.name === 'JssDisconnectedLayoutService';
         return disconnectedMode;
     };
-    ClientSidePlaceholder.prototype.isPageEditing = function () {
+    PersonalizedPlaceholder.prototype.isPageEditing = function () {
         var isEditing = this.props.sitecoreContext.pageEditing;
         return isEditing;
     };
-    ClientSidePlaceholder.prototype.personalizePlaceholder = function () {
+    PersonalizedPlaceholder.prototype.personalizePlaceholder = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var doRun, elementPlaceholderRenderings, personalizationRule, ruleEngineContext, placeholderPersonalizationRule, personalizationHelper, elementPlaceholderRenderings;
+            var doRun, elementPlaceholderRenderings, personalizationRule, ruleEngineContext, placeholderPersonalizationRule, personalizationHelper, elementPlaceholderRenderings, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -147,20 +147,37 @@ var ClientSidePlaceholder = /** @class */ (function (_super) {
                         elementPlaceholderRenderings = this.props.rendering.placeholders[this.props.name];
                         personalizationRule = this.props.rendering.fields["PersonalizationRules"];
                         console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
+                        if (typeof (window) !== "undefined" && window) {
+                            console.log('Current url - ', window.location.href);
+                            this.ruleEngine.setRequestContext({
+                                url: window.location.href
+                            });
+                        }
                         ruleEngineContext = this.ruleEngine.getRuleEngineContext();
+                        if (!personalizationRule.value) {
+                            return [2 /*return*/, elementPlaceholderRenderings];
+                        }
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
                         this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
                         placeholderPersonalizationRule = (_a = ruleEngineContext.personalization) === null || _a === void 0 ? void 0 : _a.placeholders[this.props.name];
                         console.log("Rule parsed");
                         personalizationHelper = new index_1.PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
                         return [4 /*yield*/, personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings)];
-                    case 1:
+                    case 2:
                         elementPlaceholderRenderings = _b.sent();
                         console.log("Personalized renderings", elementPlaceholderRenderings);
                         return [2 /*return*/, elementPlaceholderRenderings];
+                    case 3:
+                        error_1 = _b.sent();
+                        console.warn('Failed to parse personalization rule - ', error_1);
+                        return [2 /*return*/, elementPlaceholderRenderings];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    return ClientSidePlaceholder;
+    return PersonalizedPlaceholder;
 }(react_1.default.Component));
-exports.default = (0, sitecore_jss_nextjs_1.withSitecoreContext)()(ClientSidePlaceholder);
+exports.default = (0, sitecore_jss_nextjs_1.withSitecoreContext)()(PersonalizedPlaceholder);

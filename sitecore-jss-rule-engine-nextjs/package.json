@@ -1,6 +1,6 @@
 {
   "name": "sitecore-jss-rule-engine-nextjs",
-  "version": "0.0.27",
+  "version": "0.0.53",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -10,7 +10,8 @@
     "build": "npm run build:esm",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "build:babel": "babel src/lib --out-dir dist --copy-files"
+    "build:babel": "babel src/lib --out-dir dist --copy-files",
+    "release": "npm run build && npm version patch && npm publish"
   },
   "keywords": [
     "Sitecore",
@@ -22,24 +23,24 @@
   "author": "Jack Spektor",
   "license": "ISC",
   "dependencies": {
-    "@sitecore-jss/sitecore-jss-nextjs": "^21.2.4",
-    "next": "^13.4.19",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sitecore-jss-rule-engine": "^0.0.13"
+    "@sitecore-jss/sitecore-jss-nextjs": "21.2.4",
+    "next": "~13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sitecore-jss-rule-engine": "^0.0.33"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@sitecore-jss/sitecore-jss-cli": "~21.2.0",
     "@sitecore-jss/sitecore-jss-dev-tools": "~21.2.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0"
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   },
   "resolutions": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0"
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   }
 }

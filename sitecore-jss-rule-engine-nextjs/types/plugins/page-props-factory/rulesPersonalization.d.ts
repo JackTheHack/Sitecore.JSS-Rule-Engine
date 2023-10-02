@@ -19,7 +19,7 @@ interface Plugin {
      */
     exec(props: SitecorePageProps, context: GetServerSidePropsContext | GetStaticPropsContext): Promise<SitecorePageProps>;
 }
-export declare class RulesPersonalizationPlugin implements Plugin {
+export declare class RulesSSRPersonalizationPlugin implements Plugin {
     config: null;
     constructor(config: any);
     order: number;

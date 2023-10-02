@@ -219,13 +219,76 @@ var PersonalizationHelper = /** @class */ (function () {
             });
         });
     };
-    PersonalizationHelper.prototype.personalize = function (ruleEngine, props, personalizationRule) {
+    PersonalizationHelper.prototype.runRuleActions = function (ruleEngine, props, personalizationRule, ruleActions) {
         var _a, e_2, _b, _c;
-        var _d, _e, _f, _g;
+        var _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function () {
-            var placeholdersLayout, ruleEngineContext, placeholderPersonalizationsKeys, _h, placeholderPersonalizationsKeys_1, placeholderPersonalizationsKeys_1_1, phName, placeholderPersonalization, placeholderRenderings, personalizedRenderings, e_2_1;
-            return __generator(this, function (_j) {
-                switch (_j.label) {
+            var placeholdersLayout, ruleEngineContext, parsedRule, placeholderPersonalizationsKeys, _k, placeholderPersonalizationsKeys_1, placeholderPersonalizationsKeys_1_1, phName, placeholderPersonalization, placeholderRenderings, personalizedRenderings, e_2_1;
+            return __generator(this, function (_l) {
+                switch (_l.label) {
+                    case 0:
+                        placeholdersLayout = (_d = props.layoutData.sitecore.route) === null || _d === void 0 ? void 0 : _d.placeholders;
+                        if (!(placeholdersLayout && ((_e = personalizationRule === null || personalizationRule === void 0 ? void 0 : personalizationRule.value) === null || _e === void 0 ? void 0 : _e.length) > 0)) return [3 /*break*/, 13];
+                        console.log('Applying personalization', ruleActions);
+                        ruleEngineContext = ruleEngine.getRuleEngineContext();
+                        parsedRule = ruleEngine.parseRuleXml(personalizationRule.value, ruleEngineContext);
+                        console.log("Rule parsed");
+                        ruleEngine.runRuleActions(parsedRule, ruleActions, ruleEngineContext);
+                        console.log('Rule actions executed');
+                        console.log((_f = ruleEngineContext.personalization) === null || _f === void 0 ? void 0 : _f.placeholders);
+                        if (!((_g = ruleEngineContext.personalization) === null || _g === void 0 ? void 0 : _g.placeholders)) return [3 /*break*/, 13];
+                        placeholderPersonalizationsKeys = Object.keys((_h = ruleEngineContext.personalization) === null || _h === void 0 ? void 0 : _h.placeholders);
+                        _l.label = 1;
+                    case 1:
+                        _l.trys.push([1, 7, 8, 13]);
+                        _k = true, placeholderPersonalizationsKeys_1 = __asyncValues(placeholderPersonalizationsKeys);
+                        _l.label = 2;
+                    case 2: return [4 /*yield*/, placeholderPersonalizationsKeys_1.next()];
+                    case 3:
+                        if (!(placeholderPersonalizationsKeys_1_1 = _l.sent(), _a = placeholderPersonalizationsKeys_1_1.done, !_a)) return [3 /*break*/, 6];
+                        _c = placeholderPersonalizationsKeys_1_1.value;
+                        _k = false;
+                        phName = _c;
+                        console.log('Personalizing placeholder - ', phName);
+                        placeholderPersonalization = (_j = ruleEngineContext.personalization) === null || _j === void 0 ? void 0 : _j.placeholders[phName];
+                        placeholderRenderings = placeholdersLayout[phName];
+                        return [4 /*yield*/, this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings)];
+                    case 4:
+                        personalizedRenderings = _l.sent();
+                        placeholdersLayout[phName] = personalizedRenderings;
+                        _l.label = 5;
+                    case 5:
+                        _k = true;
+                        return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
+                        e_2_1 = _l.sent();
+                        e_2 = { error: e_2_1 };
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _l.trys.push([8, , 11, 12]);
+                        if (!(!_k && !_a && (_b = placeholderPersonalizationsKeys_1.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _b.call(placeholderPersonalizationsKeys_1)];
+                    case 9:
+                        _l.sent();
+                        _l.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        if (e_2) throw e_2.error;
+                        return [7 /*endfinally*/];
+                    case 12: return [7 /*endfinally*/];
+                    case 13: return [2 /*return*/, props];
+                }
+            });
+        });
+    };
+    PersonalizationHelper.prototype.personalize = function (ruleEngine, props, personalizationRule) {
+        var _a, e_3, _b, _c;
+        var _d, _e, _f, _g, _h;
+        return __awaiter(this, void 0, void 0, function () {
+            var placeholdersLayout, ruleEngineContext, placeholderPersonalizationsKeys, _j, placeholderPersonalizationsKeys_2, placeholderPersonalizationsKeys_2_1, phName, placeholderPersonalization, placeholderRenderings, personalizedRenderings, e_3_1;
+            return __generator(this, function (_k) {
+                switch (_k.label) {
                     case 0:
                         placeholdersLayout = (_d = props.layoutData.sitecore.route) === null || _d === void 0 ? void 0 : _d.placeholders;
                         if (!(placeholdersLayout && ((_e = personalizationRule === null || personalizationRule === void 0 ? void 0 : personalizationRule.value) === null || _e === void 0 ? void 0 : _e.length) > 0)) return [3 /*break*/, 13];
@@ -233,44 +296,45 @@ var PersonalizationHelper = /** @class */ (function () {
                         ruleEngineContext = ruleEngine.getRuleEngineContext();
                         ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
                         console.log("Rule parsed");
-                        placeholderPersonalizationsKeys = Object.keys((_f = ruleEngineContext.personalization) === null || _f === void 0 ? void 0 : _f.placeholders);
-                        _j.label = 1;
+                        if (!((_f = ruleEngineContext.personalization) === null || _f === void 0 ? void 0 : _f.placeholders)) return [3 /*break*/, 13];
+                        placeholderPersonalizationsKeys = Object.keys((_g = ruleEngineContext.personalization) === null || _g === void 0 ? void 0 : _g.placeholders);
+                        _k.label = 1;
                     case 1:
-                        _j.trys.push([1, 7, 8, 13]);
-                        _h = true, placeholderPersonalizationsKeys_1 = __asyncValues(placeholderPersonalizationsKeys);
-                        _j.label = 2;
-                    case 2: return [4 /*yield*/, placeholderPersonalizationsKeys_1.next()];
+                        _k.trys.push([1, 7, 8, 13]);
+                        _j = true, placeholderPersonalizationsKeys_2 = __asyncValues(placeholderPersonalizationsKeys);
+                        _k.label = 2;
+                    case 2: return [4 /*yield*/, placeholderPersonalizationsKeys_2.next()];
                     case 3:
-                        if (!(placeholderPersonalizationsKeys_1_1 = _j.sent(), _a = placeholderPersonalizationsKeys_1_1.done, !_a)) return [3 /*break*/, 6];
-                        _c = placeholderPersonalizationsKeys_1_1.value;
-                        _h = false;
+                        if (!(placeholderPersonalizationsKeys_2_1 = _k.sent(), _a = placeholderPersonalizationsKeys_2_1.done, !_a)) return [3 /*break*/, 6];
+                        _c = placeholderPersonalizationsKeys_2_1.value;
+                        _j = false;
                         phName = _c;
                         console.log('Personalizing placeholder - ', phName);
-                        placeholderPersonalization = (_g = ruleEngineContext.personalization) === null || _g === void 0 ? void 0 : _g.placeholders[phName];
+                        placeholderPersonalization = (_h = ruleEngineContext.personalization) === null || _h === void 0 ? void 0 : _h.placeholders[phName];
                         placeholderRenderings = placeholdersLayout[phName];
                         return [4 /*yield*/, this.doPersonalizePlaceholder(placeholderPersonalization, placeholderRenderings)];
                     case 4:
-                        personalizedRenderings = _j.sent();
+                        personalizedRenderings = _k.sent();
                         placeholdersLayout[phName] = personalizedRenderings;
-                        _j.label = 5;
+                        _k.label = 5;
                     case 5:
-                        _h = true;
+                        _j = true;
                         return [3 /*break*/, 2];
                     case 6: return [3 /*break*/, 13];
                     case 7:
-                        e_2_1 = _j.sent();
-                        e_2 = { error: e_2_1 };
+                        e_3_1 = _k.sent();
+                        e_3 = { error: e_3_1 };
                         return [3 /*break*/, 13];
                     case 8:
-                        _j.trys.push([8, , 11, 12]);
-                        if (!(!_h && !_a && (_b = placeholderPersonalizationsKeys_1.return))) return [3 /*break*/, 10];
-                        return [4 /*yield*/, _b.call(placeholderPersonalizationsKeys_1)];
+                        _k.trys.push([8, , 11, 12]);
+                        if (!(!_j && !_a && (_b = placeholderPersonalizationsKeys_2.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _b.call(placeholderPersonalizationsKeys_2)];
                     case 9:
-                        _j.sent();
-                        _j.label = 10;
+                        _k.sent();
+                        _k.label = 10;
                     case 10: return [3 /*break*/, 12];
                     case 11:
-                        if (e_2) throw e_2.error;
+                        if (e_3) throw e_3.error;
                         return [7 /*endfinally*/];
                     case 12: return [7 /*endfinally*/];
                     case 13: return [2 /*return*/, props];

@@ -31,6 +31,18 @@ class JssRuleEngine {
             this.itemProvider = options.itemProvider;
             this.mockDate = options.mockDate;
         }
+
+        if(typeof(window) !== "undefined" && window && !this.requestContext)
+        {
+            if(!this.requestContext)            
+            {
+                this.requestContext = {
+                    url: window.location.href                    
+                };
+            }            
+        }    
+        
+        this.setRequestContext(this.requestContext)
     }
 
     initialize(options) {
@@ -52,7 +64,7 @@ class JssRuleEngine {
     }
 
     parseRuleXml(ruleXml, ruleEngineContext) {
-        var parsedRule = ruleParser(ruleXml, ruleEngineContext);
+        var parsedRule = ruleParser(ruleXml, ruleEngineContext);        
         return parsedRule;
     }
 
@@ -63,7 +75,16 @@ class JssRuleEngine {
 
     setRequestContext(requestContext)
     {
-        this.requestContext = requestContext;
+        this.requestContext = requestContext;        
+
+        if(this.requestContext && 
+           this.requestContext.url)            
+        {            
+            var queryString = this.requestContext.url.indexOf('?')>=0 ? this.requestContext.url.split('?')[1] : '';
+            this.requestContext.queryString = queryString;
+            const urlParams = new URLSearchParams(this.requestContext.queryString);
+            this.requestContext.urlParams = urlParams;
+        }
     }
 
     setItemProvider(itemProvider)
@@ -103,9 +124,57 @@ class JssRuleEngine {
         };
     }
 
-    runRule(parsedRule, ruleEngineContext){
+    runRule(parsedRule, ruleEngineContext){        
         var result = ruleEngineRunner(parsedRule, ruleEngineContext);
         return result;
+    }
+
+    runRuleActions(parsedRule, ruleActions, ruleEngineContext) {
+
+        console.log('#### runRuleActions');
+
+        if(!parsedRule?.rules || parsedRule.rules.length != ruleActions.length)
+        {
+            console.warn("Parsed rules and provided rule actions array lengths doesn't match");
+            console.log('$$$$$', parsedRule, ruleActions);
+            console.log('#######')
+            return;
+        }
+
+        if(parsedRule.rules.length == 0)
+        {
+            console.log('Empty rules array');
+        }
+
+        console.log('Executing the rule actions', ruleActions);
+        
+        var rules = parsedRule.rules;        
+
+        for (let i = 0; i < rules.length; i++) {
+            const rule = rules[i];
+
+            console.log('Rule to execute for ', rule);
+
+            if(ruleActions[i] && rule.actions)
+            {
+                console.log('Actions to execute', rule.actions)
+                rule.actions.forEach(ruleAction => {
+                    var actionFunction = ruleEngineContext.ruleEngine.commandDefinitions[ruleAction.id];
+    
+                    if (typeof(actionFunction) === "undefined" || !ruleAction) {
+                        throw new Error('Rule definitions missing for id ' + ruleAction.id);
+                    }
+                    
+                    console.log('Executing rule action', ruleAction);
+                    console.log(actionFunction);
+    
+                    actionFunction(ruleAction, ruleEngineContext);
+                })   
+            }
+            
+        }
+        
+        console.log('#### runRuleActions end');
     }
 
     prefetchItems(ruleEngineContext){
@@ -116,10 +185,10 @@ class JssRuleEngine {
     }
 
     parseAndRunRule(ruleXml, ruleEngineContext){
-        var ruleEngineContext = ruleEngineContext ? ruleEngineContext : this.getRuleEngineContext();
-        var parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
+        var ruleEngineContext = ruleEngineContext ? ruleEngineContext : this.getRuleEngineContext();        
+        let parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
         this.prefetchItems(ruleEngineContext);
-        var ruleResult = this.runRule(parsedRule, ruleEngineContext);
+        var ruleResult = this.runRule(parsedRule, ruleEngineContext);        
         return ruleResult;
     }
 

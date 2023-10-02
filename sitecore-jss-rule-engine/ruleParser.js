@@ -1,4 +1,5 @@
-var xmlParser =  require('xml-js');
+//var xmlParser =  require('xml-js');
+const { parseXml } = require('@rgrove/parse-xml');
 
 function parseUnionCondition(conditionXmlNode, ruleEngineContext) {
     var parsedCondition = {
@@ -6,7 +7,7 @@ function parseUnionCondition(conditionXmlNode, ruleEngineContext) {
         className: conditionXmlNode.name
     }
 
-    var childNodes = conditionXmlNode.elements;
+    var childNodes = conditionXmlNode.children.filter(x => x.type == "element" && x.name == "condition");
 
     childNodes.forEach(ruleXmlNode => {
         var parsedRule = parseCondition(ruleXmlNode, ruleEngineContext);
@@ -25,7 +26,7 @@ function parseUnionCondition(conditionXmlNode, ruleEngineContext) {
 function parseRegularCondition(conditionXmlNode, ruleEngineContext) {
     var parsedCondition = {        
         className: "condition"
-    }
+    }    
 
     var attributeKeys = Object.keys(conditionXmlNode.attributes);
 
@@ -41,7 +42,7 @@ function parseAction(actionXmlNode, ruleEngineContext) {
         className: "action"
     }
 
-    var attributeKeys = Object.keys(actionXmlNode.attributes);
+    var attributeKeys = Object.keys(actionXmlNode?.attributes);
 
     attributeKeys.forEach(attr => {
         parsedAction[attr] = actionXmlNode.attributes[attr];
@@ -61,13 +62,19 @@ function parseCondition(conditionXmlNode, ruleEngineContext) {
 
 module.exports = function(ruleXml, ruleEngineContext){
    
+    if(!ruleXml || ruleXml.length == 0)
+    {
+        return null;
+    }
+
     ruleXml = ruleXml.replace('\t','').replace('\n','').replace('\r','');
 
-    xmlDoc = xmlParser.xml2js(ruleXml,  {compact: false, spaces: 4});
+    xmlDoc = parseXml(ruleXml);    
 
-    var rulesetNode = xmlDoc.elements.find(x => x.type == "element" && x.name == "ruleset");    
+    var rulesetNode = xmlDoc.children.find(x => x.type == "element" && x.name == "ruleset");    
 
     if(!rulesetNode || 
+        !rulesetNode.children ||
         rulesetNode.type != "element" || 
         rulesetNode.name != "ruleset")
     {
@@ -78,7 +85,7 @@ module.exports = function(ruleXml, ruleEngineContext){
         rules: []
     };
 
-    var rulesNodes = rulesetNode.elements.filter(x => x.type == "element" && x.name == "rule");
+    var rulesNodes = rulesetNode.children.filter(x => x.type == "element" && x.name == "rule");
 
     if(!rulesNodes)
     {
@@ -99,13 +106,13 @@ module.exports = function(ruleXml, ruleEngineContext){
             rule[attr] = ruleXmlNode.attributes[attr];
         });
 
-        var conditionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "conditions");
+        var conditionsRootNode = ruleXmlNode.children.find(x => x.type == "element" && x.name == "conditions");
 
-        if(conditionsRootNode)
+        if(conditionsRootNode && conditionsRootNode.children)
         {
             ruleEngineContext.ruleEngine.debugMessage(conditionsRootNode);            
 
-            conditionsRootNode.elements.filter(x => x.type == "element").forEach(conditionXmlNode => {
+            conditionsRootNode.children.filter(x => x.type == "element").forEach(conditionXmlNode => {
                 var parsedCondition = parseCondition(conditionXmlNode, ruleEngineContext);
                 if(parsedCondition)
                 {
@@ -118,13 +125,13 @@ module.exports = function(ruleXml, ruleEngineContext){
             });
         }
 
-        var actionsRootNode = ruleXmlNode.elements.find(x => x.type == "element" && x.name == "actions");
+        var actionsRootNode = ruleXmlNode.children.find(x => x.type == "element" && x.name == "actions");
         
-        if(actionsRootNode)
+        if(actionsRootNode && actionsRootNode.children)
         {
             ruleEngineContext.ruleEngine.debugMessage(actionsRootNode);            
 
-            actionsRootNode.elements.filter(x => x.type == "element").forEach(actionXmlNode => {
+            actionsRootNode.children.filter(x => x.type == "element").forEach(actionXmlNode => {
                 var parsedAction = parseAction(actionXmlNode, ruleEngineContext);
                 if(parsedAction)
                 {

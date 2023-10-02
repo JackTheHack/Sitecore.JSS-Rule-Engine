@@ -36,7 +36,7 @@ interface Plugin {
 }
 
 
-export class RulesPersonalizationPlugin implements Plugin {
+export class RulesSSGPersonalizationPlugin implements Plugin {
 
   graphQLEndpoint:string;
   sitecoreApiKey:string;
@@ -61,6 +61,17 @@ export class RulesPersonalizationPlugin implements Plugin {
       return isEditing;
   }
 
+  extractRuleActions(variantId:string)
+  {
+    console.log('extractRuleActions - ', variantId);
+    const values = variantId.replace('_variantId','');
+    let result = [];
+    for (let i = 0; i < values.length; i++) {
+      result.push(values[i]=="1");
+    }
+    return result;
+  }
+  
   async exec(props: any, context: GetServerSidePropsContext | GetStaticPropsContext) {
     var doRun =
             !context.preview &&
@@ -79,11 +90,26 @@ export class RulesPersonalizationPlugin implements Plugin {
       var personalizationRule = routeFields["PersonalizationRules"];
       var personalizeOnEdge = routeFields["PersonalizeOnEdge"];
 
-      if(personalizeOnEdge && personalizeOnEdge.value)
+      if(personalizeOnEdge && personalizeOnEdge.value == "1")
       {
-        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
-        await personalizationHelper.personalize(this.ruleEngine, props, personalizationRule);      
-      }
+        let staticPropsContext = context as GetStaticPropsContext;
+
+        console.log('### CONTEXT:');
+        console.log('Active variant id:', props.activeVariantId);
+        console.log('Static props context:', staticPropsContext);      
+
+        let activeVariantId = props.activeVariantId;
+
+        if(activeVariantId)
+        {
+          console.log('Extracting rule actions')
+          var ruleActions = this.extractRuleActions(activeVariantId);
+          var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
+          console.log("Applying personalization for ", ruleActions);
+          await personalizationHelper.runRuleActions(this.ruleEngine, props, personalizationRule, ruleActions);      
+          console.log(props);
+        }
+      } 
     }
 
     return props;

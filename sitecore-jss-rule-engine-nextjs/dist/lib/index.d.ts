@@ -7,5 +7,6 @@ export declare class PersonalizationHelper {
     getItemById(itemId: String): Promise<unknown>;
     populateFields(rendering: any): Promise<any>;
     doPersonalizePlaceholder(placeholderPersonalization: any, elementPlaceholderRenderings: any): Promise<any>;
+    runRuleActions(ruleEngine: JssRuleEngine, props: any, personalizationRule: any, ruleActions: any): Promise<any>;
     personalize(ruleEngine: JssRuleEngine, props: any, personalizationRule: any): Promise<any>;
 }

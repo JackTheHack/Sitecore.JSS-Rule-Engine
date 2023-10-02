@@ -1,10 +1,11 @@
 {
   "name": "sitecore-jss-rule-engine",
-  "version": "0.0.13",
+  "version": "0.0.33",
   "description": "Rule engine for Sitecore JSS",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "release": "npm version patch && npm publish"
   },
   "keywords": [
     "JSS",
@@ -15,6 +16,7 @@
   "author": "Jack Spektor",
   "license": "ISC",
   "dependencies": {
+    "@rgrove/parse-xml": "^4.1.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {

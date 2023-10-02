@@ -1,4 +1,4 @@
-import ClientSidePlaceholder  from "./components/PersonalizedPlaceholder";
+import PersonalizedPlaceholder  from "./components/PersonalizedPlaceholder";
 //@ts-ignore
 import { registerNextJS } from "./rule-engine/ruleEngineProvider";
 //@ts-ignore
@@ -9,8 +9,10 @@ var ruleEngine = getRuleEngineInstance();
 registerNextJS(ruleEngine);
 
 //module index.js
-export {ClientSidePlaceholder}
+export {PersonalizedPlaceholder}
 export { PersonalizationHelper } from "./lib";
 export { registerNextJS } from './rule-engine/ruleEngineProvider'
-export { RulesPersonalizationPlugin } from "./plugins/page-props-factory/rulesPersonalization";
+export { RulesSSRPersonalizationPlugin } from "./plugins/page-props-factory/rulesSSRPersonalizationPlugin";
+export { RulesSSGPersonalizationPlugin } from "./plugins/page-props-factory/rulesSSGPersonalizationPlugin";
+export { ResolvePersonalizationPathPlugin } from "./plugins/page-props-factory/resolvePersonalizationPathPlugin";
 

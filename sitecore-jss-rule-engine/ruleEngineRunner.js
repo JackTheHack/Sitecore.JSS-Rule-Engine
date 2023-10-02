@@ -1,6 +1,16 @@
 module.exports = function (parsedRule, ruleEngineContext) {
     var ruleResult = true;
 
+    ruleEngineContext.ruleExecutionResult = {
+        ruleResults: [],
+        parsedRule: parsedRule,
+    };
+
+    if(!parsedRule)
+    {
+        return null;
+    }
+
     parsedRule.rules.forEach(rule => {
 
         if (rule.conditions && rule.conditions.length > 0) {
@@ -37,6 +47,7 @@ module.exports = function (parsedRule, ruleEngineContext) {
         ruleResult = ruleResult && result;
 
         ruleEngineContext.ruleEngine.debugMessage('Rule result:', ruleResult);
+        ruleEngineContext.ruleExecutionResult.ruleResults.push(result);
 
         if(ruleResult && !ruleEngineContext.skipActions && rule.actions && rule.actions.length > 0){            
             ruleEngineContext.ruleEngine.debugMessage('Running actions:')
@@ -58,6 +69,7 @@ module.exports = function (parsedRule, ruleEngineContext) {
     });
 
     ruleEngineContext.ruleEngine.debugMessage('Rule execution result: ', ruleResult)
+    ruleEngineContext.ruleExecutionResult.result = ruleResult;
 
     return ruleResult;
 }

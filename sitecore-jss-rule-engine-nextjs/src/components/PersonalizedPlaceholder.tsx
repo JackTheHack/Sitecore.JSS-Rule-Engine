@@ -4,7 +4,7 @@ import { PersonalizationHelper } from "../lib/index";
 //@ts-ignore
 import {JssRuleEngine} from "sitecore-jss-rule-engine"
 
-class ClientSidePlaceholder extends React.Component<any,any> {
+class PersonalizedPlaceholder extends React.Component<any,any> {
 
     graphQLEndpoint:string;
     sitecoreApiKey:string;
@@ -95,31 +95,52 @@ class ClientSidePlaceholder extends React.Component<any,any> {
         if (!doRun) {
             return null;
         }
-
         
-
         var elementPlaceholderRenderings = this.props.rendering.placeholders[this.props.name];
 
         var personalizationRule = this.props.rendering.fields["PersonalizationRules"]                
 
         console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
                 
+
+        if(typeof(window) !== "undefined" && window){          
+            console.log('Current url - ', window.location.href);
+            this.ruleEngine.setRequestContext({
+                url: window.location.href                    
+            })
+        }
+
         var ruleEngineContext = this.ruleEngine.getRuleEngineContext();
 
-        this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
 
-        var placeholderPersonalizationRule = ruleEngineContext.personalization?.placeholders[this.props.name]
+        if(!personalizationRule.value)
+        {
+            return elementPlaceholderRenderings;
+        }
+        
+        try {
+            
+            this.ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
 
-        console.log("Rule parsed")
+            var placeholderPersonalizationRule = ruleEngineContext.personalization?.placeholders[this.props.name]
+    
+            console.log("Rule parsed");
 
-        var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
-        var elementPlaceholderRenderings = 
-        await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings);
+            var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
+            var elementPlaceholderRenderings = 
+            await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings);
 
-        console.log("Personalized renderings", elementPlaceholderRenderings);
+            console.log("Personalized renderings", elementPlaceholderRenderings);
 
-        return elementPlaceholderRenderings;
+            return elementPlaceholderRenderings;
+        
+        } catch (error) {
+            console.warn('Failed to parse personalization rule - ', error);            
+            return elementPlaceholderRenderings;
+        }
+        
+        
     }
 }
 
-export default withSitecoreContext()(ClientSidePlaceholder);
+export default withSitecoreContext()(PersonalizedPlaceholder);
