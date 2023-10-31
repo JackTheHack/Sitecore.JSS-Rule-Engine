@@ -61,8 +61,14 @@ export class RulesSSRPersonalizationPlugin implements Plugin {
       return isEditing;
   }
 
+  isSSR(obj: any) : obj is GetServerSidePropsContext
+  {
+    return obj ? true : false;
+  }
+
   async exec(props: any, context: GetServerSidePropsContext | GetStaticPropsContext) {
     var doRun =
+            this.isSSR(context) &&
             !context.preview &&
             !this.isDisconnectedMode(props) &&
             !this.isPageEditing(props);
@@ -79,20 +85,20 @@ export class RulesSSRPersonalizationPlugin implements Plugin {
       var personalizationRule = routeFields["PersonalizationRules"];
       var personalizeOnEdge = routeFields["PersonalizeOnEdge"];
 
-      if(!personalizeOnEdge || personalizeOnEdge.value != "1")
+      var serverSideProps = <GetServerSidePropsContext>context;
+
+      if(serverSideProps && personalizeOnEdge && personalizeOnEdge.value == "1")
       {
-        var serverSideProps = <GetServerSidePropsContext>context;
 
         console.log('Personalizing SSR');
 
         //check if we are running in SSR mode - then pass the request url
-        if(serverSideProps &&
-          serverSideProps.req?.url)
+        if(serverSideProps.req?.url)
         {
            this.ruleEngine.setRequestContext({
               url: serverSideProps.req.url
            });
-        }
+        }    
 
         var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
         await personalizationHelper.personalize(this.ruleEngine, props, personalizationRule);      

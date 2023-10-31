@@ -71,16 +71,22 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
     }
     return result;
   }
+
+  isSSG(obj: any) : obj is GetStaticPropsContext
+  {
+    return obj ? true : false;
+  }
   
   async exec(props: any, context: GetServerSidePropsContext | GetStaticPropsContext) {
     var doRun =
+            this.isSSG(context) &&
             !context.preview &&
             !this.isDisconnectedMode(props) &&
             !this.isPageEditing(props);
 
     if (!doRun) {
       return props;
-    }   
+    }
 
     if(props.layoutData.sitecore.route &&
        props.layoutData.sitecore.route.fields)
@@ -90,9 +96,10 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
       var personalizationRule = routeFields["PersonalizationRules"];
       var personalizeOnEdge = routeFields["PersonalizeOnEdge"];
 
-      if(personalizeOnEdge && personalizeOnEdge.value == "1")
+      let staticPropsContext = context as GetStaticPropsContext;
+
+      if(staticPropsContext && personalizeOnEdge && personalizeOnEdge.value == "1")
       {
-        let staticPropsContext = context as GetStaticPropsContext;
 
         console.log('### CONTEXT:');
         console.log('Active variant id:', props.activeVariantId);
