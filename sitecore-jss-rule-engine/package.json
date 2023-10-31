@@ -1,10 +1,10 @@
 {
   "name": "sitecore-jss-rule-engine",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "Rule engine for Sitecore JSS",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",  
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "ava",
     "release": "npm version patch && npm publish",
