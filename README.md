@@ -23,3 +23,6 @@ https://xmcloudcm.localhost/sitecore/api/graph/edge/ide
 
 # How to use
 test.js contains unit tests (in Ava) with examples of rules being parsed and executed.
+
+# Developer docs
+https://github.com/JackTheHack/Sitecore.JSS-Rule-Engine/wiki
