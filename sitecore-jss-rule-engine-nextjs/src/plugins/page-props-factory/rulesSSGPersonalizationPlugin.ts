@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { PersonalizationHelper } from '../../lib/index';
-//@ts-ignore
 import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 import {
   DictionaryPhrases,
@@ -72,14 +71,21 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
     return result;
   }
 
-  isSSG(obj: any) : obj is GetStaticPropsContext
-  {
-    return obj ? true : false;
-  }
+ 
+  /**
+ * Determines whether context is GetServerSidePropsContext (SSR) or GetStaticPropsContext (SSG)
+ * @param {GetServerSidePropsContext | GetStaticPropsContext} context
+ */
+  isServerSidePropsContext(
+    context: GetServerSidePropsContext | GetStaticPropsContext
+  ): context is GetServerSidePropsContext {
+    return (<GetServerSidePropsContext>context).req !== undefined;
+  };
+
   
   async exec(props: any, context: GetServerSidePropsContext | GetStaticPropsContext) {
     var doRun =
-            this.isSSG(context) &&
+            !this.isServerSidePropsContext(context) &&
             !context.preview &&
             !this.isDisconnectedMode(props) &&
             !this.isPageEditing(props);

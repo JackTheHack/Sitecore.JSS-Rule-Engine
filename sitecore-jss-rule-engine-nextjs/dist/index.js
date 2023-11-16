@@ -3,12 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ResolvePersonalizationPathPlugin = exports.RulesSSGPersonalizationPlugin = exports.RulesSSRPersonalizationPlugin = exports.registerNextJS = exports.PersonalizationHelper = exports.PersonalizedPlaceholder = void 0;
+exports.MultisitePersonalizeGraphQLSitemapService = exports.BasePersonalizeGraphQLSitemapService = exports.ScPersonalizeMiddleware = exports.GraphQLSCPersonalizeService = exports.scpersonalizePlugin = exports.ScPersonalizePlugin = exports.ResolvePersonalizationPathPlugin = exports.RulesSSGPersonalizationPlugin = exports.RulesSSRPersonalizationPlugin = exports.registerNextJS = exports.PersonalizationHelper = exports.PersonalizedPlaceholder = void 0;
 var PersonalizedPlaceholder_1 = __importDefault(require("./components/PersonalizedPlaceholder"));
 exports.PersonalizedPlaceholder = PersonalizedPlaceholder_1.default;
-//@ts-ignore
 var ruleEngineProvider_1 = require("./rule-engine/ruleEngineProvider");
-//@ts-ignore
 var sitecore_jss_rule_engine_1 = require("sitecore-jss-rule-engine");
 //register commands for global instance
 var ruleEngine = (0, sitecore_jss_rule_engine_1.getRuleEngineInstance)();
@@ -23,3 +21,14 @@ var rulesSSGPersonalizationPlugin_1 = require("./plugins/page-props-factory/rule
 Object.defineProperty(exports, "RulesSSGPersonalizationPlugin", { enumerable: true, get: function () { return rulesSSGPersonalizationPlugin_1.RulesSSGPersonalizationPlugin; } });
 var resolvePersonalizationPathPlugin_1 = require("./plugins/page-props-factory/resolvePersonalizationPathPlugin");
 Object.defineProperty(exports, "ResolvePersonalizationPathPlugin", { enumerable: true, get: function () { return resolvePersonalizationPathPlugin_1.ResolvePersonalizationPathPlugin; } });
+var scpersonalize_1 = require("./plugins/extractPath/scpersonalize");
+Object.defineProperty(exports, "ScPersonalizePlugin", { enumerable: true, get: function () { return scpersonalize_1.ScPersonalizePlugin; } });
+Object.defineProperty(exports, "scpersonalizePlugin", { enumerable: true, get: function () { return scpersonalize_1.scpersonalizePlugin; } });
+var ScPersonalizeService_1 = require("./plugins/middleware/ScPersonalizeService");
+Object.defineProperty(exports, "GraphQLSCPersonalizeService", { enumerable: true, get: function () { return ScPersonalizeService_1.GraphQLSCPersonalizeService; } });
+var ScPersonalizedMiddleware_1 = require("./plugins/middleware/ScPersonalizedMiddleware");
+Object.defineProperty(exports, "ScPersonalizeMiddleware", { enumerable: true, get: function () { return ScPersonalizedMiddleware_1.ScPersonalizeMiddleware; } });
+var base_personalize_graphql_sitemap_service_1 = require("./plugins/sitemapFetcher/base-personalize-graphql-sitemap-service");
+Object.defineProperty(exports, "BasePersonalizeGraphQLSitemapService", { enumerable: true, get: function () { return base_personalize_graphql_sitemap_service_1.BasePersonalizeGraphQLSitemapService; } });
+var multisite_personalize_sitemap_fetcher_1 = require("./plugins/sitemapFetcher/multisite-personalize-sitemap-fetcher");
+Object.defineProperty(exports, "MultisitePersonalizeGraphQLSitemapService", { enumerable: true, get: function () { return multisite_personalize_sitemap_fetcher_1.MultisitePersonalizeGraphQLSitemapService; } });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { withSitecoreContext, Placeholder } from '@sitecore-jss/sitecore-jss-nextjs';
 import { PersonalizationHelper } from "../lib/index";
-//@ts-ignore
 import {JssRuleEngine} from "sitecore-jss-rule-engine"
 
 class PersonalizedPlaceholder extends React.Component<any,any> {
@@ -110,7 +109,7 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
             })
         }
 
-        var ruleEngineContext = this.ruleEngine.getRuleEngineContext();
+        var ruleEngineContext = this.ruleEngine.getRuleEngineContext() as any;
 
 
         if(!personalizationRule.value)

@@ -1,16 +1,16 @@
 import { JssRuleEngine } from './src/ruleEngine';
 
-var isEdgeRuntime = typeof globalThis.EdgeRuntime == 'string';
+var isEdgeRuntime = typeof global.EdgeRuntime == 'string';
 
-if(!isEdgeRuntime && !globalThis.JssEngine)
+if(!isEdgeRuntime && !global.JssEngine)
 {
-    globalThis.JssEngine = new JssRuleEngine({})
+    global.JssEngine = new JssRuleEngine({})
 }
 
 export function getRuleEngineInstance() {
     if(!isEdgeRuntime)
     {
-        return globalThis.JSON;
+        return global.JssEngine;
     }
     
     return new JssRuleEngine();

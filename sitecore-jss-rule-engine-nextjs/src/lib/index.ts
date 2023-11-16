@@ -1,6 +1,5 @@
 import { GetItemByIdQuery } from '../queries/getItemById'
 import { constants, GraphQLRequestClient } from '@sitecore-jss/sitecore-jss-nextjs';
-//@ts-ignore
 import { JssRuleEngine } from 'sitecore-jss-rule-engine'
 
 export class PersonalizationHelper {
@@ -127,7 +126,7 @@ export class PersonalizationHelper {
 
         if (placeholdersLayout && personalizationRule?.value?.length > 0) {
             
-            var ruleEngineContext = ruleEngine.getRuleEngineContext();
+            var ruleEngineContext = ruleEngine.getRuleEngineContext() as any;
 
             let parsedRule = ruleEngine.parseRuleXml(personalizationRule.value, ruleEngineContext);                        
 
@@ -162,7 +161,7 @@ export class PersonalizationHelper {
 
             console.log('Applying personalization')
             
-            var ruleEngineContext = ruleEngine.getRuleEngineContext();
+            var ruleEngineContext = ruleEngine.getRuleEngineContext() as any;
 
             ruleEngine.parseAndRunRule(personalizationRule.value, ruleEngineContext);
 
