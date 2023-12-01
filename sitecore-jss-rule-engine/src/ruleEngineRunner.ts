@@ -49,7 +49,7 @@ export default function (parsedRule:any, ruleEngineContext:any) {
         ruleEngineContext.ruleEngine.debugMessage('Rule result:', ruleResult);
         ruleEngineContext.ruleExecutionResult.ruleResults.push(result);
 
-        if(ruleResult && !ruleEngineContext.skipActions && rule.actions && rule.actions.length > 0){            
+        if(result && !ruleEngineContext.skipActions && rule.actions && rule.actions.length > 0){            
             ruleEngineContext.ruleEngine.debugMessage('Running actions:')
             ruleEngineContext.ruleEngine.debugMessage(rule.actions)
 
