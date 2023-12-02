@@ -153,19 +153,14 @@ export class JssRuleEngine {
         {
             console.log('Empty rules array');
         }
-
-        console.log('Executing the rule actions', ruleActions);
         
         var rules = parsedRule.rules;        
 
         for (let i = 0; i < rules.length; i++) {
             const rule = rules[i];
 
-            console.log('Rule to execute for ', rule);
-
             if(ruleActions[i] && rule.actions)
             {
-                console.log('Actions to execute', rule.actions)
                 rule.actions.forEach((ruleAction:any) => {
                     var actionFunction = ruleEngineContext.ruleEngine.commandDefinitions[ruleAction.id];
     
@@ -173,9 +168,6 @@ export class JssRuleEngine {
                         throw new Error('Rule definitions missing for id ' + ruleAction.id);
                     }
                     
-                    console.log('Executing rule action', ruleAction);
-                    console.log(actionFunction);
-    
                     actionFunction(ruleAction, ruleEngineContext);
                 })   
             }

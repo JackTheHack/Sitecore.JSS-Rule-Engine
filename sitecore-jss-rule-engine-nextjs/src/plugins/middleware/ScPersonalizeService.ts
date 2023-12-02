@@ -87,7 +87,6 @@ export class GraphQLSCPersonalizeService {
   }
 
   setPersonalizeContext(context: PersonalizeContext) {
-    //console.log('Setting personalization context - ', context);
     this.personalizeContext = context;
   }
 
@@ -181,7 +180,6 @@ export class GraphQLSCPersonalizeService {
     }
 
     console.log('=====')
-    console.log('Personalize middleware result - ', result);
 
     return result;
   }

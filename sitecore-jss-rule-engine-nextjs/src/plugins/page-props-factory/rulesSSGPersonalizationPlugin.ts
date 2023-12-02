@@ -109,7 +109,6 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
 
         console.log('### CONTEXT:');
         console.log('Active variant id:', props.activeVariantId);
-        console.log('Static props context:', staticPropsContext);      
 
         let activeVariantId = props.activeVariantId;
 
@@ -118,9 +117,7 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
           console.log('Extracting rule actions')
           var ruleActions = this.extractRuleActions(activeVariantId);
           var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
-          console.log("Applying personalization for ", ruleActions);
           await personalizationHelper.runRuleActions(this.ruleEngine, props, personalizationRule, ruleActions);      
-          console.log(props);
         }
       } 
     }

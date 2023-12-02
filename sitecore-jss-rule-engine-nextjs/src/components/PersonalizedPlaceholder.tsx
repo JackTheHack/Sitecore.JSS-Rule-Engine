@@ -99,11 +99,7 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
 
         var personalizationRule = this.props.rendering.fields["PersonalizationRules"]                
 
-        console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
-                
-
         if(typeof(window) !== "undefined" && window){          
-            console.log('Current url - ', window.location.href);
             this.ruleEngine.setRequestContext({
                 url: window.location.href                    
             })
@@ -128,8 +124,6 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
             var personalizationHelper = new PersonalizationHelper(this.graphQLEndpoint, this.sitecoreApiKey);
             var elementPlaceholderRenderings = 
             await personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings);
-
-            console.log("Personalized renderings", elementPlaceholderRenderings);
 
             return elementPlaceholderRenderings;
         
