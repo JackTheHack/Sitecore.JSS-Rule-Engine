@@ -35,7 +35,7 @@ interface Plugin {
 export class ResolvePersonalizationPathPlugin implements Plugin {
   order = 0;
 
-  async exec(props: SitecorePageProps, context: GetServerSidePropsContext | GetStaticPropsContext) {
+  async exec(props: any, context: GetServerSidePropsContext | GetStaticPropsContext) {
     if (context.preview) return props;
 
     console.log('ResolvePersonalizationPathPlugin', context?.params?.path);
