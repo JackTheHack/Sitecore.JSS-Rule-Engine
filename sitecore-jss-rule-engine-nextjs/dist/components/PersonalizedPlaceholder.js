@@ -146,9 +146,7 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
                         }
                         elementPlaceholderRenderings = this.props.rendering.placeholders[this.props.name];
                         personalizationRule = this.props.rendering.fields["PersonalizationRules"];
-                        console.log('Running personalization on FE for renderings', elementPlaceholderRenderings);
                         if (typeof (window) !== "undefined" && window) {
-                            console.log('Current url - ', window.location.href);
                             this.ruleEngine.setRequestContext({
                                 url: window.location.href
                             });
@@ -167,7 +165,6 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
                         return [4 /*yield*/, personalizationHelper.doPersonalizePlaceholder(placeholderPersonalizationRule, elementPlaceholderRenderings)];
                     case 2:
                         elementPlaceholderRenderings = _b.sent();
-                        console.log("Personalized renderings", elementPlaceholderRenderings);
                         return [2 /*return*/, elementPlaceholderRenderings];
                     case 3:
                         error_1 = _b.sent();
