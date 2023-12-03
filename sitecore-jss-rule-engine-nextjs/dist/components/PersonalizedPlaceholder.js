@@ -152,7 +152,7 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
                             });
                         }
                         ruleEngineContext = this.ruleEngine.getRuleEngineContext();
-                        if (!personalizationRule.value) {
+                        if (!(personalizationRule === null || personalizationRule === void 0 ? void 0 : personalizationRule.value)) {
                             return [2 /*return*/, elementPlaceholderRenderings];
                         }
                         _b.label = 1;
