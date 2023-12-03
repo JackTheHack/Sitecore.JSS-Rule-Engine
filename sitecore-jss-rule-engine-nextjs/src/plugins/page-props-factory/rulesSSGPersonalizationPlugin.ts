@@ -104,7 +104,7 @@ export class RulesSSGPersonalizationPlugin implements Plugin {
 
       let staticPropsContext = context as GetStaticPropsContext;
 
-      if(staticPropsContext && personalizeOnEdge && personalizeOnEdge.value == "1")
+      if(personalizationRule && staticPropsContext && personalizeOnEdge && personalizeOnEdge.value == "1")
       {
 
         console.log('### CONTEXT:');

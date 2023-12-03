@@ -108,7 +108,7 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
         var ruleEngineContext = this.ruleEngine.getRuleEngineContext() as any;
 
 
-        if(!personalizationRule.value)
+        if(!personalizationRule?.value)
         {
             return elementPlaceholderRenderings;
         }

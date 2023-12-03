@@ -92,7 +92,7 @@ export class RulesSSRPersonalizationPlugin implements Plugin {
 
       var serverSideProps = <GetServerSidePropsContext>context;
 
-      if(serverSideProps && personalizeOnEdge && personalizeOnEdge.value == "1")
+      if(personalizationRule && serverSideProps && personalizeOnEdge && personalizeOnEdge.value == "1")
       {
 
         console.log('Personalizing SSR');
