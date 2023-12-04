@@ -72,7 +72,6 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
     __extends(PersonalizedPlaceholder, _super);
     function PersonalizedPlaceholder(props) {
         var _this = _super.call(this, props) || this;
-        _this.updatingState = false;
         _this.graphQLEndpoint = props.endpointUrl;
         _this.ruleEngine = props.ruleEngine;
         _this.sitecoreApiKey = props.sitecoreApiKey;
@@ -96,7 +95,6 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
                         personalizedRenderings = _a.sent();
                         if (personalizedRenderings) {
                             console.log('Set personalized renderings');
-                            this.updatingState = true;
                             this.setState({
                                 elements: personalizedRenderings
                             });
@@ -107,10 +105,6 @@ var PersonalizedPlaceholder = /** @class */ (function (_super) {
         });
     };
     PersonalizedPlaceholder.prototype.shouldComponentUpdate = function () {
-        if (this.updatingState) {
-            this.updatingState = false;
-            return false;
-        }
         return true;
     };
     PersonalizedPlaceholder.prototype.render = function () {
