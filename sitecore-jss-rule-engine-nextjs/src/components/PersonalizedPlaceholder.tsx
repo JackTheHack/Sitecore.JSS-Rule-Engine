@@ -21,8 +21,6 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
         };
     }
 
-    private updatingState: boolean = false;
-
     async componentDidMount() {        
 
         var personalizeOnEdge = this.props.rendering.fields["PersonalizeOnEdge"]
@@ -35,8 +33,7 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
         const personalizedRenderings = await this.personalizePlaceholder();
 
         if (personalizedRenderings) {
-            console.log('Set personalized renderings');
-            this.updatingState = true;
+            console.log('Set personalized renderings');            
             this.setState({
                 elements: personalizedRenderings                
             });
@@ -44,11 +41,6 @@ class PersonalizedPlaceholder extends React.Component<any,any> {
     }
 
     shouldComponentUpdate() {
-        if (this.updatingState) {
-            this.updatingState = false;
-            return false;
-        }
-
         return true;
     }
 
