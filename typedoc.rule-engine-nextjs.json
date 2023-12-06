@@ -1,0 +1,5 @@
+{        
+    "entryPoints": ["./sitecore-jss-rule-engine-nextjs/src/index.ts"],
+    "out": "docs/jss-rule-engine-nextjs/",
+    "tsconfig": "./sitecore-jss-rule-engine-nextjs/tsconfig.json"
+  }
