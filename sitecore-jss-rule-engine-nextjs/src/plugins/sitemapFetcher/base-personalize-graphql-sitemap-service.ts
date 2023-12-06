@@ -277,7 +277,9 @@ export abstract class BasePersonalizeGraphQLSitemapService {
       aggregatedPaths.push(formatPath(item.path, item.route?.isStaticRender?.value == "1"));
 
       // check for type safety's sake - personalize may be empty depending on query type
-      if (item.route?.personalizationRule?.value?.length) {
+      if (item.route?.personalizationRule?.value?.length && 
+          item.route?.personalizeOnEdge?.value == "1")
+      {
         const ruleEngineInstance = getRuleEngineInstance();
         const ruleEngineContext = ruleEngineInstance.getRuleEngineContext();
         const parsedRule = ruleEngineInstance.parseRuleXml(item.route?.personalizationRule?.value, ruleEngineContext);
