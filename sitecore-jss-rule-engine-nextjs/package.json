@@ -11,7 +11,8 @@
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "build:babel": "babel src/lib --out-dir dist --copy-files",
-    "release": "npm run build && npm version patch && npm publish"
+    "docs": "typedoc --out docs src/index.ts",
+    "release": "npm run build && npm run docs && npm version patch && npm publish"
   },
   "keywords": [
     "Sitecore",
@@ -39,7 +40,8 @@
     "@sitecore-jss/sitecore-jss-dev-tools": "~21.2.0",
     "@types/memory-cache": "^0.2.5",
     "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0"
+    "@types/react-dom": "18.2.0",
+    "typedoc": "^0.25.4"
   },
   "resolutions": {
     "@types/react": "18.2.0",
