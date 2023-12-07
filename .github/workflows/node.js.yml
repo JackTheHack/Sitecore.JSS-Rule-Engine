@@ -26,9 +26,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: cd ./sitecore-jss-rule-engine
-    - run: npm install && npm run build    
-    - run: npm run test
-    - run: cd ../sitecore-jss-rule-engine-nextjs
-    - run: npm install && npm run build    
+    - run: cd ./sitecore-jss-rule-engine && npm install && npm run build && npm run test           
+    - run: cd ./sitecore-jss-rule-engine-nextjs && npm install && npm run build        
     
