@@ -11,7 +11,7 @@
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "build:babel": "babel src/lib --out-dir dist --copy-files",    
-    "release": "npm run build && npm run docs && npm version patch && npm publish"
+    "release": "npm run build && npm version patch && npm publish"
   },
   "keywords": [
     "Sitecore",

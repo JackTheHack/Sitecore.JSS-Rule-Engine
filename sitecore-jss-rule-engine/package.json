@@ -1,18 +1,17 @@
 {
   "name": "sitecore-jss-rule-engine",
-  "version": "0.0.43",
+  "version": "0.0.45",
   "description": "Rule engine for Sitecore JSS",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "ava",
-    "release": "npm run build && npm run docs && npm version patch && npm publish",
+    "release": "npm run build && npm version patch && npm publish",
     "build": "npm run build:esm",
     "build:esm": "tsc",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs",    
-    "build:babel": "babel src/lib --out-dir dist --copy-files",
-    "docs": "typedoc --out docs index.ts"
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:babel": "babel src/lib --out-dir dist --copy-files"
   },
   "keywords": [
     "JSS",
