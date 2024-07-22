@@ -1,17 +1,13 @@
 
 import test from 'ava'
 
-import { parseAndRun} from './_testHelpers'
+import { parseAndRun} from '../_testHelpers'
 
 
-import * as ruleMocks from '../mocks/ruleMocks'
-
-
-// #region Operator Tests
-
+import * as ruleMocks from '../../mocks/ruleMocks'
 
 test('requestParameterValueRule', t => {
-    var xml = ruleMocks.requestParameterRuleXml;
+    var xml = ruleMocks.requestParameterValueRuleXml;
 
     var ruleEngineOptions = {
         requestContext:{

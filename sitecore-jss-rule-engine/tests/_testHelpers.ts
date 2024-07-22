@@ -12,6 +12,7 @@ export function parseAndRun(xml:any, ruleEngineOptions:any = null) {
 
     var ruleEngineOptions = ruleEngineOptions ? ruleEngineOptions : {};    
     var ruleEngine = new JssRuleEngine(ruleEngineOptions);        
+    ruleEngine.setRequestContext(ruleEngineOptions.requestContext);
     var ruleResult = ruleEngine.parseAndRunRule(xml);    
     
     return ruleResult;

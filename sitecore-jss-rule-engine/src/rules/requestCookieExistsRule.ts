@@ -1,8 +1,14 @@
 export default function(rule:any, ruleContext:any) {
-    var operator = ruleContext.ruleEngine.operatorDefinitions[rule.operatorId];
+    var key = rule.ParameterName;
 
-    if(!operator)
+    if(!ruleContext.requestContext || 
+       !ruleContext.requestContext.cookies ||
+       !ruleContext.requestContext.cookies.get)
     {
-        throw new Error("Operator definition is missing for id "+ rule.operatorId);
-    }    
+        throw new Error("Request context params are missing for this rule. Try running the personalization in SSR or FE-mode.");
+    }
+
+    var urlParam = ruleContext.requestContext.cookies.get(key);
+
+    return urlParam != null;   
 }

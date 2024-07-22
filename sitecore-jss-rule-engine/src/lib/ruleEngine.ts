@@ -92,6 +92,7 @@ export class JssRuleEngine {
             this.requestContext.queryString = queryString;
             const urlParams = new URLSearchParams(this.requestContext.queryString);
             this.requestContext.urlParams = urlParams;
+            this.requestContext.cookies = requestContext.cookies;
         }
     }
 
