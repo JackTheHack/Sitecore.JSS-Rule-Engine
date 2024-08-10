@@ -5,25 +5,25 @@ import { parseAndRun} from '../_testHelpers'
 
 
 import * as ruleMocks from '../../mocks/ruleMocks'
+import { RuleEngineContext } from '../../src/types/ruleEngine';
 
-test('websiteNameRule', t => {
-    var xml = ruleMocks.websiteNameRuleXml;
+test('deviceUserAgentRule', t => {
+    var xml = ruleMocks.deviceUserAgentRuleXml;
 
     var ruleEngineOptions = {
-        sitecoreContext:{
-            siteName: "Headless" 
+        requestContext:{
+            userAgent: "Chrome" 
         }
-    };
+    } as RuleEngineContext;
 
     var result = parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
-
     ruleEngineOptions = {
-        sitecoreContext:{
-            siteName: "Random" 
+        requestContext:{
+            userAgent: "Firefox" 
         }
-    };
+    } as RuleEngineContext;
 
     var result = parseAndRun(xml, ruleEngineOptions);
     t.false(result);

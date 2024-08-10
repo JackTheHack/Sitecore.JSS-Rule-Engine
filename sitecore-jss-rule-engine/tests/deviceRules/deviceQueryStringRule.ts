@@ -6,22 +6,21 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '../../mocks/ruleMocks'
 
-test('websiteNameRule', t => {
-    var xml = ruleMocks.websiteNameRuleXml;
+test('deviceQueryStringRule', t => {
+    var xml = ruleMocks.deviceQueryStringRuleXml;
 
     let ruleEngineOptions =  {
-        sitecoreContext: {
-            siteName: "Headless" 
+        requestContext: {
+            queryString: "p=specials" 
         }
     };
 
     var result = parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
-
-    let ruleEngineOptions2 = {
-        sitecoreContext:{
-            siteName: "Random" 
+    let ruleEngineOptions2 =  {
+        requestContext: {
+            queryString: "p=test" 
         }
     };
 

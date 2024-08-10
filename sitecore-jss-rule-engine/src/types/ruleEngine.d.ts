@@ -44,7 +44,8 @@ export interface RuleEngineRequestContext {
     cookies?: Map<string, string>,
     urlParams?: URLSearchParams,
     referral? : string,
-    queryString?: string 
+    queryString?: string,
+    userAgent?: string, 
     url?: string,
 }
 

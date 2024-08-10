@@ -8,4 +8,14 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
     {
         throw new Error("Operator definition is missing for id " + operatorId);
     }    
+
+    var value = rule.attributes?.get('value');
+    var userAgent = ruleContext.requestContext?.userAgent;
+
+    var operatorContext = {
+        parameter1: userAgent,
+        parameter2: value
+    }
+
+    return operator(operatorContext, ruleContext);
 }

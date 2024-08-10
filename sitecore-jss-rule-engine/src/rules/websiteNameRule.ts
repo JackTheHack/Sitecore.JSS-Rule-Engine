@@ -9,5 +9,18 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
         throw new Error("Operator definition is missing for id - " + operatorId);
     }
 
-    throw new Error("Not implemented");
+    if(!ruleContext.sitecoreContext)
+    {
+        throw new Error("Sitecore context is missing.");
+    }
+    
+    var value = rule.attributes?.get('value');
+    var currentSiteName = ruleContext.sitecoreContext?.siteName;
+
+    var operatorContext = {
+        parameter1: currentSiteName,
+        parameter2: value
+    }
+
+    return operator(operatorContext, ruleContext);
 }

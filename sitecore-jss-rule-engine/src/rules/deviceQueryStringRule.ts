@@ -1,13 +1,14 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
 export default function(rule:RuleData, ruleContext: RuleEngineContext) {
-    var operatorId = rule.attributes?.get('operatorid');
-    var operator = ruleContext.ruleEngine?.operatorDefinitions.get(operatorId);
+    
+    var value = rule.attributes?.get('value');
+    var queryString = ruleContext.requestContext?.queryString;
 
-    if(!operator)
+    if(value && queryString)
     {
-        throw new Error("Operator definition is missing for id " + operatorId);
+        return queryString.indexOf(value) >= 0;
     }
 
-    
+    return false;
 }
