@@ -10,6 +10,4 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
     }
 
     throw new Error("Not implemented");
-
-    
 }

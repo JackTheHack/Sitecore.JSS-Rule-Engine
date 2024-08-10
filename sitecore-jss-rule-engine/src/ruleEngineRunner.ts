@@ -40,9 +40,12 @@ export default function (parsedRule:ParsedRuleXmlData | null, ruleEngineContext:
                 if(condition.except)
                 {
                     conditionResult = !conditionResult;
-                }
+                }                
 
-                result = result && conditionResult;
+                if(typeof(conditionResult) !== 'undefined')
+                {
+                    result = result && conditionResult;
+                }
             });
         }
 

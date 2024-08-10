@@ -3,10 +3,15 @@ import test from 'ava'
 
 import { operatorIds } from '../../src/constants'
 
-import { getOperator} from '../_testHelpers'
+import { getOperator } from '../_testHelpers'
 
-test('isStringEndsWithOperator', t=> {
-    var operator = getOperator(operatorIds.isStringEndsWith)    
+test('isStringEndsWithOperator', t => {
+    var operator = getOperator(operatorIds.isStringEndsWith)
+
+    if (!operator) {
+        t.fail("Operator not found.");
+        return;
+    }
 
     var operatorContext = {
         parameter1: "Hello, World!",

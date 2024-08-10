@@ -15,6 +15,18 @@ export interface RuleEngineSitecoreContext {
     siteName: string,
 }
 
+type ConditionFunctionDefinition = {
+    (condition: RuleConditionData, context: RuleEngineContext) : boolean | void;
+}
+
+type OperatorFunctionDefinition = {
+    (operator: any, context?: RuleEngineContext) : boolean | void;
+}
+
+type ActionFunctionDefinition = {
+    (action: RuleActionData, context: RuleEngineContext) : boolean | null | void;
+}
+
 export interface RuleEngineContext {
     //location: Location | undefined | null;
     dateTime?: RuleEngineDateContext;

@@ -5,7 +5,12 @@ import { getOperator} from '../_testHelpers'
 import { operatorIds } from '../../src/constants'
 
 test('isGreaterThanOrEqualOperator', t=> {
-    var operator = getOperator(operatorIds.isGreaterThanOrEqualTo)    
+    var operator = getOperator(operatorIds.isGreaterThanOrEqualTo)  
+    
+    if (!operator) {
+        t.fail("Operator not found.");
+        return;
+    }
 
     var operatorContext = {
         parameter1: 5,

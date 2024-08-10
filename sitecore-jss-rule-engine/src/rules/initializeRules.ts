@@ -30,8 +30,9 @@ import itemLanguageRule from './itemLanguageRule'
 import sitecoreQueryRule from './sitecoreQueryRule'
 import trueRule from './trueRule'
 import { ruleIds } from '../constants'
+import { JssRuleEngine } from '../ruleEngine'
 
-export default function(ruleEngine:any) {
+export default function(ruleEngine:JssRuleEngine) {
     //conditions
     ruleEngine.registerRule(ruleIds.and, andRule) //covered
     ruleEngine.registerRule(ruleIds.or, orRule) //covered

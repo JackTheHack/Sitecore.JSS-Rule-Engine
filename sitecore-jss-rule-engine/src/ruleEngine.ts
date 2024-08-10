@@ -4,7 +4,7 @@ import operatorFactory from './operators/initializeOperators'
 
 import ruleParser from './ruleParser'
 import ruleEngineRunner from './ruleEngineRunner'
-import { RuleEngineRequestContext, RuleEngineContext, RuleEngineSitecoreContext, ParsedRuleXmlData, RuleData } from './types/ruleEngine'
+import { RuleEngineRequestContext, RuleEngineContext, RuleEngineSitecoreContext, ParsedRuleXmlData, OperatorFunctionDefinition, ConditionFunctionDefinition, ActionFunctionDefinition } from './types/ruleEngine'
 
 // function uniq(a:any) {
 //     return a.sort().filter(function(item:any, pos:any, ary:any) {
@@ -13,9 +13,9 @@ import { RuleEngineRequestContext, RuleEngineContext, RuleEngineSitecoreContext,
 // }
 
 export class JssRuleEngine {
-    commandDefinitions: Map<string, any>
-    ruleDefinitions: Map<string, any>
-    operatorDefinitions: Map<string, any>
+    commandDefinitions: Map<string, ActionFunctionDefinition>
+    ruleDefinitions: Map<string, ConditionFunctionDefinition>
+    operatorDefinitions: Map<string, OperatorFunctionDefinition>
     debug: boolean
     sitecoreContext?: RuleEngineSitecoreContext
     requestContext?: RuleEngineRequestContext
@@ -60,15 +60,15 @@ export class JssRuleEngine {
         operatorFactory(this);
     }
 
-    registerCommand(id:string, command:any) {
+    registerCommand(id:string, command:ActionFunctionDefinition) {
         this.commandDefinitions.set(id, command);
     }
 
-    registerRule(id:string, rule:RuleData) {
+    registerRule(id:string, rule:ConditionFunctionDefinition) {
         this.ruleDefinitions.set(id, rule);
     }
 
-    registerOperator(id:string, operator:any) {
+    registerOperator(id:string, operator:OperatorFunctionDefinition) {
         this.operatorDefinitions.set(id, operator);
     }
 

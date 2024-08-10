@@ -16,8 +16,9 @@ import isStringEndsWith from './isStringEndsWith'
 import isStringStartsWith from './isStringStartsWith'
 
 import { operatorIds } from '../constants'
+import { JssRuleEngine } from '../ruleEngine'
 
-export default function(ruleEngine:any) {
+export default function(ruleEngine:JssRuleEngine) {
     //numbers
     ruleEngine.registerOperator(operatorIds.isEqualTo, isEqualTo) //covered
     ruleEngine.registerOperator(operatorIds.isGreaterThan, isGreaterThan) //covered

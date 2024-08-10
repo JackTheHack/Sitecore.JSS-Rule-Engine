@@ -8,6 +8,12 @@ import { getOperator} from '../_testHelpers'
 test('isStringStartsWithOperator', t=> {
     var operator = getOperator(operatorIds.isStringStartsWith)    
 
+    if(!operator)
+        {
+            t.fail("Operator not found.");
+            return;
+        }
+
     var operatorContext = {
         parameter1: "Hello, World!",
         parameter2: "Hello"

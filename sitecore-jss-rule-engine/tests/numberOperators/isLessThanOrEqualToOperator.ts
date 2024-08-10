@@ -7,6 +7,11 @@ import { operatorIds } from '../../src/constants'
 test('isLessThanOrEqualToOperator', t=> {
     var operator = getOperator(operatorIds.isLessThanOrEqualTo)
 
+    if (!operator) {
+        t.fail("Operator not found.");
+        return;
+    }
+
     var operatorContext = {
         parameter1: 5,
         parameter2: 5

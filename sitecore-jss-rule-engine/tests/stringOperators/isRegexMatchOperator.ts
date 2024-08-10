@@ -8,6 +8,11 @@ import { getOperator} from '../_testHelpers'
 test('isStringRegexMatch', t=> {
     var operator = getOperator(operatorIds.isStringRegexMatch)    
 
+    if (!operator) {
+        t.fail("Operator not found.");
+        return;
+    }
+
     var operatorContext = {
         parameter1: "(https?:\/\/).*",
         parameter2: "https://www.google.com"

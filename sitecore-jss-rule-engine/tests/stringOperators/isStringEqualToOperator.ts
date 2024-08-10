@@ -3,10 +3,15 @@ import test from 'ava'
 
 import { operatorIds } from '../../src/constants'
 
-import { getOperator} from '../_testHelpers'
+import { getOperator } from '../_testHelpers'
 
-test('stringEqualsToOperator', t=> {
-    var operator = getOperator(operatorIds.isStringEqualTo)    
+test('stringEqualsToOperator', t => {
+    var operator = getOperator(operatorIds.isStringEqualTo)
+
+    if (!operator) {
+        t.fail("Operator not found.");
+        return;
+    }
 
     var operatorContext = {
         parameter1: "Hello, World!",

@@ -21,7 +21,10 @@ export default function (rule:RuleData, ruleEngineContext: RuleEngineContext) {
                 conditionResult = !conditionResult;
             }
 
-            ruleResult = ruleResult || conditionResult;
+            if(typeof(conditionResult) !== 'undefined')
+            {
+                ruleResult = ruleResult || conditionResult;
+            }
         });
     }
 
