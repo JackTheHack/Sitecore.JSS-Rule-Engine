@@ -1,5 +1,7 @@
+import { RuleEngineContext } from "../types/ruleEngine";
+
 //works both for numbers and strings
-export default function(operatorContext:any, _ruleContext:any) {
+export default function(operatorContext:any, _ruleContext: RuleEngineContext) {
     if(typeof(operatorContext.parameter1) != "string" ||
        typeof(operatorContext.parameter2) != "string"){
         return operatorContext.parameter1 != operatorContext.parameter2;

@@ -1,3 +1,5 @@
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
+
 var dayOfWeekList = [
     "{04CC0FD2-C5DE-4F7C-B263-B1C88BABA6CD}",  //Sun
     "{D1172755-83B7-426B-9BA3-F1C5D2CB6EED}", //Monday
@@ -8,22 +10,26 @@ var dayOfWeekList = [
     "{B45FD42E-FBDC-4460-A179-DB0B5D22A3EA}" //Sat    
 ]
 
-export default function(rule:any, ruleContext:any) {
+export default function (rule:RuleData, ruleContext: RuleEngineContext) {
 
-    ruleContext.ruleEngine.debugMessage('Running day of week rule', rule.DaysList)
+    var dayList = rule.attributes?.get('DaysList');
 
-    var dayList = rule.DaysList;
+    ruleContext.ruleEngine?.debugMessage('Running day of week rule', dayList)
 
-    var dayIds = dayList.split('|')    
+    var dayIds = dayList.split('|')
 
-    var currentDayOfWeekIndex = ruleContext.dateTime.now.getDay()
+    if (!ruleContext.dateTime?.now) {
+        throw new Error("Rule engine context date provider missing.");
+    }
 
-    ruleContext.ruleEngine.debugMessage('Current dow', ruleContext.dateTime.now, currentDayOfWeekIndex)
+    var currentDayOfWeekIndex = ruleContext.dateTime?.now.getDay()
+
+    ruleContext.ruleEngine?.debugMessage('Current dow', ruleContext.dateTime?.now, currentDayOfWeekIndex)
 
     var currentDayId = dayOfWeekList[currentDayOfWeekIndex]
 
     var result = dayIds.indexOf(currentDayId) >= 0;
 
     return result;
-    
+
 }

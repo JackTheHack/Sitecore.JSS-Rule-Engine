@@ -1,5 +1,7 @@
-export default function(rule:any, ruleContext:any) {
-    var key = rule.ParameterName;
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
+
+export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+    var key = rule.attributes?.get('ParameterName') as string;
 
     if(!ruleContext.requestContext || 
        !ruleContext.requestContext.cookies ||

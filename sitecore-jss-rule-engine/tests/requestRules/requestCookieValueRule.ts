@@ -12,7 +12,7 @@ test('requestCookieValueRule', t => {
     let cookiesArray = new Map<string, string>();
     cookiesArray.set("PromotionCookie", "Christmas");
 
-    var ruleEngineOptions = {
+    let ruleEngineOptions = {
         requestContext:{
             cookies: cookiesArray 
         }
@@ -23,23 +23,24 @@ test('requestCookieValueRule', t => {
     cookiesArray = new Map<string, string>();
     cookiesArray.set("PromotionCookie","Test");
 
-    ruleEngineOptions = {
+    let ruleEngineOptions2 = {
         requestContext:{
             cookies: cookiesArray
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+
+    var result = parseAndRun(xml, ruleEngineOptions2);
     t.false(result);
 
     cookiesArray = new Map<string, string>();
     cookiesArray.set("Empty", "Test")
 
-    ruleEngineOptions = {
+    let ruleEngineOptions3 = {
         requestContext:{
             cookies: cookiesArray
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = parseAndRun(xml, ruleEngineOptions3);
     t.false(result);
 });

@@ -1,12 +1,14 @@
-export default function (rule:any, ruleEngineContext:any) {
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
+
+export default function (rule:RuleData, ruleEngineContext: RuleEngineContext) {
     var ruleResult = false;
 
     if (rule.conditions && rule.conditions.length > 0) {
-        rule.conditions.forEach((condition:any) => {
+        rule.conditions.forEach(condition => {
 
             var conditionId = typeof(condition.id) !== "undefined" && condition.id ? condition.id : condition.className;
 
-            var conditionFunction = ruleEngineContext.ruleEngine.ruleDefinitions[conditionId];
+            var conditionFunction = ruleEngineContext.ruleEngine?.ruleDefinitions.get(conditionId);
 
             if (!conditionFunction) {
                 throw new Error('Rule definitions missing for id ' + conditionId);
@@ -14,9 +16,7 @@ export default function (rule:any, ruleEngineContext:any) {
 
             var conditionResult = conditionFunction(condition, ruleEngineContext);
 
-            var isExcept = typeof(condition.except) !== "undefined" && condition.except === 'true';
-
-            if(isExcept)
+            if(condition.except)
             {
                 conditionResult = !conditionResult;
             }

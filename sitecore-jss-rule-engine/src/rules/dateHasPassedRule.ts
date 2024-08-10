@@ -1,19 +1,25 @@
 import { parseSitecoreDate } from "../helpers";
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
- export default function(rule:any, ruleContext:any) {
+export default function (rule:RuleData, ruleContext: RuleEngineContext) {
 
-    ruleContext.ruleEngine.debugMessage('Running date has passed rule')
+    ruleContext.ruleEngine?.debugMessage('Running date has passed rule')
 
-    var dateValue = rule.Now;
+    var dateValue = rule.attributes?.get('Now');
 
     var parsedDateValue = parseSitecoreDate(dateValue);
 
-    ruleContext.ruleEngine.debugMessage('Date parameter value: ', rule.Now, typeof(rule.Now))    
-    ruleContext.ruleEngine.debugMessage('Parsed date parameter:', parsedDateValue, typeof(parsedDateValue))
+    ruleContext.ruleEngine?.debugMessage('Date parameter value: ', dateValue, typeof (dateValue))
+    ruleContext.ruleEngine?.debugMessage('Parsed date parameter:', parsedDateValue, typeof (parsedDateValue))
+
+    if (!ruleContext.dateTime?.now) {
+        throw new Error("Rule engine context date provider missing.");
+    }
+
 
     var dateNowValue = ruleContext.dateTime.now;
 
-    ruleContext.ruleEngine.debugMessage('Date NOW value: ', dateNowValue, typeof(dateNowValue))    
+    ruleContext.ruleEngine?.debugMessage('Date NOW value: ', dateNowValue, typeof (dateNowValue))
 
     return dateNowValue >= parsedDateValue;
 }

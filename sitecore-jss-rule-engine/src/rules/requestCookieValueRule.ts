@@ -1,13 +1,16 @@
-export default function(rule:any, ruleContext:any) {
-    var operator = ruleContext.ruleEngine.operatorDefinitions[rule.operatorid];
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
+
+export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+    var operatorId = rule.attributes?.get('operatorid');
+    var operator = ruleContext.ruleEngine?.operatorDefinitions.get(operatorId);
 
     if(!operator)
     {
-        throw new Error("Operator definition is missing for id " + rule.operatorid);
+        throw new Error("Operator definition is missing for id " + operatorId);
     }        
 
-    var key = rule.ParameterName;
-    var value = rule.value;
+    var key = rule.attributes?.get('ParameterName');
+    var value = rule.attributes?.get('value');
 
     if(!ruleContext.requestContext || 
        !ruleContext.requestContext.cookies ||

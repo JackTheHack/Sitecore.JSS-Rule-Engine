@@ -1,3 +1,5 @@
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
+
 var monthsList = [
     "{3C14D331-85BB-464D-B255-2603B6451923}", //Jan
     '{5F6CD10B-494F-423D-9925-79A51C40DDEE}', //Feb
@@ -13,11 +15,15 @@ var monthsList = [
     '{E8C4C101-EB3A-4B83-8508-B0B5190F4FFC}'  //Dec
 ]
 
-export default function(rule:any, ruleContext:any) {
+export default function(rule:RuleData, ruleContext: RuleEngineContext) {
 
-    var monthId = rule.Month;
+    var monthId = rule.attributes?.get('Month');
 
-    var currentDayOfMonthIndex = ruleContext.dateTime.now.getMonth()
+    if (!ruleContext.dateTime?.now) {
+        throw new Error("Rule engine context date provider missing.");
+    }
+
+    var currentDayOfMonthIndex = ruleContext.dateTime?.now.getMonth()
 
     var currentMonthId = monthsList[currentDayOfMonthIndex]
 

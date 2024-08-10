@@ -1,21 +1,28 @@
-export default function(rule:any, ruleContext:any) {
+import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-    ruleContext.ruleEngine.debugMessage('Running day of month rule', rule)
+export default function(rule:RuleData, ruleContext: RuleEngineContext) {
 
-    var dayNumberValue = rule.DayNumber;
-    var operatorId = rule.operatorid;    
+    ruleContext.ruleEngine?.debugMessage('Running day of month rule', rule)
 
-    var dayNumber = Number.parseInt(dayNumberValue);
+    var dayNumberValue = rule.attributes?.get('DayNumber');
+    var operatorId = rule.attributes?.get('operatorid');    
 
-    var operator = ruleContext.ruleEngine.operatorDefinitions[operatorId];
+    var dayNumber = Number.parseInt(dayNumberValue);    
+
+    var operator = ruleContext.ruleEngine?.operatorDefinitions.get(operatorId);
 
     if(!operator)
     {
-        throw new Error("Operator definition is missing for id " + rule.operatorId);
+        throw new Error("Operator definition is missing for id " + operatorId);
+    }
+
+    if(!ruleContext.dateTime?.now)
+    {
+        throw new Error("Rule engine context date provider missing.");
     }
     
     var operatorContext = {
-        parameter1: ruleContext.dateTime.now.getDate(),
+        parameter1: ruleContext.dateTime?.now.getDate(),
         parameter2: dayNumber
     }
 

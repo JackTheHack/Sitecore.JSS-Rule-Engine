@@ -4,33 +4,34 @@ import operatorFactory from './operators/initializeOperators'
 
 import ruleParser from './ruleParser'
 import ruleEngineRunner from './ruleEngineRunner'
+import { RuleEngineRequestContext, RuleEngineContext, RuleEngineSitecoreContext, ParsedRuleXmlData, RuleData } from './types/ruleEngine'
 
-function uniq(a:any) {
-    return a.sort().filter(function(item:any, pos:any, ary:any) {
-        return !pos || item != ary[pos - 1];
-    });
-}
+// function uniq(a:any) {
+//     return a.sort().filter(function(item:any, pos:any, ary:any) {
+//         return !pos || item != ary[pos - 1];
+//     });
+// }
 
 export class JssRuleEngine {
-    commandDefinitions: any[]
-    ruleDefinitions: any[]
-    operatorDefinitions: any[]
-    debug: any
-    sitecoreContext: any
-    requestContext: any
+    commandDefinitions: Map<string, any>
+    ruleDefinitions: Map<string, any>
+    operatorDefinitions: Map<string, any>
+    debug: boolean
+    sitecoreContext?: RuleEngineSitecoreContext
+    requestContext?: RuleEngineRequestContext
     itemProvider: any
-    mockDate: any
+    mockDate?: Date
 
-    constructor(options:any = null) {
-        this.commandDefinitions = [];
-        this.ruleDefinitions = [];
-        this.operatorDefinitions = [];
+    constructor(options?:RuleEngineContext) {
+        this.commandDefinitions = new Map<string, any>();
+        this.ruleDefinitions = new Map<string, any>();
+        this.operatorDefinitions = new Map<string, any>();
 
         this.setOptions(options);
         this.initialize(options);
     }
 
-    setOptions(options:any) {
+    setOptions(options?:RuleEngineContext) {
         if(options)
         {
             this.debug = options.debug ? options.debug : false;
@@ -59,29 +60,29 @@ export class JssRuleEngine {
         operatorFactory(this);
     }
 
-    registerCommand(id:any, command:any) {
-        this.commandDefinitions[id] = command;
+    registerCommand(id:string, command:any) {
+        this.commandDefinitions.set(id, command);
     }
 
-    registerRule(id:any, rule:any) {
-        this.ruleDefinitions[id] = rule;
+    registerRule(id:string, rule:RuleData) {
+        this.ruleDefinitions.set(id, rule);
     }
 
-    registerOperator(id:any, operator:any) {
-        this.operatorDefinitions[id] = operator;
+    registerOperator(id:string, operator:any) {
+        this.operatorDefinitions.set(id, operator);
     }
 
-    parseRuleXml(ruleXml:any, ruleEngineContext:any) {
+    parseRuleXml(ruleXml:string, ruleEngineContext:RuleEngineContext) : ParsedRuleXmlData | null {
         var parsedRule = ruleParser(ruleXml, ruleEngineContext);        
         return parsedRule;
     }
 
-    setSitecoreContext(sitecoreContext:any)
+    setSitecoreContext(sitecoreContext:RuleEngineSitecoreContext)
     {
         this.sitecoreContext = sitecoreContext;
     }
 
-    setRequestContext(requestContext:any)
+    setRequestContext(requestContext?:RuleEngineRequestContext)
     {
         this.requestContext = requestContext;        
 
@@ -92,7 +93,7 @@ export class JssRuleEngine {
             this.requestContext.queryString = queryString;
             const urlParams = new URLSearchParams(this.requestContext.queryString);
             this.requestContext.urlParams = urlParams;
-            this.requestContext.cookies = requestContext.cookies;
+            this.requestContext.cookies = requestContext?.cookies;
         }
     }
 
@@ -101,44 +102,44 @@ export class JssRuleEngine {
         this.itemProvider = itemProvider;
     }
 
-    setMockDate(dateObj:any)
+    setMockDate(dateObj:Date)
     {
         this.mockDate = dateObj;
     }
 
-    getRuleEngineContext(){
+    getRuleEngineContext() : RuleEngineContext{
 
-        var dateObj = this.mockDate ? this.mockDate : {
-            now: new Date()            
+        var dateObj = {
+            now: this.mockDate ? this.mockDate : new Date()            
         };
 
         return {            
-            location: typeof(window) !== "undefined" && window ? window.location : null,
-            cookies: typeof(document) !== "undefined" && document ? document.cookie : null,
+            //location: typeof(window) !== "undefined" && window ? window.location : null,
+            //cookies: typeof(document) !== "undefined" && document ? document.cookie : null,
             sitecoreContext: this.sitecoreContext,
             requestContext: this.requestContext,
             dateTime: dateObj,
-            env: process.env,
+            //env: process.env,
             ruleEngine: this as JssRuleEngine,
             //Items retrieved by prefetch query 
-            cachedItems: [],
+            //cachedItems: [],
             //Item keys to retrieve for prefetch
-            prefetchKeys: [],
+            //prefetchKeys: [],
             //GraphQL query to prefetch data 
-            prefetchGraphQuery: null,
+            //prefetchGraphQuery: null,
             //GraphQL response
-            prefetchResponse: null,     
+            //prefetchResponse: null,     
             //GraphQL item providre
             itemProvider: this.itemProvider    
         };
     }
 
-    runRule(parsedRule:any, ruleEngineContext:any){        
+    runRule(parsedRule:ParsedRuleXmlData | null, ruleEngineContext:RuleEngineContext){        
         var result = ruleEngineRunner(parsedRule, ruleEngineContext);
         return result;
     }
 
-    runRuleActions(parsedRule:any, ruleActions:any, ruleEngineContext:any) {
+    runRuleActions(parsedRule:ParsedRuleXmlData | null, ruleActions:any, ruleEngineContext:RuleEngineContext) {
 
         console.log('#### runRuleActions');
 
@@ -162,8 +163,8 @@ export class JssRuleEngine {
 
             if(ruleActions[i] && rule.actions)
             {
-                rule.actions.forEach((ruleAction:any) => {
-                    var actionFunction = ruleEngineContext.ruleEngine.commandDefinitions[ruleAction.id];
+                rule.actions.forEach((ruleAction) => {
+                    var actionFunction = ruleEngineContext.ruleEngine?.commandDefinitions.get(ruleAction.id);
     
                     if (typeof(actionFunction) === "undefined" || !ruleAction) {
                         throw new Error('Rule definitions missing for id ' + ruleAction.id);
@@ -178,22 +179,22 @@ export class JssRuleEngine {
         console.log('#### runRuleActions end');
     }
 
-    prefetchItems(ruleEngineContext:any){
+    prefetchItems(_ruleEngineContext:any){
 
-        ruleEngineContext.prefetchKeys = uniq(ruleEngineContext.prefetchKeys);
+        //ruleEngineContext.prefetchKeys = uniq(ruleEngineContext.prefetchKeys);
 
         //TODO: Retrieve items for the rule here
     }
 
-    parseAndRunRule(ruleXml:any, ruleEngineContext:any = null){
-        var ruleEngineContext = ruleEngineContext ? ruleEngineContext : this.getRuleEngineContext();        
+    parseAndRunRule(ruleXml:any, context?:RuleEngineContext){
+        let ruleEngineContext = context ? context : this.getRuleEngineContext();        
         let parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
         this.prefetchItems(ruleEngineContext);
         var ruleResult = this.runRule(parsedRule, ruleEngineContext);        
         return ruleResult;
     }
 
-    debugMessage()
+    debugMessage(..._args: any[])
     {
         if(this.debug && typeof(console) !== 'undefined')
         {            

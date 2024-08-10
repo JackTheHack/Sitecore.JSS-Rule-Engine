@@ -12,7 +12,7 @@ test('requestCookieExistsRule', t => {
     let cookiesArray = new Map<string, string>();
     cookiesArray.set("PromotionCookie", "PromotionCookie");
 
-    var ruleEngineOptions = {
+    let ruleEngineOptions = {
         requestContext:{
             cookies: cookiesArray 
         }
@@ -23,12 +23,12 @@ test('requestCookieExistsRule', t => {
     cookiesArray = new Map<string, string>();
     cookiesArray.set("Empty", "Test")
 
-    ruleEngineOptions = {
+    let ruleEngineOptions2 = {
         requestContext:{
             cookies: cookiesArray
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = parseAndRun(xml, ruleEngineOptions2);
     t.false(result);
 });

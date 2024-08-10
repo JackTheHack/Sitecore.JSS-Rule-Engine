@@ -1,4 +1,4 @@
-export function parseSitecoreDate(stringVal:any){
+export function parseSitecoreDate(stringVal:any) : Date {
 
     if(!stringVal || stringVal.length < 15)
     {
