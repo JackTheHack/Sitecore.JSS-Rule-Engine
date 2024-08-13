@@ -1,8 +1,7 @@
 
 import test from 'ava'
 
-import * as ruleMocks from '../../mocks/ruleMocks'
-
+import * as ruleMocks from '@root/mocks/ruleMocks'
 import { parseAndRunWithDateMock} from '../_testHelpers'
 
 // #region Rules Tests

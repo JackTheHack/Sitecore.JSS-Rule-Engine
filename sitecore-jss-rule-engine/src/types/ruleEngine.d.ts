@@ -3,7 +3,7 @@ import { JssRuleEngine } from '../ruleEngine'
 export interface RuleEngineExecutionResult {
     result?: boolean; 
     ruleResults?: Boolean[]; 
-    parsedRule?: any; 
+    parsedRule: ParsedRuleXmlData | null | undefined; 
 }
 
 export interface RuleEngineDateContext {
@@ -15,16 +15,21 @@ export interface RuleEngineSitecoreContext {
     siteName: string,
 }
 
+export interface RuleOperatorContext {
+    parameter1: any,
+    parameter2: any
+}
+
 type ConditionFunctionDefinition = {
-    (condition: RuleConditionData, context: RuleEngineContext) : boolean | void;
+    (conditionData: RuleConditionData, ruleContext: RuleEngineContext) : boolean | void;
 }
 
 type OperatorFunctionDefinition = {
-    (operator: any, context?: RuleEngineContext) : boolean | void;
+    (operatorContext: RuleOperatorContext, ruleContext?: RuleEngineContext) : boolean | void;
 }
 
 type ActionFunctionDefinition = {
-    (action: RuleActionData, context: RuleEngineContext) : boolean | null | void;
+    (actionData: RuleActionData, ruleContext: RuleEngineContext) : boolean | null | void;
 }
 
 export interface RuleEngineContext {

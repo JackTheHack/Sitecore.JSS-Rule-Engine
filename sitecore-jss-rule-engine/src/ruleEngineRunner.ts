@@ -74,7 +74,9 @@ export default function (parsedRule:ParsedRuleXmlData | null, ruleEngineContext:
     });
 
     ruleEngineContext.ruleEngine?.debugMessage('Rule execution result: ', ruleResult)
-    ruleEngineContext.ruleExecutionResult.result = ruleResult;
+    if(ruleEngineContext.ruleExecutionResult){
+        ruleEngineContext.ruleExecutionResult.result = ruleResult;
+    }
 
     return ruleResult;
 }

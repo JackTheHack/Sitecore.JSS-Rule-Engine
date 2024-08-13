@@ -1,11 +1,12 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
-    var operatorId = rule.attributes?.get('operatorid');
-    var operator = ruleContext.ruleEngine?.operatorDefinitions.get(operatorId);
+export default function(rule:RuleData, _ruleContext: RuleEngineContext) {
+    var fieldName = rule.attributes?.get('fieldname');    
 
-    if(!operator)
+    if(!fieldName)
     {
-        throw new Error("Operator definition is missing for id " + operatorId);
+        return false;
     }    
+
+    return true;
 }

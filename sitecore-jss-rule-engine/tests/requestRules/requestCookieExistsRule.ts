@@ -4,7 +4,7 @@ import test from 'ava'
 import { parseAndRun} from '../_testHelpers'
 
 
-import * as ruleMocks from '../../mocks/ruleMocks'
+import * as ruleMocks from '@root/mocks/ruleMocks'
 
 test('requestCookieExistsRule', t => {
     var xml = ruleMocks.requestCookieExistsRuleXml;

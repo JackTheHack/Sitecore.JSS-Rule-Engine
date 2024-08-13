@@ -2,7 +2,7 @@
 import { parseXml } from '@rgrove/parse-xml';
 import { ParsedRuleXmlData, RuleActionData, RuleConditionData, RuleData, RuleEngineContext } from './types/ruleEngine';
 
-function parseUnionCondition(conditionXmlNode: any, ruleEngineContext: any) {
+function parseUnionCondition(conditionXmlNode: any, ruleEngineContext: RuleEngineContext) {
     var parsedCondition = {
         conditions: new Array<any>(),
         className: conditionXmlNode.name
@@ -22,7 +22,7 @@ function parseUnionCondition(conditionXmlNode: any, ruleEngineContext: any) {
     return parsedCondition;
 }
 
-function parseRegularCondition(conditionXmlNode: any, _ruleEngineContext: any) {
+function parseRegularCondition(conditionXmlNode: any, _ruleEngineContext: RuleEngineContext) {
     var parsedCondition = {
         className: "condition",
         attributes: new Map<string, any>()
@@ -45,7 +45,7 @@ function parseRegularCondition(conditionXmlNode: any, _ruleEngineContext: any) {
     return parsedCondition;
 }
 
-function parseAction(actionXmlNode: any, _ruleEngineContext: any) {
+function parseAction(actionXmlNode: any, _ruleEngineContext: RuleEngineContext) {
     var parsedAction = {
         className: "action",
         attributes: new Map<string, any>()

@@ -4,8 +4,8 @@ import test from 'ava'
 import { parseAndRun} from '../_testHelpers'
 
 
-import * as ruleMocks from '../../mocks/ruleMocks'
-import { RuleEngineContext } from '../../src/types/ruleEngine';
+import * as ruleMocks from '@root/mocks/ruleMocks'
+import { RuleEngineContext } from '@src/types/ruleEngine';
 
 test('deviceUserAgentRule', t => {
     var xml = ruleMocks.deviceUserAgentRuleXml;

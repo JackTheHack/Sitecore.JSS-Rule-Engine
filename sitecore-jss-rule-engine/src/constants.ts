@@ -58,3 +58,8 @@ export const operatorIds = {
     isStringEndsWith: "{22E1F05F-A17A-4D0C-B376-6F7661500F03}",
     isStringStartsWith: "{FDD7C6B1-622A-4362-9CFF-DDE9866C68EA}"
 }
+
+export const commandIds = {
+    runScript: "{94C5C335-0902-4B45-B528-11B220005DD7}",
+    logMessage: "{4D151B8B-BD5F-4479-A35F-EE740F6387E8}"
+}

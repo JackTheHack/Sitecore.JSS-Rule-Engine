@@ -7,7 +7,7 @@ import dayOfWeekRule from './dayOfWeekRule'
 import monthOfYearRule from './monthOfYearRule'
 import deviceQueryStringRule from './deviceQueryStringRule'
 import deviceUserAgentRule from './deviceUserAgentRule'
-import fieldComparsToRule from './fieldComparsToRule'
+import fieldComparesToRule from './fieldComparesToRule'
 import fieldIsEmptyRule  from './fieldIsEmptyRule'
 import fieldTypeRule from './fieldTypeRule'
 import itemBaseTemplateRule from './itemBaseTemplateRule'
@@ -51,7 +51,7 @@ export default function(ruleEngine:JssRuleEngine) {
     ruleEngine.registerRule(ruleIds.deviceUserAgent, deviceUserAgentRule)
 
     //fields
-    ruleEngine.registerRule(ruleIds.fieldComparesTo, fieldComparsToRule)
+    ruleEngine.registerRule(ruleIds.fieldComparesTo, fieldComparesToRule)
     ruleEngine.registerRule(ruleIds.fieldIsEmpty, fieldIsEmptyRule)
     ruleEngine.registerRule(ruleIds.fieldType, fieldTypeRule)
     

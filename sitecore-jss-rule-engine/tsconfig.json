@@ -16,9 +16,15 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strict":false
+    "strict":false,
+    "paths": {
+      "@root/*":["./*"],      
+      "@src/*":["./src/*"]      
+    },
+    "baseUrl": "."
   },
-  "include": ["src", "tests", "index.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src", "tests", "mocks", "index.ts"],
+  "exclude": ["node_modules"]  
 }

@@ -1,13 +1,12 @@
 
 import test from 'ava'
 
-import { parseAndRun} from '../_testHelpers'
-
-
 import * as ruleMocks from '@root/mocks/ruleMocks'
+import { parseAndRun } from '@root/tests/_testHelpers';
 
-test('deviceQueryStringRule', t => {
-    var xml = ruleMocks.deviceQueryStringRuleXml;
+
+test('fieldTypeRule', t => {
+    var xml = ruleMocks.fieldTypeRuleXml;
 
     let ruleEngineOptions =  {
         requestContext: {

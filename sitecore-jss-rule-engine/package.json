@@ -10,7 +10,7 @@
     "c8": "c8 ava",
     "release": "npm run build && npm version patch && npm publish",
     "build": "npm run build:esm",
-    "build:esm": "tsc",
+    "build:esm": "tsc && tsc-alias",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "build:babel": "babel src/lib --out-dir dist --copy-files"
   },
@@ -25,6 +25,7 @@
   "dependencies": {
     "@rgrove/parse-xml": "^4.1.0",
     "@types/node": "^20.8.9",
+    "tsc-alias": "^1.8.10",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
