@@ -4,7 +4,7 @@ import test from 'ava'
 import { getOperator} from '../_testHelpers'
 import { operatorIds } from '@src/constants'
 
-test('isLessThanOperator', t=> {
+test('isLessThanOperator', async t=> {
     var operator = getOperator(operatorIds.isLessThan)
 
     if (!operator) {
@@ -16,20 +16,20 @@ test('isLessThanOperator', t=> {
         parameter1: 5,
         parameter2: 5
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.false(result);
 
     var operatorContext = {
         parameter1: 4,
         parameter2: 5
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.true(result);
 
     var operatorContext = {
         parameter1: 6,
         parameter2: 5
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.false(result);
 })

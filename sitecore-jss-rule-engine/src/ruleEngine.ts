@@ -19,7 +19,6 @@ export class JssRuleEngine {
     debug: boolean
     sitecoreContext?: RuleEngineSitecoreContext
     requestContext?: RuleEngineRequestContext
-    itemProvider: any
     mockDate?: Date
 
     constructor(options?:RuleEngineContext) {
@@ -37,7 +36,6 @@ export class JssRuleEngine {
             this.debug = options.debug ? options.debug : false;
             this.sitecoreContext = options.sitecoreContext;
             this.requestContext = options.requestContext;
-            this.itemProvider = options.itemProvider;
             this.mockDate = options.mockDate;
         }
 
@@ -97,11 +95,6 @@ export class JssRuleEngine {
         }
     }
 
-    setItemProvider(itemProvider:any)
-    {
-        this.itemProvider = itemProvider;
-    }
-
     setMockDate(dateObj:Date)
     {
         this.mockDate = dateObj;
@@ -120,26 +113,16 @@ export class JssRuleEngine {
             requestContext: this.requestContext,
             dateTime: dateObj,
             //env: process.env,
-            ruleEngine: this as JssRuleEngine,
-            //Items retrieved by prefetch query 
-            //cachedItems: [],
-            //Item keys to retrieve for prefetch
-            //prefetchKeys: [],
-            //GraphQL query to prefetch data 
-            //prefetchGraphQuery: null,
-            //GraphQL response
-            //prefetchResponse: null,     
-            //GraphQL item providre
-            itemProvider: this.itemProvider    
+            ruleEngine: this as JssRuleEngine,                        
         };
     }
 
-    runRule(parsedRule:ParsedRuleXmlData | null, ruleEngineContext:RuleEngineContext){        
-        var result = ruleEngineRunner(parsedRule, ruleEngineContext);
+    async runRule(parsedRule:ParsedRuleXmlData | null, ruleEngineContext:RuleEngineContext){        
+        var result = await ruleEngineRunner(parsedRule, ruleEngineContext);
         return result;
     }
 
-    runRuleActions(parsedRule:ParsedRuleXmlData | null, ruleActions:any, ruleEngineContext:RuleEngineContext) {
+    async runRuleActions(parsedRule:ParsedRuleXmlData | null, ruleActions:any, ruleEngineContext:RuleEngineContext) {
 
         console.log('#### runRuleActions');
 
@@ -163,15 +146,15 @@ export class JssRuleEngine {
 
             if(ruleActions[i] && rule.actions)
             {
-                rule.actions.forEach((ruleAction) => {
+                await Promise.all(rule.actions.map(async(ruleAction)=> {
                     var actionFunction = ruleEngineContext.ruleEngine?.commandDefinitions.get(ruleAction.id);
     
                     if (typeof(actionFunction) === "undefined" || !ruleAction) {
                         throw new Error('Rule definitions missing for id ' + ruleAction.id);
                     }
                     
-                    actionFunction(ruleAction, ruleEngineContext);
-                })   
+                    await actionFunction(ruleAction, ruleEngineContext);
+                }));                
             }
             
         }
@@ -179,18 +162,18 @@ export class JssRuleEngine {
         console.log('#### runRuleActions end');
     }
 
-    prefetchItems(_ruleEngineContext:any){
+    prefetchItems(_ruleEngineContext: RuleEngineContext){
 
         //ruleEngineContext.prefetchKeys = uniq(ruleEngineContext.prefetchKeys);
 
         //TODO: Retrieve items for the rule here
     }
 
-    parseAndRunRule(ruleXml:any, context?:RuleEngineContext){
+    async parseAndRunRule(ruleXml:any, context?:RuleEngineContext){
         let ruleEngineContext = context ? context : this.getRuleEngineContext();        
         let parsedRule = this.parseRuleXml(ruleXml, ruleEngineContext);
         this.prefetchItems(ruleEngineContext);
-        var ruleResult = this.runRule(parsedRule, ruleEngineContext);        
+        var ruleResult = await this.runRule(parsedRule, ruleEngineContext);        
         return ruleResult;
     }
 

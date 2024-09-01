@@ -1,6 +1,6 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
     
     let operatorId = rule.attributes?.get('operatorid');
 
@@ -11,5 +11,6 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
         throw new Error("Operator definition is missing for id " + operatorId);
     }
 
+    throw new Error("Device name rule not supported.");
     
 }

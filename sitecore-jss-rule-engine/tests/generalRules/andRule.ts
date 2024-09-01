@@ -5,8 +5,8 @@ import * as ruleMocks  from '@root/mocks/ruleMocks'
 
 import { parseAndRun} from '../_testHelpers'
 
-test('andRule', t => {
+test('andRule', async t => {
     var xml = ruleMocks.andRuleXml;
-    var result = parseAndRun(xml);
+    var result = await parseAndRun(xml);
     t.false(result);
 })

@@ -10,14 +10,14 @@ export const dayOfMonthRuleXml = '<ruleset>  <rule uid="{5377CA87-7D91-4DBA-9356
 export const dayOfWeekRuleXml = '<ruleset>  <rule uid="{82567260-5531-4961-8742-591278D1DA46}">    <conditions>      <condition id="{C18B0900-ED61-47A8-AEF0-AD6D133512C8}" uid="79CFE0D04AE047079449D53565CABA46" DaysList="{B45FD42E-FBDC-4460-A179-DB0B5D22A3EA}|{04CC0FD2-C5DE-4F7C-B263-B1C88BABA6CD}" />    </conditions>  </rule></ruleset>'
 export const monthOfYearRuleXml = '<ruleset>  <rule uid="{82567260-5531-4961-8742-591278D1DA46}">    <conditions>      <condition id="{F27973B0-4439-48F6-AC06-ED2C2F31AC61}" uid="D9489F667F4548B5BC73F585ED4E1574" Month="{5F6CD10B-494F-423D-9925-79A51C40DDEE}" />    </conditions>  </rule></ruleset>'
 
-// context rules
+// context rules +
 export const websiteNameRuleXml = '<ruleset>  <rule uid="{34B0A554-B1BF-497D-8C85-D4F126C58057}">    <conditions>      <condition id="{3AAE96B8-B1DB-43F4-B6BC-8E9E57E72EDA}" uid="85A91498F16742B1B549A8832174A7A7" operatorid="{10537C58-1684-4CAB-B4C0-40C10907CE31}" value="Headless" />    </conditions>  </rule></ruleset>'
 
-// device rules
+// device rules +
 export const deviceUserAgentRuleXml = '<ruleset>  <rule uid="{27D1D055-BCCC-47AE-BABE-29A433D961E0}">    <conditions>      <condition id="{FF13BB5F-D493-4AE0-8822-41E19323346E}" uid="1B96D5A4776C44D8978DF642332D5584" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" value="Chrome" />    </conditions>  </rule></ruleset>'
 export const deviceQueryStringRuleXml = '<ruleset>  <rule uid="{27D1D055-BCCC-47AE-BABE-29A433D961E0}">    <conditions>      <condition id="{F80D5BB0-A9EB-4BE0-850A-EE135B826D2E}" uid="A618212F79D74E65BBC464807225A339" value="specials" />    </conditions>  </rule></ruleset>'
 
-// field rules
+// field rules +
 export const fieldComparesToRuleXml = '<ruleset>  <rule uid="{6766B2CA-93FD-4EC0-A019-F9E0C7D23190}">    <conditions>      <condition id="{61C016A2-5210-4F1D-A663-BDA18BE487F6}" uid="68C21F085280443D9B5CC9D0F006AB7A" fieldname="Title" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" value="Specials" />    </conditions>  </rule></ruleset>'
 export const fieldIsEmptyRuleXml = '<ruleset>  <rule uid="{6766B2CA-93FD-4EC0-A019-F9E0C7D23190}">    <conditions>      <condition id="{DA0D1AEA-0144-4A40-9AF0-3123526C9163}" uid="2E68F7B93CC24320988F53D605DBA86D" fieldname="Title" />    </conditions>  </rule></ruleset>'
 export const fieldTypeRuleXml = '<ruleset>  <rule uid="{6766B2CA-93FD-4EC0-A019-F9E0C7D23190}">    <conditions>      <condition id="{C186B6C0-C702-4A05-93E4-982F1FCF16AE}" uid="DE19189BFD6144D9A71445CAEB6D9692" operatorid="{10537C58-1684-4CAB-B4C0-40C10907CE31}" FieldTypeName="Single-Line-Field" />    </conditions>  </rule></ruleset>'
@@ -30,19 +30,19 @@ export const requestParamExistsRuleXml = '<ruleset>  <rule uid="{22656DAE-3D06-4
 export const requestReferrerRuleXml = '<ruleset>  <rule uid="{CCE69583-643E-464C-AFB8-C0B3C856FCD2}">    <conditions>      <condition id="{5C73B7B9-5BF7-425D-AD48-1F7362AB9092}" uid="2344C4A6D5554E128BC27DC3ED10EC27" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" Referrer="google.com" />    </conditions>  </rule></ruleset>'
 
 // item rules
-export const itemAncestorOrSelfRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{24E8928E-4EB7-44B2-AF62-1893F8715918}" uid="07AF36BCB0A1449AAA62555F71E76826" itemid="{E5F1DA7A-8FFD-49D5-811B-8A714D51AFDA}" />    </conditions>  </rule></ruleset>'
-export const itemDescendantOrSelfRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{7D5DA661-BEF9-441C-B1F7-D80DE3E0972F}" uid="84C48EBE3CC1473CAF2D618FA4754E30" itemid="{E5F1DA7A-8FFD-49D5-811B-8A714D51AFDA}" />    </conditions>  </rule></ruleset>'
+export const itemAncestorOrSelfRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{24E8928E-4EB7-44B2-AF62-1893F8715918}" uid="07AF36BCB0A1449AAA62555F71E76826" itemid="{F08DAC27-DF85-4FB0-822F-B015FF93CC22}" />    </conditions>  </rule></ruleset>'
+export const itemDescendantOrSelfRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{7D5DA661-BEF9-441C-B1F7-D80DE3E0972F}" uid="84C48EBE3CC1473CAF2D618FA4754E30" itemid="{47CC1D05-2503-4FD6-8E84-F84B056CCEBA}" />    </conditions>  </rule></ruleset>'
 export const itemLevelRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{858E8CC5-7614-4B6A-8B51-274CFF30088D}" uid="35EEB9B0394B461F9A9C0AEFA2F9EC2D" operatorid="{B88CD556-082E-4385-BB76-E4D1B565F290}" value="2" />    </conditions>  </rule></ruleset>'
-export const itemParentNameRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{A4C74B82-8EBB-4BDA-BE23-B03C5BA43586}" uid="156084DF457D48109FDE6393625A5899" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" value="Home" />    </conditions>  </rule></ruleset>'
+export const itemParentNameRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{A4C74B82-8EBB-4BDA-BE23-B03C5BA43586}" uid="156084DF457D48109FDE6393625A5899" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" value="sxastarter" />    </conditions>  </rule></ruleset>'
 export const itemParentTemplateRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{AF2FBD9A-DED2-42B5-B38D-BAC45D301296}" uid="2B5C9C5C117C43FB975D71681EA274C9" templateid="{B7F529E8-4D15-41A4-8D0F-AC987B4AA3E6}" />    </conditions>  </rule></ruleset>'
-export const itemPathRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{858E8CC5-7614-4B6A-8B51-274CFF30088D}" uid="35EEB9B0394B461F9A9C0AEFA2F9EC2D" operatorid="{B88CD556-082E-4385-BB76-E4D1B565F290}" value="2" />    </conditions>  </rule></ruleset>'
+
+export const itemPathRuleXml = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{4B889F07-94D4-4371-B522-9FFE8AF0BE12}" uid="10B08C16993E4D03BA5EBE81785492C1" operatorid="{2E67477C-440C-4BCA-A358-3D29AED89F47}" value="/content/" />    </conditions>  </rule></ruleset>'
 export const itemIsInSiteContextRule = '<ruleset>  <rule uid="{9F1DF1FD-9FEF-4B6A-AEE8-97B003048F8C}">    <conditions>      <condition id="{188A8AB5-30C2-4EB8-8AA6-9FD83591F9BE}" uid="111EEB1A2FE34974B8FA5B00316ABB4E" />    </conditions>  </rule></ruleset>'
 
 export const itemBaseTemplateRuleXml = '<ruleset>  <rule uid="{18B45C8C-A7EA-49D0-92BF-43217AFF8A33}">    <conditions>      <condition id="{D0810F9D-734C-452D-BBB6-4730368D68F1}" uid="39310A967D6243EE9FC74C16C9563239" templateid="{2BC49721-9A84-44A3-BFAD-8E9986830301}" />    </conditions>  </rule></ruleset>'
 export const itemIdRuleXml = '<ruleset>  <rule uid="{18B45C8C-A7EA-49D0-92BF-43217AFF8A33}">    <conditions>      <condition id="{4F5389E9-79B7-4FE1-A43A-EEA4ECD19C94}" uid="EBBF5506085F4D9DAB39656596589C38" operatorid="{10537C58-1684-4CAB-B4C0-40C10907CE31}" value="{E5F1DA7A-8FFD-49D5-811B-8A714D51AFDA}" />    </conditions>  </rule></ruleset>'
 export const itemNameRuleXml = '<ruleset>  <rule uid="{18B45C8C-A7EA-49D0-92BF-43217AFF8A33}">    <conditions>      <condition id="{944E1C68-CAF1-468E-87DC-CE85D168D961}" uid="54C3299819CD4980B98B5F54BDF8EF67" operatorid="{10537C58-1684-4CAB-B4C0-40C10907CE31}" value="Home" />    </conditions>  </rule></ruleset>'
 export const itemTemplateRuleXml = '<ruleset>  <rule uid="{18B45C8C-A7EA-49D0-92BF-43217AFF8A33}">    <conditions>      <condition id="{5DE6D53E-EA62-4D17-8BDD-FEBCD80AC07B}" uid="32EA65E998544724AB35AADA60611B66" templateid="{B7F529E8-4D15-41A4-8D0F-AC987B4AA3E6}" />    </conditions>  </rule></ruleset>'
-
 export const itemLanguageRuleXml = '<ruleset>  <rule uid="{6C5B431F-2F74-4930-BB5A-5B82631DB7B6}">    <conditions>      <condition id="{4F59DE1D-EA1D-4745-99AB-A846452E5532}" uid="CA8BEE9F128741028AE8CB01C5898582" operatorid="{10537C58-1684-4CAB-B4C0-40C10907CE31}" value="en-NZ" />    </conditions>  </rule></ruleset>'
 
 export const sitecoreQueryRuleXml = '<ruleset>  <rule uid="{F22EE861-0722-4098-8882-8D638F7C65E4}">    <conditions>      <condition id="{5CD2292C-32AC-4976-AA4F-A741555D22F8}" uid="E98BF7251DF4471BBD720A03B7376180" query="/sitecore/Home" />    </conditions>  </rule></ruleset>'

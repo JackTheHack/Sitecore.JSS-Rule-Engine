@@ -1,6 +1,6 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
     var key = rule.attributes?.get('ParameterName');
 
     if(!ruleContext.requestContext || 

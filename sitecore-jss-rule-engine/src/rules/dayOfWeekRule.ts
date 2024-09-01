@@ -10,7 +10,7 @@ var dayOfWeekList = [
     "{B45FD42E-FBDC-4460-A179-DB0B5D22A3EA}" //Sat    
 ]
 
-export default function (rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function (rule:RuleData, ruleContext: RuleEngineContext) {
 
     var dayList = rule.attributes?.get('DaysList');
 

@@ -1,13 +1,13 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function (rule: RuleData, ruleEngineContext: RuleEngineContext) {
+export default async function (rule: RuleData, ruleEngineContext: RuleEngineContext) {
     var ruleResult = true;
 
     ruleEngineContext.ruleEngine?.debugMessage('running AND rule')
 
     if (rule.conditions && rule.conditions.length > 0) {
-        rule.conditions.forEach(condition => {            
 
+        await Promise.all(rule.conditions.map(async(condition)=> {
             var conditionId = condition.id ? condition.id : condition.className;
 
             var conditionFunction = ruleEngineContext.ruleEngine?.ruleDefinitions.get(conditionId);
@@ -16,7 +16,7 @@ export default function (rule: RuleData, ruleEngineContext: RuleEngineContext) {
                 throw new Error('Rule definitions missing for id ' + conditionId);
             }
 
-            var conditionResult = conditionFunction(condition, ruleEngineContext);
+            var conditionResult = await conditionFunction(condition, ruleEngineContext);
 
             if(condition.except)
             {
@@ -27,7 +27,7 @@ export default function (rule: RuleData, ruleEngineContext: RuleEngineContext) {
             {
                 ruleResult = ruleResult && conditionResult;                
             }
-        });
+        }));       
     }
 
     return ruleResult;

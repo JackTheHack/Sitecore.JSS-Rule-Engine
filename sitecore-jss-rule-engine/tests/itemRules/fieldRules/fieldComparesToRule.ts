@@ -6,7 +6,7 @@ import { parseAndRun } from '@root/tests/_testHelpers';
 import { sitecoreContextMockBuilder } from '@root/mocks/itemMockBuilder';
 
 
-test('fieldComparesToRule', t => {
+test('fieldComparesToRule', async t => {
     var xml = ruleMocks.fieldComparesToRuleXml;
     
     var itemMock1 = 
@@ -18,18 +18,18 @@ test('fieldComparesToRule', t => {
         sitecoreContext: itemMock1
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions1);
+    var result = await parseAndRun(xml, ruleEngineOptions1);
     t.true(result);
 
     var itemMock2 = 
         sitecoreContextMockBuilder("item1", "item1")
-        .fieldValue("Title", "NotSpecials")
+        .fieldValue("Title", "SomeValue")
         .getInstance();
 
     let ruleEngineOptions2 = {
         sitecoreContext: itemMock2
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions2);
+    var result = await parseAndRun(xml, ruleEngineOptions2);
     t.false(result);
 });

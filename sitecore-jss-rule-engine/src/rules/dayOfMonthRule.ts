@@ -1,6 +1,6 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
 
     ruleContext.ruleEngine?.debugMessage('Running day of month rule', rule)
 
@@ -26,5 +26,5 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
         parameter2: dayNumber
     }
 
-    return operator(operatorContext, ruleContext);
+    return await operator(operatorContext, ruleContext);
 }

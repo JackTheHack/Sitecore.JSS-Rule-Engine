@@ -6,7 +6,7 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '@root/mocks/ruleMocks'
 
-test('requestCookieValueRule', t => {
+test('requestCookieValueRule', async t => {
     var xml = ruleMocks.requestCookieValueRuleXml;
 
     let cookiesArray = new Map<string, string>();
@@ -17,7 +17,7 @@ test('requestCookieValueRule', t => {
             cookies: cookiesArray 
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
     cookiesArray = new Map<string, string>();
@@ -29,7 +29,7 @@ test('requestCookieValueRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions2);
+    var result = await parseAndRun(xml, ruleEngineOptions2);
     t.false(result);
 
     cookiesArray = new Map<string, string>();
@@ -41,6 +41,6 @@ test('requestCookieValueRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions3);
+    var result = await parseAndRun(xml, ruleEngineOptions3);
     t.false(result);
 });

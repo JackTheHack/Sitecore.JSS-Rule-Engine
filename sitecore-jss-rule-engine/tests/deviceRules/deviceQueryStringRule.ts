@@ -6,7 +6,7 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '@root/mocks/ruleMocks'
 
-test('deviceQueryStringRule', t => {
+test('deviceQueryStringRule', async t => {
     var xml = ruleMocks.deviceQueryStringRuleXml;
 
     let ruleEngineOptions =  {
@@ -15,7 +15,7 @@ test('deviceQueryStringRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
     let ruleEngineOptions2 =  {
@@ -24,6 +24,6 @@ test('deviceQueryStringRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions2);
+    var result = await parseAndRun(xml, ruleEngineOptions2);
     t.false(result);
 });

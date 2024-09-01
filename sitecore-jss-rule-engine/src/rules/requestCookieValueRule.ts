@@ -1,6 +1,6 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
     var operatorId = rule.attributes?.get('operatorid');
     var operator = ruleContext.ruleEngine?.operatorDefinitions.get(operatorId);
 
@@ -24,5 +24,5 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
         parameter2: value
     };
 
-    return operator(operatorContext, ruleContext);
+    return await operator(operatorContext, ruleContext);
 }

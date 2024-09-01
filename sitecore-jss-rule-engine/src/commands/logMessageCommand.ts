@@ -1,3 +1,3 @@
-export default function(_command:any, _ruleContext:any) {
+export default async function(_command:any, _ruleContext:any) {
     
 }

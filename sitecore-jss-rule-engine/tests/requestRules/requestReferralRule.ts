@@ -6,7 +6,7 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '@root/mocks/ruleMocks'
 
-test('requestReferralRule', t => {
+test('requestReferralRule', async t => {
     var xml = ruleMocks.requestReferrerRuleXml;
 
     var ruleEngineOptions = {
@@ -14,7 +14,7 @@ test('requestReferralRule', t => {
             referral: "https://www.google.com" 
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
     var ruleEngineOptions = {
@@ -22,6 +22,6 @@ test('requestReferralRule', t => {
             referral: "https://www.test.com" 
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.false(result);
 });

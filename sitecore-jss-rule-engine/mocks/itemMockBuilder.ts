@@ -1,9 +1,15 @@
+import { FakeGraphQLItemProvider } from "@root/src/graphQl/fakeGraphQLItemProvider";
+import { IItemProvider } from "@root/src/graphQl/itemProvider";
 
 class SitecoreContextMockBuilder {
     
     instance: any;
+    fakeItemProvider: FakeGraphQLItemProvider;
 
     constructor(itemId: string, name: string, language: string = "en-NZ") {
+
+        this.fakeItemProvider = new FakeGraphQLItemProvider();
+
         this.instance = {
             itemId: itemId,
             itemLanguage: language,
@@ -19,7 +25,8 @@ class SitecoreContextMockBuilder {
             pageEditing: false,
             pageState: "normal",
             language: language,            
-            variantId: "_default"
+            variantId: "_default",
+            itemProvider: this.fakeItemProvider
         };        
     }
 
@@ -37,6 +44,12 @@ class SitecoreContextMockBuilder {
         this.instance.itemPath = itemPath;
         return this;        
     }
+
+    site(siteName: string)
+    {
+        this.instance.site = { name: siteName };
+        return this;
+    }
     
     language(language:string)
     {
@@ -49,6 +62,12 @@ class SitecoreContextMockBuilder {
         this.instance.route.fields[fieldName] = { value: fieldValue };
         return this;
     }    
+
+    itemProvider(itemProvider: IItemProvider)
+    {        
+        this.instance.itemProvider = itemProvider;
+        return this;
+    }
 }
 
 export function sitecoreContextMockBuilder(itemId: string, name: string, language: string = "en-NZ"){

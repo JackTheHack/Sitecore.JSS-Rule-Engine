@@ -6,7 +6,7 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '@root/mocks/ruleMocks'
 
-test('requestParameterExistsRule', t => {
+test('requestParameterExistsRule', async t => {
     var xml = ruleMocks.requestParamExistsRuleXml;
 
     var ruleEngineOptions = {
@@ -14,7 +14,7 @@ test('requestParameterExistsRule', t => {
             url: "http://testrequest.com?campaignId=test123"
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
     var ruleEngineOptions = {
@@ -22,6 +22,6 @@ test('requestParameterExistsRule', t => {
             url: "http://testrequest.com?param=specials"
         }
     };
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.false(result);
 });

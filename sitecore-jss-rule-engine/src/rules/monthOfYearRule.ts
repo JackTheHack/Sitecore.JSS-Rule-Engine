@@ -15,7 +15,7 @@ var monthsList = [
     '{E8C4C101-EB3A-4B83-8508-B0B5190F4FFC}'  //Dec
 ]
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
 
     var monthId = rule.attributes?.get('Month');
 

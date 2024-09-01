@@ -9,23 +9,22 @@ export function getOperator(operatorId:string){
     return operator;
 }
 
-export function parseAndRun(xml:string, options?: RuleEngineContext) {    
+export async function parseAndRun(xml:string, options?: RuleEngineContext) {    
 
     let ruleEngineOptions = options ? options : {} ;    
     var ruleEngine = new JssRuleEngine(ruleEngineOptions);        
     ruleEngine.setRequestContext(ruleEngineOptions.requestContext);
-    var ruleResult = ruleEngine.parseAndRunRule(xml);    
-    
+    var ruleResult = await ruleEngine.parseAndRunRule(xml);        
     return ruleResult;
 }
 
-export function parseAndRunWithDateMock(xml:string, dateMock:Date) {    
+export async function parseAndRunWithDateMock(xml:string, dateMock:Date) {    
     
     let ruleEngineOptions = {
         mockDate: dateMock        
     };    
 
-    return parseAndRun(xml, ruleEngineOptions);
+    return await parseAndRun(xml, ruleEngineOptions);
 }
 
 // #endregion

@@ -4,7 +4,7 @@ import test from 'ava'
 import { getOperator} from '../_testHelpers'
 import { operatorIds } from '@src/constants'
 
-test('isEqualToOperator', t=> {
+test('isEqualToOperator', async t=> {
     var operator = getOperator(operatorIds.isEqualTo)    
 
     if (!operator) {
@@ -16,13 +16,13 @@ test('isEqualToOperator', t=> {
         parameter1: 5,
         parameter2: 5
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.true(result);
 
     var operatorContext = {
         parameter1: 5,
         parameter2: 6
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.false(result);
 })

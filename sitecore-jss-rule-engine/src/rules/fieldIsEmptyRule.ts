@@ -1,12 +1,19 @@
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function(rule:RuleData, _ruleContext: RuleEngineContext) {
-    var fieldName = rule.attributes?.get('fieldname');    
+function getItemFieldValue(ruleContext: RuleEngineContext, fieldName: any){
+    var field = ruleContext.sitecoreContext?.route?.fields[fieldName];
+    return field?.value;
+}
+
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
+    var fieldName = rule.attributes?.get('fieldname');        
 
     if(!fieldName)
     {
         return false;
     }    
 
-    return true;
+    var fieldValue = getItemFieldValue(ruleContext, fieldName);
+
+    return !fieldValue || fieldValue == '';
 }

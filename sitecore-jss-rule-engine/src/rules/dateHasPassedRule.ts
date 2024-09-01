@@ -1,7 +1,7 @@
 import { parseSitecoreDate } from "../helpers";
 import { RuleData, RuleEngineContext } from "../types/ruleEngine";
 
-export default function (rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function (rule:RuleData, ruleContext: RuleEngineContext) {
 
     ruleContext.ruleEngine?.debugMessage('Running date has passed rule')
 
@@ -15,7 +15,6 @@ export default function (rule:RuleData, ruleContext: RuleEngineContext) {
     if (!ruleContext.dateTime?.now) {
         throw new Error("Rule engine context date provider missing.");
     }
-
 
     var dateNowValue = ruleContext.dateTime.now;
 

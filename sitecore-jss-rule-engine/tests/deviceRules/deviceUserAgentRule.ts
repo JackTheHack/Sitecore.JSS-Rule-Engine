@@ -7,7 +7,7 @@ import { parseAndRun} from '../_testHelpers'
 import * as ruleMocks from '@root/mocks/ruleMocks'
 import { RuleEngineContext } from '@src/types/ruleEngine';
 
-test('deviceUserAgentRule', t => {
+test('deviceUserAgentRule', async t => {
     var xml = ruleMocks.deviceUserAgentRuleXml;
 
     var ruleEngineOptions = {
@@ -16,7 +16,7 @@ test('deviceUserAgentRule', t => {
         }
     } as RuleEngineContext;
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
     ruleEngineOptions = {
@@ -25,6 +25,6 @@ test('deviceUserAgentRule', t => {
         }
     } as RuleEngineContext;
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result =  await parseAndRun(xml, ruleEngineOptions);
     t.false(result);
 });

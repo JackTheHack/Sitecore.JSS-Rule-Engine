@@ -79,7 +79,7 @@ export default function (ruleXml: string, ruleEngineContext: RuleEngineContext) 
         return null;
     }
 
-    ruleXml = ruleXml.replace('\t', '').replace('\n', '').replace('\r', '');
+    ruleXml = ruleXml.replaceAll('\t', '').replaceAll('\n', '').replaceAll('\r', '');
 
     let xmlDoc: any = parseXml(ruleXml);
 

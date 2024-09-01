@@ -1,12 +1,13 @@
 {
   "name": "sitecore-jss-rule-engine",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Rule engine for Sitecore JSS",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "npm run build && ava",
+    "t": "npm run build && ava --match ",
     "c8": "c8 ava",
     "release": "npm run build && npm version patch && npm publish",
     "build": "npm run build:esm",
@@ -25,6 +26,8 @@
   "dependencies": {
     "@rgrove/parse-xml": "^4.1.0",
     "@types/node": "^20.8.9",
+    "apollo-boost": "^0.4.9",
+    "graphql": "^15.9.0",
     "tsc-alias": "^1.8.10",
     "xml-js": "^1.6.11"
   },

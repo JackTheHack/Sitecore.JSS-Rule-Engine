@@ -1,3 +1,4 @@
+import { IItemProvider } from '../graphQl/itemProvider';
 import { JssRuleEngine } from '../ruleEngine'
 
 export interface RuleEngineExecutionResult {
@@ -10,9 +11,27 @@ export interface RuleEngineDateContext {
     now : Date;
 }
 
-export interface RuleEngineSitecoreContext {
-    item?: any,
-    siteName: string,
+export interface RuleEngineSitecoreContext {    
+    siteName?: string,
+    itemId?: string,
+    itemLanguage?: string,
+    itemVersion?: number,
+    route?: {
+        name?: string,
+        displayName?: string,
+        fields?: any,
+    },
+    site?: {
+        name?: string
+    },
+    databaseName?: string,
+    pageEditing?: boolean,
+    pageState?: string,
+    language?: string,            
+    variantId?: string,
+    itemPath?: string,
+    templateId?: string,
+    itemProvider?: IItemProvider
 }
 
 export interface RuleOperatorContext {
@@ -21,15 +40,15 @@ export interface RuleOperatorContext {
 }
 
 type ConditionFunctionDefinition = {
-    (conditionData: RuleConditionData, ruleContext: RuleEngineContext) : boolean | void;
+    (conditionData: RuleConditionData, ruleContext: RuleEngineContext) : Promise<boolean | void>;
 }
 
 type OperatorFunctionDefinition = {
-    (operatorContext: RuleOperatorContext, ruleContext?: RuleEngineContext) : boolean | void;
+    (operatorContext: RuleOperatorContext, ruleContext?: RuleEngineContext) : Promise<boolean | void>;
 }
 
 type ActionFunctionDefinition = {
-    (actionData: RuleActionData, ruleContext: RuleEngineContext) : boolean | null | void;
+    (actionData: RuleActionData, ruleContext: RuleEngineContext) : Promise< boolean | null | void>;
 }
 
 export interface RuleEngineContext {
@@ -39,8 +58,7 @@ export interface RuleEngineContext {
     ruleExecutionResult?: RuleEngineExecutionResult;
     debug?: boolean,
     sitecoreContext?: RuleEngineSitecoreContext,
-    requestContext?: RuleEngineRequestContext,
-    itemProvider?: any,
+    requestContext?: RuleEngineRequestContext,    
     mockDate?: Date,
     ruleEngine?: JssRuleEngine    
 }

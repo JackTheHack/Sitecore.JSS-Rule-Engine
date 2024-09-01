@@ -6,7 +6,7 @@ import { parseAndRun} from '../_testHelpers'
 
 import * as ruleMocks from '@root/mocks/ruleMocks'
 
-test('websiteNameRule', t => {
+test('websiteNameRule', async t => {
     var xml = ruleMocks.websiteNameRuleXml;
 
     var ruleEngineOptions = {
@@ -15,7 +15,7 @@ test('websiteNameRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.true(result);
 
 
@@ -25,6 +25,6 @@ test('websiteNameRule', t => {
         }
     };
 
-    var result = parseAndRun(xml, ruleEngineOptions);
+    var result = await parseAndRun(xml, ruleEngineOptions);
     t.false(result);
 });

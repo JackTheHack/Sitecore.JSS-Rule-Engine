@@ -1,10 +1,11 @@
 import { RuleData, RuleEngineContext } from "@src/types/ruleEngine";
 
-function getItemFieldValue(_ruleContext: RuleEngineContext, _fieldName: any){
-    return null;
+function getItemFieldValue(ruleContext: RuleEngineContext, fieldName: any){
+    var field = ruleContext.sitecoreContext?.route?.fields[fieldName];
+    return field?.value;
 }
 
-export default function(rule:RuleData, ruleContext: RuleEngineContext) {
+export default async function(rule:RuleData, ruleContext: RuleEngineContext) {
     var operatorId = rule.attributes?.get('operatorid');
     var fieldName = rule.attributes?.get('fieldname');
     var value = rule.attributes?.get('value');
@@ -23,5 +24,5 @@ export default function(rule:RuleData, ruleContext: RuleEngineContext) {
         parameter2: value
     }
 
-    return operator(operatorContext, ruleContext);
+    return await operator(operatorContext, ruleContext);
 }

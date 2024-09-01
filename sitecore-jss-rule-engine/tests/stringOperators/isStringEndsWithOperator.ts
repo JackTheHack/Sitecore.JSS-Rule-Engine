@@ -5,7 +5,7 @@ import { operatorIds } from '@src/constants'
 
 import { getOperator } from '../_testHelpers'
 
-test('isStringEndsWithOperator', t => {
+test('isStringEndsWithOperator', async t => {
     var operator = getOperator(operatorIds.isStringEndsWith)
 
     if (!operator) {
@@ -17,20 +17,20 @@ test('isStringEndsWithOperator', t => {
         parameter1: "Hello, World!",
         parameter2: "World!"
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.true(result);
 
     var operatorContext = {
         parameter1: "Hello, World!",
         parameter2: "world!"
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.false(result);
 
     var operatorContext = {
         parameter1: "Hello, World!",
         parameter2: "wo#&d!"
     }
-    var result = operator(operatorContext);
+    var result = await operator(operatorContext);
     t.false(result);
 })
